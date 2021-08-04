@@ -1,11 +1,28 @@
 <template>
   <ion-app>
-    <ion-router-outlet />
+    <ion-menu side="end" type="overlay" content-id="main">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Filters</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-item> Only show my picklists
+            <ion-toggle slot="end"></ion-toggle>
+          </ion-item>
+          <ion-item>Hide completed picklists
+            <ion-toggle slot="end"></ion-toggle>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main" />
   </ion-app>
 </template>
 
 <script lang="ts">
-import { IonApp, IonRouterOutlet } from '@ionic/vue';
+import { IonApp, IonContent, IonHeader, IonItem, IonList, IonMenu, IonRouterOutlet, IonTitle, IonToggle, IonToolbar } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { loadingController } from '@ionic/vue';
 import emitter from "@/event-bus"
@@ -14,8 +31,16 @@ import emitter from "@/event-bus"
 export default defineComponent({
   name: 'App',
   components: {
-    IonApp,
-    IonRouterOutlet
+    IonApp, 
+    IonContent, 
+    IonHeader, 
+    IonItem, 
+    IonList, 
+    IonMenu, 
+    IonRouterOutlet,
+    IonTitle, 
+    IonToggle, 
+    IonToolbar
   },
   data() {
     return {

@@ -8,7 +8,7 @@
           <ion-label>Picklists</ion-label>
         </ion-tab-button>
           
-        <ion-tab-button tab="settings" href="/tabs/Settings">
+        <ion-tab-button tab="settings" href="/tabs/settings">
           <ion-icon :icon="settings" />
           <ion-label>Settings</ion-label>
         </ion-tab-button>
