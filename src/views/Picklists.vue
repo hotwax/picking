@@ -16,48 +16,23 @@
         <ion-list-header lines="none">
           <ion-label>{{ $t("Completed") }}</ion-label>
         </ion-list-header>
-        <ion-item detail>
-          <ion-label>Picker name(s)</ion-label>
-          <ion-note slot="end">created time</ion-note>
-        </ion-item>
-         <ion-item lines="none" detail>
-          <ion-label>Picker name(s)</ion-label>
-          <ion-note slot="end">created time</ion-note>
-        </ion-item>
+        <PicklistItem />
       </ion-list>
       <ion-list>
         <ion-list-header lines="none">
           <ion-label>{{ $t("In progress") }}</ion-label>
         </ion-list-header>
-        <ion-item detail>
-          <ion-label>Picker name(s)</ion-label>
-          <ion-note slot="end">created time</ion-note>
-        </ion-item>
-         <ion-item detail>
-          <ion-label>Picker name(s)</ion-label>
-          <ion-note slot="end">created time</ion-note>
-        </ion-item>
-         <ion-item detail>
-          <ion-label>Picker name(s)</ion-label>
-          <ion-note slot="end">created time</ion-note>
-        </ion-item>
-         <ion-item detail>
-          <ion-label>Picker name(s)</ion-label>
-          <ion-note slot="end">created time</ion-note>
-        </ion-item>
-         <ion-item detail>
-          <ion-label>Picker name(s)</ion-label>
-          <ion-note slot="end">created time</ion-note>
-        </ion-item>
+        <PicklistItem />
       </ion-list>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenuButton, IonNote, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { IonButtons, IonContent, IonHeader, IonIcon, IonLabel, IonList, IonListHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { filter } from 'ionicons/icons';
+import PicklistItem from '@/components/Picklist-item.vue';
 
 export default defineComponent({
   name: 'Picklists',
@@ -66,15 +41,14 @@ export default defineComponent({
     IonContent,
     IonHeader,
     IonIcon,
-    IonItem,
     IonLabel, 
     IonList, 
     IonListHeader, 
     IonMenuButton,
-    IonNote,
     IonPage,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    PicklistItem
   },
   setup(){
     return {
