@@ -8,7 +8,7 @@
     <ion-content :fullscreen="true">
       <ion-item>
         <ion-icon :icon="businessOutline" slot="start" />
-        <ion-label>Store</ion-label>
+        <ion-label>{{ $t("Store") }}</ion-label>
       <ion-select interface="popover" :placeholder="$t('store name')">
         <ion-select-option value="store1">Store 1</ion-select-option>
         <ion-select-option value="store2">Store 2</ion-select-option>
@@ -19,7 +19,7 @@
       <ion-item>
         <ion-icon :icon="personCircleOutline" slot="start" />
         <ion-label>user name</ion-label>
-        <ion-button fill="outline">Logout</ion-button>
+        <ion-button fill="outline">{{ $t("Logout") }}</ion-button>
       </ion-item>
     </ion-content>
   </ion-page>
