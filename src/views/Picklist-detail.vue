@@ -5,7 +5,7 @@
         <ion-back-button default-href="/" slot="start"></ion-back-button> 
         <ion-title>Picklist ID</ion-title>
         <ion-buttons slot="end">
-          <ion-button>Select all</ion-button>
+          <ion-button>{{ $t ("Select all") }}</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -16,7 +16,7 @@
           <ion-label>A</ion-label>
         </ion-item-divider>
         <PicklistDetailItem />  
-          
+
         <ion-item-divider>
           <ion-label>B</ion-label>
         </ion-item-divider>

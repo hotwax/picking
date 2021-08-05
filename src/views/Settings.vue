@@ -9,7 +9,7 @@
       <ion-item>
         <ion-icon :icon="businessOutline" slot="start" />
         <ion-label>Store</ion-label>
-      <ion-select interface="popover" placeholder="store name">
+      <ion-select interface="popover" :placeholder="$t('store name')">
         <ion-select-option value="store1">Store 1</ion-select-option>
         <ion-select-option value="store2">Store 2</ion-select-option>
         <ion-select-option value="store3">Store 3</ion-select-option>

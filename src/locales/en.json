@@ -1,6 +1,12 @@
 {
+  "Color": "Color",
   "Completed": "Completed",
   "In progress": "In progress",
+  "Logout": "Logout",
   "Picklists": "Picklists",
-  "Settings": "Settings"
+  "Select all" : "Select all",
+  "Settings": "Settings",
+  "Size":"Size",
+  "store name": "store name",
+  "STYLE": "STYLE"
 }

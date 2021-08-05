@@ -4,10 +4,10 @@
        <img src="https://cdn.shopify.com/s/files/1/0018/5434/1235/products/SUPERGA_2790-ACOTW_RED-FABRIC_SIDE.jpg?v=1576513664" />
      </ion-thumbnail>  
      <ion-label>
-       <p>STYLE</p>
+       <p>{{ $t("STYLE") }}</p>
        <h2>SK900978</h2>
-       <p>Size</p>
-       <p>Color</p>
+       <p>{{ $t("Size") }}</p>
+       <p>{{ $t("Color") }}</p>
      </ion-label>
      <ion-checkbox slot="end"></ion-checkbox>
     </ion-item>

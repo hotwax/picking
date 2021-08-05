@@ -5,12 +5,12 @@
       <ion-tab-bar slot="bottom">
         <ion-tab-button tab="picklists" href="/tabs/picklists">
           <ion-icon :icon="listOutline" />
-          <ion-label>Picklists</ion-label>
+          <ion-label>{{ $t("Picklists") }}</ion-label>
         </ion-tab-button>
           
         <ion-tab-button tab="settings" href="/tabs/settings">
           <ion-icon :icon="settings" />
-          <ion-label>Settings</ion-label>
+          <ion-label>{{ $t("Settings") }}</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
