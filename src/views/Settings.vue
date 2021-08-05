@@ -9,6 +9,12 @@
       <ion-item>
         <ion-icon :icon="businessOutline" slot="start" />
         <ion-label>Store</ion-label>
+      <ion-select interface="popover" placeholder="store name">
+        <ion-select-option value="store1">Store 1</ion-select-option>
+        <ion-select-option value="store2">Store 2</ion-select-option>
+        <ion-select-option value="store3">Store 3</ion-select-option>
+        <ion-select-option value="store4">Store 4</ion-select-option>
+      </ion-select>
       </ion-item>
       <ion-item>
         <ion-icon :icon="personCircleOutline" slot="start" />
@@ -20,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { IonButton, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { IonButton, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { businessOutline, personCircleOutline } from 'ionicons/icons';
 
@@ -34,6 +40,8 @@ export default defineComponent({
     IonItem, 
     IonLabel, 
     IonPage, 
+    IonSelect,
+    IonSelectOption,
     IonTitle, 
     IonToolbar
   },
@@ -45,4 +53,9 @@ export default defineComponent({
   }
 });
 </script>
+<style scoped>
+ion-select {
+  --placeholder-opacity: 1;
+}
+</style>
 
