@@ -3,15 +3,15 @@
     <ion-menu side="end" type="overlay" content-id="main">
       <ion-header>
         <ion-toolbar>
-          <ion-title>Filters</ion-title>
+          <ion-title>{{ $t("Filters") }}</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-content>
         <ion-list>
-          <ion-item> Only show my picklists
+          <ion-item> {{ $t("Only show my picklists") }}
             <ion-toggle slot="end"></ion-toggle>
           </ion-item>
-          <ion-item>Hide completed picklists
+          <ion-item>{{ $t("Hide completed picklists") }}
             <ion-toggle slot="end"></ion-toggle>
           </ion-item>
         </ion-list>
