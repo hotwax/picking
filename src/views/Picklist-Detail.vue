@@ -61,8 +61,8 @@ export default defineComponent({
       async presentAlertMultipleButtons() {
       const alert = await alertController
         .create({
-          header: 'Complete picklist',
-          buttons: ['Cancel', 'Complete'],
+          header: this.$t("Complete picklist"),
+          buttons: [this.$t("Cancel"), this.$t("Complete")],
         });
       return alert.present();
     },
