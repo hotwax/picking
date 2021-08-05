@@ -47,7 +47,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/picklist-details',
-    component: () => import('@/views/Picklist-detail.vue'),
+    component: () => import('@/views/Picklist-Detail.vue'),
   },
   {
     path: '/login',
