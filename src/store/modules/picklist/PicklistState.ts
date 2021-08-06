@@ -1,3 +1,3 @@
 export default interface PicklistState {
-  list: object;
+  list: Array<any>;
 }

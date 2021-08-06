@@ -1,6 +1,6 @@
 import api from "@/api";
 
-const getPicklist = async () => {
+const getPicklist = async (): Promise<any> => {
   return api({
     url: "picklists", 
     method: "get",

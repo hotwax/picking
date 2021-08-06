@@ -14,15 +14,9 @@
     <ion-content :fullscreen="true">
       <ion-list>
         <ion-list-header lines="none">
-          <ion-label>{{ $t("Completed") }}</ion-label>
-        </ion-list-header>
-        <PicklistItem />
-      </ion-list>
-      <ion-list>
-        <ion-list-header lines="none">
           <ion-label>{{ $t("In progress") }}</ion-label>
         </ion-list-header>
-        <PicklistItem />
+        <PicklistItem :pickingList="pickingList"/>
       </ion-list>
     </ion-content>
   </ion-page>
@@ -33,6 +27,7 @@ import { IonButtons, IonContent, IonHeader, IonIcon, IonLabel, IonList, IonListH
 import { defineComponent } from 'vue';
 import { filter } from 'ionicons/icons';
 import PicklistItem from '@/components/Picklist-item.vue';
+import { mapGetters, useStore } from 'vuex';
 
 export default defineComponent({
   name: 'Picklists',
@@ -50,9 +45,20 @@ export default defineComponent({
     IonToolbar,
     PicklistItem
   },
+  computed: {
+    ...mapGetters({
+      pickingList: 'picklist/getPickingList'
+    })
+  },
+  mounted () {
+    this.store.dispatch('picklist/findList');
+  },
   setup(){
+    const store = useStore();
+
     return {
-      filter
+      filter,
+      store
     }
   }
 });

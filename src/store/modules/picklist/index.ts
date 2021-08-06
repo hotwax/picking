@@ -8,9 +8,11 @@ import RootState from '@/store/RootState'
 const picklistModule: Module<PicklistState, RootState> = {
   namespaced: true,
   state: {
-    list: {}
+    list: []
   },
   getters,
   mutations,
   actions
 }
+
+export default picklistModule;
