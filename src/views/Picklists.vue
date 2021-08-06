@@ -51,7 +51,7 @@ export default defineComponent({
     })
   },
   mounted () {
-    this.store.dispatch('picklist/findList');
+    this.store.dispatch('picklist/findPickingList');
   },
   setup(){
     const store = useStore();

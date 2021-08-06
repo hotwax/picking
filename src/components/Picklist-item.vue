@@ -9,7 +9,7 @@
 import { IonItem, IonLabel, IonNote } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
-import { mapGetters } from 'vuex';
+import { mapGetters, useStore } from 'vuex';
 
 export default defineComponent({
   name: 'PicklistItem',
@@ -26,14 +26,20 @@ export default defineComponent({
   },
   methods: {
     viewPicklist (picklist: any) {
-      this.router.push({ path: `/picklist-details/${picklist.picklistId}` });
+      this.store.dispatch('picklist/setCurrentPicklist', { id: picklist.picklistId }).then((resp) => {
+        if (resp.pickingItemList) {
+          this.router.push({ path: `/picklist-details/${picklist.picklistId}` });
+        }
+      });
     }
   },
   setup () {
     const router = useRouter();
+    const store = useStore();
 
     return {
-      router
+      router,
+      store
     }
   }
 });
