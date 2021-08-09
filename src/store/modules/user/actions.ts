@@ -60,6 +60,7 @@ const actions: ActionTree<UserState, RootState> = {
         emitter.emit('timeZoneDifferent', { profileTimeZone: resp.data.userTimeZone, localTimeZone});
       }
       commit(types.USER_INFO_UPDATED, resp.data);
+      commit(types.USER_CURRENT_FACILITY_UPDATED, resp.data.facilities.length > 0 ? resp.data.facilities[0] : {});
     }
   },
 
@@ -74,6 +75,11 @@ const actions: ActionTree<UserState, RootState> = {
         commit(types.USER_INFO_UPDATED, current);
         showToast(translate("Time zone updated successfully"));
       }
-    }
+    },
+
+  // update current facility information
+  async setFacility ({ commit }, payload) {
+    commit(types.USER_CURRENT_FACILITY_UPDATED, payload.facility);
+  }
 }
 export default actions;
