@@ -9,7 +9,6 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    
     <ion-content :fullscreen="true">
       <ion-list>
         <ion-item-divider>
@@ -57,7 +56,7 @@ export default defineComponent({
     IonToolbar,
     PicklistDetailItem
   },
-  methods: {
+    methods: {
       async presentAlertMultipleButtons() {
       const alert = await alertController
         .create({
@@ -69,7 +68,7 @@ export default defineComponent({
   },
   setup(){
       return{
-          checkmarkDone 
+         checkmarkDone 
       }
   }
 });

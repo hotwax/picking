@@ -1,2 +1,6 @@
 export const SN_PICKLIST = 'picklist'
-export const SN_PICKLIST_DETAIL = "picklistdetail";
+export const PICKLIST_CURRENT = SN_PICKLIST + '/CURRENT'
+export const PICKLIST_ITEMS = SN_PICKLIST + '/ITEMS'
+export const PICKLIST_DETAIL_ITEMS = SN_PICKLIST + '/DETAILS'
+export const PICKLIST_DETAIL_CURRENT = SN_PICKLIST + '/CURRENTDETAIL'
+

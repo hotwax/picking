@@ -1,6 +1,6 @@
 <template>
-   <ion-item>
-     <ion-thumbnail slot="start">
+<ion-item>
+    <ion-thumbnail slot="start">
        <img src="https://cdn.shopify.com/s/files/1/0018/5434/1235/products/SUPERGA_2790-ACOTW_RED-FABRIC_SIDE.jpg?v=1576513664" />
      </ion-thumbnail>  
      <ion-label>
