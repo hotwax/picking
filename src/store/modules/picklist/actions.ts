@@ -48,49 +48,6 @@ const actions: ActionTree<PicklistState, RootState> = {
       console.error("error", err);
       return Promise.reject(new Error(err))
     }
-  },
-
-  async findPickingDetailList ({ commit }) {
-    let resp;
-
-    try {
-      resp = await PicklistService.getPickingDetailList();
-
-      if (resp.status === 200 && resp.data.pickingDetailList && !hasError(resp)) {
-        commit(types.PICKLIST_DETAIL_ITEMS, { list: resp.data.pickingDetailList })
-        return resp.data;
-      } else {
-        showToast(translate('Something went wrong'));
-        console.error("error", resp.data._ERROR_MESSAGE_);
-        return Promise.reject(new Error(resp.data._ERROR_MESSAGE_));
-      }
-    } catch (err) {
-      showToast(translate('Something went wrong'));
-      console.error("error", err);
-      return Promise.reject(new Error(err))
-    }
-  },
-
-  async setCurrentPicklistDetail ({ commit }, payload) {
-    let resp;
-
-    try {
-      resp = await PicklistService.getPickingDetailItemList({'id': payload.id});
-
-      if (resp.status === 200 && resp.data.pickingDetailItemList && !hasError(resp)) {
-        commit(types.PICKLIST_DETAIL_CURRENT, { current: resp.data.pickingDetailItemList })
-        return resp.data;
-      } else {
-        showToast(translate('Something went wrong'));
-        console.error("error", resp.data._ERROR_MESSAGE_);
-        return Promise.reject(new Error(resp.data._ERROR_MESSAGE_));
-      }
-
-    } catch (err) {
-      showToast(translate('Something went wrong'));
-      console.error("error", err);
-      return Promise.reject(new Error(err))
-    }
   }
 }
 export default actions;

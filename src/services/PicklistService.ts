@@ -8,14 +8,6 @@ const getPickingList = async (): Promise<any> => {
   });
 }
 
-const getPickingDetailList = async (): Promise<any> => {
-  return api({
-    url: 'picklist-detail', 
-    method: 'get',
-    cache: true
-  });
-}
-
 const getPickingItemList = async (query: any): Promise<any> => {
   return api({
     url: `picklists/${query.id}`,
@@ -23,16 +15,7 @@ const getPickingItemList = async (query: any): Promise<any> => {
   })
 }
 
-const getPickingDetailItemList = async (query: any): Promise<any> => {
-  return api({
-    url: `picklist-detail/${query.id}`,
-    method: 'get'
-  })
-}
-
 export const PicklistService = {
   getPickingList,
-  getPickingDetailList,
-  getPickingItemList,
-  getPickingDetailItemList
+  getPickingItemList
 }

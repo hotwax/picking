@@ -8,13 +8,6 @@ const getters: GetterTree <PicklistState, RootState> = {
   },
   getCurrent (state) {
     return state.current;
-  },
-  getPickingDetailList (state) {
-    return state.list;
-  },
-  getCurrentDetail (state) {
-    return state.currentDetail;
-  },
- 
+  }
 }
 export default getters;
