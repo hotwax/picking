@@ -3,7 +3,7 @@
     <ion-header :translucent="true">
       <ion-toolbar>
         <ion-back-button default-href="/" slot="start"></ion-back-button> 
-        <ion-title>Picklist ID</ion-title>
+        <ion-title v-for="picklist in pickingList" :key="picklist.picklistId">{{ picklist.picklistId }}</ion-title>
         <ion-buttons slot="end">
           <ion-button>{{ $t ("Select all") }}</ion-button>
         </ion-buttons>
@@ -14,12 +14,8 @@
         <ion-item-divider>
           <ion-label>A</ion-label>
         </ion-item-divider>
-        <PicklistDetailItem />  
+        <PicklistDetailItem :pickingList="pickingList"/>  
 
-        <ion-item-divider>
-          <ion-label>B</ion-label>
-        </ion-item-divider>
-        <PicklistDetailItem />
       </ion-list>
 
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -36,9 +32,10 @@ import { IonBackButton, IonButton, IonButtons, IonContent, IonFab, IonFabButton,
 import { defineComponent } from 'vue';
 import { checkmarkDone } from 'ionicons/icons';
 import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
+import { mapGetters, useStore } from 'vuex';
 
 export default defineComponent({
-  name: 'Settings',
+  name: 'PicklistDetail',
   components: {
     IonBackButton, 
     IonButton, 
@@ -56,6 +53,14 @@ export default defineComponent({
     IonToolbar,
     PicklistDetailItem
   },
+  computed: {
+    ...mapGetters({
+      pickingList: 'picklist/getPickingList'
+    })
+  },
+  mounted () {
+    this.store.dispatch('picklist/findPickingList');
+  },
     methods: {
       async presentAlertMultipleButtons() {
       const alert = await alertController
@@ -67,8 +72,10 @@ export default defineComponent({
     },
   },
   setup(){
+    const store = useStore();
       return{
-         checkmarkDone 
+         checkmarkDone,
+         store
       }
   }
 });
