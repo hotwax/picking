@@ -7,7 +7,7 @@ import { hasError, showToast } from '@/utils'
 import { translate } from '@/i18n'
 
 const actions: ActionTree<PicklistState, RootState> = {
-  async findPickingList ({ commit }) {
+  async findPickList ({ commit }) {
     let resp;
 
     try {
