@@ -14,7 +14,7 @@ const actions: ActionTree<PicklistState, RootState> = {
       resp = await PicklistService.getPickingList();
 
       if (resp.status === 200 && resp.data.pickingList && !hasError(resp)) {
-        commit(types.PICKLIST_ITEMS, { list: resp.data.pickingList })
+        commit(types.PICKLIST_ITEMS_UPDATED, { list: resp.data.pickingList })
         return resp.data;
       } else {
         showToast(translate('Something went wrong'));
@@ -35,7 +35,7 @@ const actions: ActionTree<PicklistState, RootState> = {
       resp = await PicklistService.getPickingItemList({'id': payload.id});
 
       if (resp.status === 200 && resp.data.pickingItemList && !hasError(resp)) {
-        commit(types.PICKLIST_CURRENT, { current: resp.data.pickingItemList })
+        commit(types.PICKLIST_CURRENT_UPDATED, { current: resp.data.pickingItemList })
         return resp.data;
       } else {
         showToast(translate('Something went wrong'));
