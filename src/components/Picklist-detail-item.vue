@@ -1,13 +1,13 @@
 <template>
-<ion-item v-for="picklist in pickingList" :key="picklist.picklistId">
+<ion-item v-for="picklist in pickingItemList" :key="picklist.picklistId">
     <ion-thumbnail slot="start">
        
      </ion-thumbnail>  
      <ion-label>
        <p class="caption">{{ $t("STYLE") }}</p>
-       <h2>{{ picklist.picklistId }}</h2>
-       <p> {{ picklist.picklistDate }}</p>
-       <p> {{ picklist.noOfOrders }}</p>
+       <h2>{{ picklist.productId }}</h2>
+       <p> {{ $t("Color") }} : {{ picklist.productName }}</p>
+       <p> {{ $t("Size") }} : {{ picklist.productName }}</p>
      </ion-label>
      <ion-checkbox slot="end"></ion-checkbox>
     </ion-item>
@@ -29,7 +29,7 @@ export default defineComponent({
    props: ['pickingList'],
  computed: {
     ...mapGetters({
-      pickingList: 'picklist/getPickingList'
+      pickingItemList: 'picklist/getCurrent'
     })
   },
   setup(){
