@@ -61,7 +61,6 @@ export default defineComponent({
       this.userProfile.facilities.map((fac: any) => {
         if (fac.facilityId == facility['detail'].value) {
           this.store.dispatch('user/setFacility', {'facility': fac});
-          console.log(fac);
         }
       })
     }
