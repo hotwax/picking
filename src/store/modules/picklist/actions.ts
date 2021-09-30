@@ -48,6 +48,35 @@ const actions: ActionTree<PicklistState, RootState> = {
       console.error("error", err);
       return Promise.reject(new Error(err))
     }
-  }
+  },
+
+  /**
+   * Complete Picklist
+   */
+   async completePicklists ( payload: any ) {
+    const resp = await PicklistService.completePicklists({'id': payload.id});
+    if (resp.status === 200 && !hasError(resp)) {
+      this.dispatch("picklist/selectedProducts");
+      showToast(translate("Picklist Completed"));
+    } else {
+      showToast(translate("Something went wrong"));
+    }
+    return resp;
+  },
+
+  /**
+   * Add product to selected products
+   */
+   addToSelectedProducts  ( { commit, state } , { list }) {
+    state.selectedProducts.push(list);
+    commit(types.PICKLIST_SELECTED_PRODUCTS_UPDATED, { selectedProducts: state.selectedProducts } );
+  },
+  /**
+   * Remove products from list
+   */
+   removeFromSelectedProducts  ( { commit, state } , { index }) {
+    state.selectedProducts.splice(index, 1);
+    commit(types.PICKLIST_SELECTED_PRODUCTS_UPDATED, { selectedProducts: state.selectedProducts } );
+  },
 }
 export default actions;

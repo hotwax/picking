@@ -8,6 +8,18 @@ const getters: GetterTree <PicklistState, RootState> = {
   },
   getCurrent (state) {
     return state.current;
-  }
+  },
+  getSelectedProducts (state) {
+    return state.selectedProducts;
+},
+  getSelectedProductsToCompletePicklist: (state) => (toFacilityId: string) => {
+  return state.selectedProducts.map((list) => {
+      return {
+          orderId: list.orderId,
+          orderItemSeqId: list.orderItemSeqId,
+          toFacilityId
+        }
+  });
+},
 }
 export default getters;

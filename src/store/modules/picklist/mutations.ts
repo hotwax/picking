@@ -8,6 +8,9 @@ const mutations: MutationTree <PicklistState> = {
   },
   [types.PICKLIST_ITEMS] (state, payload) {
     state.list = payload.list;
-  }
+  },
+  [types.PICKLIST_SELECTED_PRODUCTS_UPDATED] (state, payload) {
+    state.selectedProducts = payload.selectedProducts
+  },
 }
 export default mutations;

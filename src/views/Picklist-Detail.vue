@@ -24,7 +24,7 @@
           <ion-button fill="outline" color="secondary">
             <ion-icon slot="start" :icon="barcodeOutline" />{{ $t("Scan") }}
           </ion-button>
-          <ion-button @click="presentAlertMultipleButtons" fill="outline" color="success">
+          <ion-button  @click="completeProductPicklist" fill="outline" color="success">
             <ion-icon slot="start" :icon="checkmarkDone" />{{ $t("Complete") }}
           </ion-button>
         </ion-buttons>
@@ -60,18 +60,53 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      pickingList: 'picklist/getPickingList'
+      pickingList: 'picklist/getPickingList',
+      selectedProducts: 'picklist/getSelectedProducts',
+      getSelectedProductsToCompletePicklist: 'picklist/getSelectedProductsToCompletePicklist'
     })
   },
   mounted () {
     this.store.dispatch('picklist/findPickingList');
   },
     methods: {
-      async presentAlertMultipleButtons() {
+      async completePicklists() {
+      const selectedProducts = this.getSelectedProductsToCompletePicklist("_NA_");  
+      const json = JSON.stringify(this.selectedProducts);
+      const blob = new Blob([json], { type: 'application/json'});
+      const formData = new FormData();
+      const fileName = "CompletePicklists_" + Date.now() +".json";
+      formData.append("uploadedFile", blob, fileName);
+      formData.append("configId", "MDM_REL_ORD_ITM_JSON");
+      return this.store.dispatch("picklist/completePicklists", {
+          headers: {
+              'Content-Type': 'multipart/form-data;'
+          },
+          data: formData
+      }).then(() => {
+        // TODO Find a better place to call this
+        this.store.dispatch("picklist/completePicklists", { items: selectedProducts });
+      })
+    },
+      async completeProductPicklist() {
       const alert = await alertController
         .create({
           header: this.$t("Complete picklist"),
-          buttons: [this.$t("Cancel"), this.$t("Complete")],
+          buttons: [
+            {
+              text: this.$t('Cancel'),
+              role: 'cancel',
+              handler: blah => {
+                console.log('Confirm Cancel:', blah)
+              },
+            },
+            {
+              text:this.$t('Complete'),
+              handler: () => {
+                this.completePicklists();
+                
+              },
+            },
+          ],
         });
       return alert.present();
     },
