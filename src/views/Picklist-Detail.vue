@@ -15,22 +15,28 @@
           <ion-label>A</ion-label>
         </ion-item-divider>
         <PicklistDetailItem :pickingList="pickingList"/>  
-
       </ion-list>
-
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button @click="presentAlertMultipleButtons">
-          <ion-icon :icon="checkmarkDone "/>
-        </ion-fab-button>
-      </ion-fab>
      </ion-content>
+
+     <ion-footer>
+      <ion-toolbar>
+        <ion-buttons class="footer-buttons">
+          <ion-button fill="outline" color="secondary">
+            <ion-icon slot="start" :icon="barcodeOutline" />{{ $t("Scan") }}
+          </ion-button>
+          <ion-button @click="presentAlertMultipleButtons" fill="outline" color="success">
+            <ion-icon slot="start" :icon="checkmarkDone" />{{ $t("Complete") }}
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
  </ion-page>
 </template>
 
 <script lang="ts">
-import { IonBackButton, IonButton, IonButtons, IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonItemDivider, IonList, IonLabel, IonPage, IonTitle, IonToolbar, alertController } from '@ionic/vue';
+import { IonBackButton, IonButton, IonButtons, IonContent,IonFooter, IonHeader, IonIcon, IonItemDivider, IonList, IonLabel, IonPage, IonTitle, IonToolbar, alertController } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { checkmarkDone } from 'ionicons/icons';
+import { barcodeOutline,checkmarkDone } from 'ionicons/icons';
 import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
 import { mapGetters, useStore } from 'vuex';
 
@@ -40,9 +46,8 @@ export default defineComponent({
     IonBackButton, 
     IonButton, 
     IonButtons, 
-    IonContent, 
-    IonFab, 
-    IonFabButton, 
+    IonContent,
+    IonFooter, 
     IonHeader, 
     IonIcon, 
     IonItemDivider, 
@@ -74,10 +79,17 @@ export default defineComponent({
   setup(){
     const store = useStore();
       return{
-         checkmarkDone,
-         store
+        barcodeOutline,
+        checkmarkDone,
+        store
       }
   }
 });
 </script>
+
+<style scoped>
+.footer-buttons {
+  justify-content: space-evenly ;
+}
+</style>
 
