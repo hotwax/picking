@@ -1,7 +1,7 @@
 <template>
-<ion-item v-for="picklist in pickingItemList" :key="picklist.picklistId">
+<ion-item v-for="picklist in pickingItemList" :key="picklist.picklistId" >
     <ion-thumbnail slot="start">
-       
+       <Image />
      </ion-thumbnail>  
      <ion-label>
        <p class="caption">{{ $t("STYLE") }}</p>
@@ -9,7 +9,7 @@
        <p> {{ $t("Color") }} : {{ productColor(picklist.productName) }}</p>
        <p> {{ $t("Size") }} : {{ productSize(picklist.productName) }}</p>
      </ion-label>
-     <ion-checkbox slot="end"></ion-checkbox>
+     <ion-checkbox   slot="end"></ion-checkbox>
     </ion-item>
 </template>
 
@@ -17,10 +17,12 @@
 import { IonCheckbox, IonItem, IonLabel, IonThumbnail } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { mapGetters, useStore } from "vuex";
+import  Image  from '@/components/Image.vue'
 
 export default defineComponent({
   name: 'PicklistDetailItem',
   components: {
+    Image,
     IonCheckbox, 
     IonItem, 
     IonLabel,
@@ -28,18 +30,25 @@ export default defineComponent({
   },
   methods: {
     productColor(productName: any){
-      const productColor = productName.split("-")[2];
-      return productColor;
+      return productName.split("-")[2];
     },
     productSize(productName: any){
-      const productSize = productName.split("-")[1];
-      return productSize;
-    }
+      return productName.split("-")[1];
+    },
+     selectProduct: function(event: any, list: any) {
+      const existingItemIndex = this.selectedProducts.findIndex((element: any) => element.orderId === list.orderId && element.orderItemSeqId === list.orderItemSeqId)
+      if (event.target.checked && existingItemIndex === -1) {
+        this.store.dispatch("picklist/addToSelectedProducts", { list });
+      } else if(!event.target.checked && existingItemIndex > -1) {
+        this.store.dispatch("picklist/removeFromSelectedProducts", { index: existingItemIndex });
+      }
+    },
   },
-   props: ['pickingList'],
+ props: ['pickingList'],
  computed: {
     ...mapGetters({
-      pickingItemList: 'picklist/getCurrent'
+      pickingItemList: 'picklist/getCurrent',
+      selectedProducts: 'picklist/getSelectedProducts'
     })
   },
   setup(){

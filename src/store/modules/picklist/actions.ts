@@ -78,5 +78,14 @@ const actions: ActionTree<PicklistState, RootState> = {
     state.selectedProducts.splice(index, 1);
     commit(types.PICKLIST_SELECTED_PRODUCTS_UPDATED, { selectedProducts: state.selectedProducts } );
   },
+   /**
+   * Add all products
+   */
+    addAllSelectedProducts  ( { commit, state } ) {
+      state.selectedProducts.forEach((list: any) => {
+        list.isChecked = false;
+    })
+      commit(types.PICKLIST_SELECTED_PRODUCTS_UPDATED, { selectedProducts: [] } );
+    }
 }
 export default actions;

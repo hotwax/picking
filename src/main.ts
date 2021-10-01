@@ -40,7 +40,7 @@ app.config.globalProperties.$filters = {
   formatDate(value: any, inFormat?: string, outFormat?: string) {
     // TODO Use Loxon instead
     // TODO Make default format configurable and from environment variables
-    return moment(value, inFormat).format(outFormat ? outFormat : 'MM-DD-YYYY');
+    return moment(value, inFormat).format(outFormat ? outFormat : 'hh:mm a');
   },
   formatUtcDate(value: any, inFormat?: string, outFormat?: string) {
     // TODO Use Loxon instead

@@ -3,9 +3,9 @@
     <ion-header :translucent="true">
       <ion-toolbar>
         <ion-back-button default-href="/" slot="start"></ion-back-button> 
-        <ion-title v-for="picklist in pickingList" :key="picklist.picklistId">{{ picklist.picklistId }}</ion-title>
+        <ion-title>{{ id }}</ion-title>
         <ion-buttons slot="end">
-          <ion-button>{{ $t ("Select all") }}</ion-button>
+          <ion-button >{{ $t ("Select all") }}</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -65,25 +65,18 @@ export default defineComponent({
       getSelectedProductsToCompletePicklist: 'picklist/getSelectedProductsToCompletePicklist'
     })
   },
+  props: ['id'],
   mounted () {
     this.store.dispatch('picklist/findPickingList');
   },
     methods: {
       async completePicklists() {
       const selectedProducts = this.getSelectedProductsToCompletePicklist("_NA_");  
-      const json = JSON.stringify(this.selectedProducts);
-      const blob = new Blob([json], { type: 'application/json'});
-      const formData = new FormData();
-      const fileName = "CompletePicklists_" + Date.now() +".json";
-      formData.append("uploadedFile", blob, fileName);
-      formData.append("configId", "MDM_REL_ORD_ITM_JSON");
       return this.store.dispatch("picklist/completePicklists", {
           headers: {
               'Content-Type': 'multipart/form-data;'
-          },
-          data: formData
+          }
       }).then(() => {
-        // TODO Find a better place to call this
         this.store.dispatch("picklist/completePicklists", { items: selectedProducts });
       })
     },
