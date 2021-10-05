@@ -1,5 +1,5 @@
 <template>
-<ion-item v-for="picklist in pickingItemList" :key="picklist.picklistId" >
+<ion-item v-for="picklist in pickingItemList" :key="picklist.picklistId" @click="picklist.isChecked = !picklist.isChecked" >
     <ion-thumbnail slot="start">
        <Image />
      </ion-thumbnail>  
@@ -9,7 +9,7 @@
        <p> {{ $t("Color") }} : {{ productColor(picklist.productName) }}</p>
        <p> {{ $t("Size") }} : {{ productSize(picklist.productName) }}</p>
      </ion-label>
-     <ion-checkbox   slot="end"></ion-checkbox>
+     <ion-checkbox :modelValue="picklist.isChecked"  slot="end"></ion-checkbox>
     </ion-item>
 </template>
 

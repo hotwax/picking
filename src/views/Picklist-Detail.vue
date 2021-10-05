@@ -5,7 +5,7 @@
         <ion-back-button default-href="/" slot="start"></ion-back-button> 
         <ion-title>{{ id }}</ion-title>
         <ion-buttons slot="end">
-          <ion-button >{{ $t ("Select all") }}</ion-button>
+          <ion-button @click="selectAll" >{{ $t ("Select all") }}</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -61,6 +61,7 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       pickingList: 'picklist/getPickingList',
+      pickingItemList: 'picklist/getCurrent',
       selectedProducts: 'picklist/getSelectedProducts',
       getSelectedProductsToCompletePicklist: 'picklist/getSelectedProductsToCompletePicklist'
     })
@@ -102,6 +103,11 @@ export default defineComponent({
           ],
         });
       return alert.present();
+    },
+    selectAll() {
+      this.pickingItemList.map((picklist: any) => {
+          picklist.isChecked = true;
+      })
     },
   },
   setup(){

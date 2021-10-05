@@ -33,7 +33,9 @@ const actions: ActionTree<PicklistState, RootState> = {
 
     try {
       resp = await PicklistService.getPickingItemList({'id': payload.id});
-
+      resp.data.pickingItemList.map((picklist: any) => {
+        picklist.isChecked = false;
+      })
       if (resp.status === 200 && resp.data.pickingItemList && !hasError(resp)) {
         commit(types.PICKLIST_CURRENT, { current: resp.data.pickingItemList })
         return resp.data;
@@ -62,30 +64,6 @@ const actions: ActionTree<PicklistState, RootState> = {
       showToast(translate("Something went wrong"));
     }
     return resp;
-  },
-
-  /**
-   * Add product to selected products
-   */
-   addToSelectedProducts  ( { commit, state } , { list }) {
-    state.selectedProducts.push(list);
-    commit(types.PICKLIST_SELECTED_PRODUCTS_UPDATED, { selectedProducts: state.selectedProducts } );
-  },
-  /**
-   * Remove products from list
-   */
-   removeFromSelectedProducts  ( { commit, state } , { index }) {
-    state.selectedProducts.splice(index, 1);
-    commit(types.PICKLIST_SELECTED_PRODUCTS_UPDATED, { selectedProducts: state.selectedProducts } );
-  },
-   /**
-   * Add all products
-   */
-    addAllSelectedProducts  ( { commit, state } ) {
-      state.selectedProducts.forEach((list: any) => {
-        list.isChecked = false;
-    })
-      commit(types.PICKLIST_SELECTED_PRODUCTS_UPDATED, { selectedProducts: [] } );
-    }
+  }
 }
 export default actions;
