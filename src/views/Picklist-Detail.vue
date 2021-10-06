@@ -11,10 +11,12 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-list>
-        <ion-item-divider>
-          <ion-label>A</ion-label>
-        </ion-item-divider>
-        <PicklistDetailItem :pickingList="pickingList"/>  
+        <ion-item-group v-for="picking in pickingListGroup" :key="picking.alphabet" >
+          <ion-item-divider>
+            <ion-label> {{ picking.alphabet }}</ion-label>
+          </ion-item-divider>
+          <PicklistDetailItem :pickingList="picking.record"/>  
+        </ion-item-group>
       </ion-list>
      </ion-content>
 
@@ -34,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { IonBackButton, IonButton, IonButtons, IonContent,IonFooter, IonHeader, IonIcon, IonItemDivider, IonList, IonLabel, IonPage, IonTitle, IonToolbar, alertController } from '@ionic/vue';
+import { IonBackButton, IonButton, IonButtons, IonContent,IonFooter, IonHeader, IonIcon, IonItemDivider, IonItemGroup, IonLabel, IonList, IonPage, IonTitle, IonToolbar, alertController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { barcodeOutline,checkmarkDone } from 'ionicons/icons';
 import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
@@ -49,10 +51,11 @@ export default defineComponent({
     IonContent,
     IonFooter, 
     IonHeader, 
-    IonIcon, 
-    IonItemDivider, 
-    IonList, 
-    IonLabel, 
+    IonIcon,
+    IonItemDivider,
+    IonItemGroup, 
+    IonLabel,
+    IonList,
     IonPage, 
     IonTitle, 
     IonToolbar,
@@ -66,9 +69,21 @@ export default defineComponent({
       getSelectedProductsToCompletePicklist: 'picklist/getSelectedProductsToCompletePicklist'
     })
   },
+  data() {
+    return {
+      pickingListGroup: []
+    }
+  },
   props: ['id'],
   mounted () {
-    this.store.dispatch('picklist/findPickingList');
+    this.pickingItemList.sort((a: any, b: any) => a.productName.localeCompare(b.productName, 'es', { sensitivity: 'base' }));
+    const data = this.pickingItemList.reduce((r: any, e: any) => {
+      const alphabet = e.productName[0];
+      if (!r[alphabet]) r[alphabet] = { alphabet, record: [e] }
+      else r[alphabet].record.push(e);
+      return r;
+    }, {});
+     this.pickingListGroup = Object.values(data);
   },
     methods: {
       async completePicklists() {

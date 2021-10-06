@@ -1,16 +1,17 @@
 <template>
-<ion-item v-for="picklist in pickingItemList" :key="picklist.picklistId" @click="picklist.isChecked = !picklist.isChecked" >
-    <ion-thumbnail slot="start">
-       <Image />
-     </ion-thumbnail>  
-     <ion-label>
-       <p class="caption">{{ $t("STYLE") }}</p>
-       <h2>{{ picklist.productId }}</h2>
-       <p> {{ $t("Color") }} : {{ productColor(picklist.productName) }}</p>
-       <p> {{ $t("Size") }} : {{ productSize(picklist.productName) }}</p>
-     </ion-label>
-     <ion-checkbox :modelValue="picklist.isChecked"  slot="end"></ion-checkbox>
-    </ion-item>
+      <ion-item v-for="picklist in pickingList" :key="picklist.picklistId"  @click="picklist.isChecked = !picklist.isChecked" lines="none" >
+        <ion-thumbnail slot="start">
+          <Image />
+       </ion-thumbnail>  
+       <ion-label>
+         <p class="caption">{{ $t("STYLE") }}</p>
+         <h2>{{ picklist.productName }}</h2>
+         <h2>{{ picklist.productId }}</h2>
+         <p> {{ $t("Color") }} : {{ productColor(picklist.productName) }}</p>
+         <p> {{ $t("Size") }} : {{ productSize(picklist.productName) }}</p>
+       </ion-label>
+       <ion-checkbox :modelValue="picklist.isChecked"  slot="end"></ion-checkbox>
+     </ion-item>
 </template>
 
 <script lang="ts">
@@ -49,7 +50,7 @@ export default defineComponent({
     ...mapGetters({
       pickingItemList: 'picklist/getCurrent',
       selectedProducts: 'picklist/getSelectedProducts'
-    })
+    }),
   },
   setup(){
      const store = useStore(); 
