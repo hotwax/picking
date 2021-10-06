@@ -5,6 +5,7 @@ import * as types from './mutation-types'
 import { PicklistService } from '@/services/PicklistService'
 import { hasError, showToast } from '@/utils'
 import { translate } from '@/i18n'
+import router from '@/router'
 
 const actions: ActionTree<PicklistState, RootState> = {
   async findPickingList ({ commit }) {
@@ -58,7 +59,7 @@ const actions: ActionTree<PicklistState, RootState> = {
    async completePicklists ( payload: any ) {
     const resp = await PicklistService.completePicklists({'id': payload.id});
     if (resp.status === 200 && !hasError(resp)) {
-      this.dispatch("picklist/selectedProducts");
+      router.push('/tabs/picklists');
       showToast(translate("Picklist Completed"));
     } else {
       showToast(translate("Something went wrong"));
