@@ -1,10 +1,10 @@
-# pre-order
+# Picking App
 
 HotWax Commerce - Picking App
 
 ## Firebase Hosting
 
-We are using firebase hosting for the Pre-order app deployment
+We are using firebase hosting for the Picking app deployment
 Here are the steps to deploy app on firebase hosting
 
 ### Prerequisite
