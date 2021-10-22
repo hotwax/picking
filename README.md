@@ -5,6 +5,9 @@ HotWax Commerce - pickingapp
 
 # Build Notes
 
+1. Run "sudo apt install npm"
+2. Run "sudo npm install -g @ionic/cli"
+
 ### Clone the repository (code)
 
 1. Open a Terminal window
@@ -17,6 +20,9 @@ HotWax Commerce - pickingapp
     
 - If you don't have the ionic CLI installed check https://ionicframework.com/docs/intro/cli for the installation instructions.
 - To run the app in browser use the command: `ionic serve`
+- The browser opens with a locally hosted web page.
+- Enter the username "kevin.jackson" and the password "hotwax@786"
+- Hurrah !! you are good to login.
 
 
 # Contribution Guideline
