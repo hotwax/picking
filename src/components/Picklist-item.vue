@@ -1,5 +1,5 @@
 <template>
-  <ion-item v-for="picklist in pickingList" :key="picklist.picklistId" @click="viewPicklist(picklist)" detail>
+  <ion-item v-for="picklist in picklists" :key="picklist.picklistId" @click="viewPicklist(picklist)" detail>
     <ion-label>{{ user.partyName }}</ion-label>
     <ion-note slot="end">{{ $filters.formatDate(picklist.picklistDate) }}</ion-note>
   </ion-item>
@@ -18,7 +18,7 @@ export default defineComponent({
     IonLabel, 
     IonNote
   },
-  props: ['pickingList'],
+  props: ['picklists'],
   computed: {
     ...mapGetters({
       user: 'user/getUserProfile'
