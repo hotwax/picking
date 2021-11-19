@@ -11,7 +11,7 @@ const actions: ActionTree<PicklistState, RootState> = {
     let resp;
 
     try {
-      resp = await PicklistService.getPickingList();
+      resp = await PicklistService.getPicklists();
 
       if (resp.status === 200 && resp.data.pickingList && !hasError(resp)) {
         commit(types.PICKLIST_ITEMS_UPDATED, { list: resp.data.pickingList })

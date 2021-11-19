@@ -1,6 +1,6 @@
 import api from '@/api';
 
-const getPickingList = async (): Promise<any> => {
+const getPicklists = async (): Promise<any> => {
   return api({
     url: 'picklists', 
     method: 'get',
@@ -16,6 +16,6 @@ const getPickingItemList = async (query: any): Promise<any> => {
 }
 
 export const PicklistService = {
-  getPickingList,
+  getPicklists,
   getPickingItemList
 }

@@ -47,7 +47,7 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      pickingList: 'picklist/getPickingList'
+      pickingList: 'picklist/getPicklists'
     })
   },
   mounted () {
