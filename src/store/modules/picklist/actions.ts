@@ -33,12 +33,12 @@ const actions: ActionTree<PicklistState, RootState> = {
     let resp;
 
     try {
-      resp = await PicklistService.getPickingItemList({'id': payload.id});
+      resp = await PicklistService.getPickingItemList(payload);
       resp.data.pickingItemList.map((picklist: any) => {
         picklist.isChecked = false;
       })
       if (resp.status === 200 && resp.data.pickingItemList && !hasError(resp)) {
-        commit(types.PICKLIST_CURRENT, { current: resp.data.pickingItemList })
+        commit(types.PICKLIST_CURRENT, { current: resp.data })
         return resp.data;
       } else {
         showToast(translate('Something went wrong'));
@@ -57,10 +57,12 @@ const actions: ActionTree<PicklistState, RootState> = {
    * Complete Picklist
    */
    async completePicklists ( payload: any ) {
-    const resp = await PicklistService.completePicklists({'id': payload.id});
+     console.log(payload);
+    const resp = await PicklistService.completePicklists(payload);
     if (resp.status === 200 && !hasError(resp)) {
       router.push('/tabs/picklists');
       showToast(translate("Picklist Completed"));
+
     } else {
       showToast(translate("Something went wrong"));
     }

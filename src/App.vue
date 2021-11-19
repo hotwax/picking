@@ -1,6 +1,6 @@
 <template>
   <ion-app>
-    <ion-menu side="end" type="overlay" content-id="main">
+    <ion-menu side="end" type="overlay" menu-id="filter" content-id="main">
       <ion-header>
         <ion-toolbar>
           <ion-title>{{ $t("Filters") }}</ion-title>
