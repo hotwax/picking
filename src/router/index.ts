@@ -48,8 +48,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/picklist-details/:id',
     component: () => import('@/views/Picklist-Detail.vue'),
-    beforeEnter: authGuard,
-    props: true
+    beforeEnter: authGuard
   },
   {
     path: '/login',

@@ -16,7 +16,7 @@
         <ion-list-header lines="none">
           <ion-label>{{ $t("In progress") }}</ion-label>
         </ion-list-header>
-        <PicklistItem :pickingList="pickingList"/>
+        <PicklistItem :picklists="picklists"/>
       </ion-list>
     </ion-content>
   </ion-page>
@@ -47,11 +47,11 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      pickingList: 'picklist/getPickingList'
+      picklists: 'picklist/getPicklists'
     })
   },
   mounted () {
-    this.store.dispatch('picklist/findPickingList');
+    this.store.dispatch('picklist/findPickList');
   },
   setup(){
     const store = useStore();

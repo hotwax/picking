@@ -8,11 +8,11 @@ import { translate } from '@/i18n'
 import router from '@/router'
 
 const actions: ActionTree<PicklistState, RootState> = {
-  async findPickingList ({ commit }) {
+  async findPickList ({ commit }) {
     let resp;
 
     try {
-      resp = await PicklistService.getPickingList();
+      resp = await PicklistService.getPicklists();
 
       if (resp.status === 200 && resp.data.pickingList && !hasError(resp)) {
         commit(types.PICKLIST_ITEMS, { list: resp.data.pickingList })
@@ -33,7 +33,7 @@ const actions: ActionTree<PicklistState, RootState> = {
     let resp;
 
     try {
-      resp = await PicklistService.getPickingItemList(payload);
+      resp = await PicklistService.getPicklist(payload);
       resp.data.pickingItemList.map((picklist: any) => {
         picklist.isChecked = false;
       })

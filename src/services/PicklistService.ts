@@ -1,6 +1,6 @@
 import api from '@/api';
 
-const getPickingList = async (): Promise<any> => {
+const getPicklists = async (): Promise<any> => {
   return api({
     url: 'picklists', 
     method: 'get',
@@ -8,12 +8,13 @@ const getPickingList = async (): Promise<any> => {
   });
 }
 
-const getPickingItemList = async (query: any): Promise<any> => {
+const getPicklist = async (query: any): Promise<any> => {
   return api({
     url: `picklists/${query.id}`,
     method: 'get'
   });
 }
+
 const completePicklists = async (payload: any): Promise <any>  => {
   return api({
     url: `convertAndUploadCsv`,
@@ -23,7 +24,7 @@ const completePicklists = async (payload: any): Promise <any>  => {
 }
 
 export const PicklistService = {
-  getPickingList,
-  getPickingItemList,
+  getPicklist,
+  getPicklists,
   completePicklists
 }
