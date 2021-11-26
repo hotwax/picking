@@ -9,8 +9,8 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-list>
+    <ion-content :fullscreen="true" :style="{'--background': scannerActive ? 'transparent' : '#fff'}">
+      <ion-list v-if="!scannerActive">
         <ion-item-group v-for="picking in pickingListGroup" :key="picking.alphabet" >
           <ion-item-divider>
             <ion-label> {{ picking.alphabet }}</ion-label>
@@ -23,7 +23,7 @@
      <ion-footer>
       <ion-toolbar>
         <ion-buttons class="footer-buttons">
-          <ion-button fill="outline" color="secondary">
+          <ion-button fill="outline" color="secondary" @click="scan()">
             <ion-icon slot="start" :icon="barcodeOutline" />{{ $t("Scan") }}
           </ion-button>
           <ion-button  @click="completeProductPicklist" fill="outline" color="success">
@@ -41,6 +41,11 @@ import { defineComponent } from 'vue';
 import { barcodeOutline,checkmarkDone } from 'ionicons/icons';
 import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
 import { mapGetters, useStore } from 'vuex';
+import { Plugins } from '@capacitor/core';
+import { translate } from '@/i18n'
+import { showToast } from '@/utils';
+
+const { BarcodeScanner } = Plugins;
 
 export default defineComponent({
   name: 'PicklistDetail',
@@ -71,13 +76,15 @@ export default defineComponent({
   },
   data() {
     return {
-      pickingListGroup: []
+      pickingListGroup: [],
+      scanResult: '',
+      scannerActive: false
     }
   },
   props: ['id'],
   mounted () {
-    this.pickingItemList.sort((a: any, b: any) => a.productName.localeCompare(b.productName, 'es', { sensitivity: 'base' }));
-    const data = this.pickingItemList.reduce((r: any, e: any) => {
+    this.pickingItemList.pickingItemList.sort((a: any, b: any) => a.productName.localeCompare(b.productName, 'es', { sensitivity: 'base' }));
+    const data = this.pickingItemList.pickingItemList.reduce((r: any, e: any) => {
       const alphabet = e.productName[0];
       if (!r[alphabet]) r[alphabet] = { alphabet, record: [e] }
       else r[alphabet].record.push(e);
@@ -120,10 +127,70 @@ export default defineComponent({
       return alert.present();
     },
     selectAll() {
-      this.pickingItemList.map((picklist: any) => {
+      this.pickingItemList.pickingItemList.map((picklist: any) => {
           picklist.isChecked = true;
       })
     },
+    async presentAlertConfirm(header: string, message: string) {
+      const alert = await alertController
+      .create({
+        header: header,
+        message: message,
+        buttons: [
+          {
+            text: this.$t('Okay')
+          },
+        ],
+      });
+      return alert.present();
+    },
+    async checkCameraPermission() {
+      const status = await BarcodeScanner.checkPermission({ force: true });
+      if (status.granted) {
+        // the user granted permission
+        return true;
+      } else if (status.denied) {
+        // the user has not given permission, showing alert message to enable camera permission in settings
+        this.presentAlertConfirm(translate('No permission'), translate('Please allow camera access in your settings'));
+      } else {
+        // showing alert if there is any other error
+        this.presentAlertConfirm(translate('Error'), translate('Unable to start camera, please try again'));
+      }
+      return false;
+    },
+    async startScan() {
+      const result = await BarcodeScanner.startScan(); // start scanning and wait for a result
+      // if the result has content
+      if (result.hasContent) {
+        BarcodeScanner.startScan({ targetedFormats: ['UPC_A'] })
+        this.scannerActive = false;
+        this.scanResult = result.content;
+        const item = this.pickingItemList.find((product: any) => {
+          if (!product.isChecked) {
+            return product.productId === this.scanResult
+          }
+        })
+
+        if (item) {
+          item.isChecked= true;
+        } else {
+          showToast(translate("Product not found"))
+        }
+      }
+    },
+    async stopScan() {
+      this.scannerActive = false;
+      await BarcodeScanner.stopScan();
+    },
+    async scan() {
+      const permissionGranted = await this.checkCameraPermission();
+      if(permissionGranted) {
+        this.scannerActive = true;
+        this.startScan();
+      } else {
+        this.stopScan();
+      }
+    }
   },
   setup(){
     const store = useStore();
@@ -132,6 +199,12 @@ export default defineComponent({
         checkmarkDone,
         store
       }
+  },
+  ionViewDidLeave() {
+    // added condition to call stopScan method only when the scanner is active and not always
+    if (this.scannerActive) {
+      this.stopScan();
+    }
   }
 });
 </script>
