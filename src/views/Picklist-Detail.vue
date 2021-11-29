@@ -165,7 +165,7 @@ export default defineComponent({
         BarcodeScanner.startScan({ targetedFormats: ['UPC_A'] })
         this.scannerActive = false;
         this.scanResult = result.content;
-        const item = this.pickingItemList.find((product: any) => {
+        const item = this.pickingItemList.pickingItemList.find((product: any) => {
           if (!product.isChecked) {
             return product.productId === this.scanResult
           }
@@ -200,7 +200,21 @@ export default defineComponent({
       .then((result) => {
         //result : value of the scanned barcode/QRcode
         console.log(result);
+         const item = this.pickingItemList.pickingItemList.find((product: any) => {
+          if (!product.isChecked) {
+            return product.productId === result.role
+          }
+        })
+
+        result.role ="";
+
+        if (item) {
+          item.isChecked= true;       
+        } else {
+          showToast(translate("Product not found"))
+        }
     });
+    this.$forceUpdate();
       return modal.present();
     },
   },
