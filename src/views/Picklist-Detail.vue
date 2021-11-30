@@ -206,12 +206,12 @@ export default defineComponent({
             return product.productId === result.role
           }
         })
-        result.role ="";
         if (item) {
-          item.isChecked= true;       
-        } else {
+          item.isChecked= true;
+        } else if (result.role && !item) {
           showToast(translate("Product not found"))
         }
+        result.role = "";
       });
       return modal.present();
     }
