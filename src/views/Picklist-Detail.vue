@@ -173,7 +173,7 @@ export default defineComponent({
         })
 
         if (item) {
-          item.isChecked= true;
+          item.isChecked = true;
         } else {
           showToast(translate("Product not found"))
         }
@@ -185,40 +185,40 @@ export default defineComponent({
     },
     async scan() {
       const permissionGranted = await this.checkCameraPermission();
-      if(permissionGranted) {
+      if (permissionGranted) {
         this.scannerActive = true;
         this.startScan();
       } else {
         this.stopScan();
       }
     },
-    async scanCode () {
+    async scanCode() {
       const modal = await modalController
         .create({
           component: Scanner,
         });
-        modal.onDidDismiss()
-      .then((result) => {
-        //result : value of the scanned barcode/QRcode
-        console.log(result);
-         const item = this.picklistItem.pickingItemList.find((product) => {
-          if (!product.isChecked) {
-            return product.productId === result.role
+      modal.onDidDismiss()
+        .then((result) => {
+          //result : value of the scanned barcode/QRcode
+          console.log(result);
+          const item = this.picklistItem.pickingItemList.find((product) => {
+            if (!product.isChecked) {
+              return product.productId === result.role
+            }
+          })
+          if (item) {
+            item.isChecked = true;
+          } else if (result.role && !item) {
+            showToast(translate("Product not found"))
           }
-        })
-        if (item) {
-          item.isChecked= true;
-        } else if (result.role && !item) {
-          showToast(translate("Product not found"))
-        }
-        result.role = "";
-      });
+          result.role = "";
+        });
       return modal.present();
     }
   },
-  setup(){
+  setup() {
     const store = useStore();
-      return{
+      return {
         barcodeOutline,
         checkmarkDone,
         store
