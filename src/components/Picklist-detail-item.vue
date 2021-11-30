@@ -1,5 +1,5 @@
 <template>
-      <ion-item v-for="picklist in pickingList" :key="picklist.picklistId"  @click="picklist.isChecked = !picklist.isChecked" lines="none" >
+      <ion-item v-for="picklist in picklists" :key="picklist.picklistId"  @click="picklist.isChecked = !picklist.isChecked" lines="none" >
         <ion-thumbnail slot="start">
           <Image />
        </ion-thumbnail>  
@@ -45,10 +45,9 @@ export default defineComponent({
       }
     },
   },
- props: ['pickingList'],
+ props: ['picklists'],
  computed: {
     ...mapGetters({
-      pickingItemList: 'picklist/getCurrent',
       selectedProducts: 'picklist/getSelectedProducts'
     }),
   },

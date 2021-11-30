@@ -11,11 +11,11 @@
     </ion-header>
     <ion-content :fullscreen="true" :style="{'--background': scannerActive ? 'transparent' : '#fff'}">
       <ion-list v-if="!scannerActive">
-        <ion-item-group v-for="picking in pickingListGroup" :key="picking.alphabet" >
+        <ion-item-group v-for="picklist in picklistGroup" :key="picklist.alphabet" >
           <ion-item-divider>
-            <ion-label> {{ picking.alphabet }}</ion-label>
+            <ion-label> {{ picklist.alphabet }}</ion-label>
           </ion-item-divider>
-          <PicklistDetailItem :pickingList="picking.record"/>  
+          <PicklistDetailItem :picklists="picklist.record"/>
         </ion-item-group>
       </ion-list>
      </ion-content>
@@ -68,29 +68,29 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      pickingList: 'picklist/getPickingList',
-      pickingItemList: 'picklist/getCurrent',
+      picklists: 'picklist/getPicklists',
+      picklistItem: 'picklist/getCurrent',
       selectedProducts: 'picklist/getSelectedProducts',
       getSelectedProductsToCompletePicklist: 'picklist/getSelectedProductsToCompletePicklist'
     })
   },
   data() {
     return {
-      pickingListGroup: [],
+      picklistGroup: [],
       scanResult: '',
       scannerActive: false
     }
   },
   props: ['id'],
   mounted () {
-    this.pickingItemList.pickingItemList.sort((a: any, b: any) => a.productName.localeCompare(b.productName, 'es', { sensitivity: 'base' }));
-    const data = this.pickingItemList.pickingItemList.reduce((r: any, e: any) => {
+    this.picklistItem.pickingItemList.sort((a: any, b: any) => a.productName.localeCompare(b.productName, 'es', { sensitivity: 'base' }));
+    const data = this.picklistItem.pickingItemList.reduce((r: any, e: any) => {
       const alphabet = e.productName[0];
       if (!r[alphabet]) r[alphabet] = { alphabet, record: [e] }
       else r[alphabet].record.push(e);
       return r;
     }, {});
-     this.pickingListGroup = Object.values(data);
+     this.picklistGroup = Object.values(data);
   },
     methods: {
       async completePicklists() {
@@ -127,7 +127,7 @@ export default defineComponent({
       return alert.present();
     },
     selectAll() {
-      this.pickingItemList.pickingItemList.map((picklist: any) => {
+      this.picklistItem.pickingItemList.map((picklist: any) => {
           picklist.isChecked = true;
       })
     },
@@ -165,7 +165,7 @@ export default defineComponent({
         BarcodeScanner.startScan({ targetedFormats: ['UPC_A'] })
         this.scannerActive = false;
         this.scanResult = result.content;
-        const item = this.pickingItemList.find((product: any) => {
+        const item = this.picklistItem.find((product: any) => {
           if (!product.isChecked) {
             return product.productId === this.scanResult
           }
