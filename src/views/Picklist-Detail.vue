@@ -35,7 +35,7 @@
  </ion-page>
 </template>
 
-<script lang="ts">
+<script>
 import { IonBackButton, IonButton, IonButtons, IonContent,IonFooter, IonHeader, IonIcon, IonItemDivider, IonItemGroup, IonLabel, IonList, IonPage, IonTitle, IonToolbar, alertController, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { barcodeOutline,checkmarkDone } from 'ionicons/icons';
@@ -44,7 +44,8 @@ import { mapGetters, useStore } from 'vuex';
 import { Plugins } from '@capacitor/core';
 import { translate } from '@/i18n'
 import { showToast } from '@/utils';
-import Scanner from "./Scanner.vue";
+import Scanner from '@/components/Scanner'
+
 const { BarcodeScanner } = Plugins;
 
 export default defineComponent({
@@ -83,8 +84,8 @@ export default defineComponent({
   },
   props: ['id'],
   mounted () {
-    this.picklistItem.pickingItemList.sort((a: any, b: any) => a.productName.localeCompare(b.productName, 'es', { sensitivity: 'base' }));
-    const data = this.picklistItem.pickingItemList.reduce((r: any, e: any) => {
+    this.picklistItem.pickingItemList.sort((a, b) => a.productName.localeCompare(b.productName, 'es', { sensitivity: 'base' }));
+    const data = this.picklistItem.pickingItemList.reduce((r, e) => {
       const alphabet = e.productName[0];
       if (!r[alphabet]) r[alphabet] = { alphabet, record: [e] }
       else r[alphabet].record.push(e);
@@ -127,11 +128,11 @@ export default defineComponent({
       return alert.present();
     },
     selectAll() {
-      this.picklistItem.pickingItemList.map((picklist: any) => {
+      this.picklistItem.pickingItemList.map((picklist) => {
           picklist.isChecked = true;
       })
     },
-    async presentAlertConfirm(header: string, message: string) {
+    async presentAlertConfirm(header, message) {
       const alert = await alertController
       .create({
         header: header,
@@ -165,7 +166,7 @@ export default defineComponent({
         BarcodeScanner.startScan({ targetedFormats: ['UPC_A'] })
         this.scannerActive = false;
         this.scanResult = result.content;
-        const item = this.picklistItem.pickingItemList.find((product: any) => {
+        const item = this.picklistItem.pickingItemList.find((product) => {
           if (!product.isChecked) {
             return product.productId === this.scanResult
           }
@@ -200,23 +201,20 @@ export default defineComponent({
       .then((result) => {
         //result : value of the scanned barcode/QRcode
         console.log(result);
-         const item = this.pickingItemList.pickingItemList.find((product: any) => {
+         const item = this.picklistItem.pickingItemList.find((product) => {
           if (!product.isChecked) {
             return product.productId === result.role
           }
         })
-
         result.role ="";
-
         if (item) {
           item.isChecked= true;       
         } else {
           showToast(translate("Product not found"))
         }
-    });
-    this.$forceUpdate();
+      });
       return modal.present();
-    },
+    }
   },
   setup(){
     const store = useStore();
