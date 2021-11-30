@@ -23,7 +23,7 @@
      <ion-footer>
       <ion-toolbar>
         <ion-buttons class="footer-buttons">
-          <ion-button fill="outline" color="secondary" @click="scan()">
+          <ion-button fill="outline" color="secondary" @click="scanCode()">
             <ion-icon slot="start" :icon="barcodeOutline" />{{ $t("Scan") }}
           </ion-button>
           <ion-button  @click="completeProductPicklist" fill="outline" color="success">
@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { IonBackButton, IonButton, IonButtons, IonContent,IonFooter, IonHeader, IonIcon, IonItemDivider, IonItemGroup, IonLabel, IonList, IonPage, IonTitle, IonToolbar, alertController } from '@ionic/vue';
+import { IonBackButton, IonButton, IonButtons, IonContent,IonFooter, IonHeader, IonIcon, IonItemDivider, IonItemGroup, IonLabel, IonList, IonPage, IonTitle, IonToolbar, alertController, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { barcodeOutline,checkmarkDone } from 'ionicons/icons';
 import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
@@ -44,7 +44,7 @@ import { mapGetters, useStore } from 'vuex';
 import { Plugins } from '@capacitor/core';
 import { translate } from '@/i18n'
 import { showToast } from '@/utils';
-
+import Scanner from "./Scanner.vue";
 const { BarcodeScanner } = Plugins;
 
 export default defineComponent({
@@ -165,7 +165,7 @@ export default defineComponent({
         BarcodeScanner.startScan({ targetedFormats: ['UPC_A'] })
         this.scannerActive = false;
         this.scanResult = result.content;
-        const item = this.picklistItem.find((product: any) => {
+        const item = this.picklistItem.pickingItemList.find((product: any) => {
           if (!product.isChecked) {
             return product.productId === this.scanResult
           }
@@ -190,7 +190,33 @@ export default defineComponent({
       } else {
         this.stopScan();
       }
-    }
+    },
+    async scanCode () {
+      const modal = await modalController
+        .create({
+          component: Scanner,
+        });
+        modal.onDidDismiss()
+      .then((result) => {
+        //result : value of the scanned barcode/QRcode
+        console.log(result);
+         const item = this.pickingItemList.pickingItemList.find((product: any) => {
+          if (!product.isChecked) {
+            return product.productId === result.role
+          }
+        })
+
+        result.role ="";
+
+        if (item) {
+          item.isChecked= true;       
+        } else {
+          showToast(translate("Product not found"))
+        }
+    });
+    this.$forceUpdate();
+      return modal.present();
+    },
   },
   setup(){
     const store = useStore();
