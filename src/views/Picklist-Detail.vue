@@ -35,7 +35,7 @@
  </ion-page>
 </template>
 
-<script lang="ts">
+<script>
 import { IonBackButton, IonButton, IonButtons, IonContent,IonFooter, IonHeader, IonIcon, IonItemDivider, IonItemGroup, IonLabel, IonList, IonPage, IonTitle, IonToolbar, alertController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { barcodeOutline,checkmarkDone } from 'ionicons/icons';
@@ -45,6 +45,8 @@ import { Plugins } from '@capacitor/core';
 import { translate } from '@/i18n'
 import { showToast } from '@/utils';
 import { useRouter } from 'vue-router';
+import { JsonCSV } from '@/mixins/jsonToCsv'
+import emitter from '@/event-bus'
 
 const { BarcodeScanner } = Plugins;
 
@@ -85,54 +87,42 @@ export default defineComponent({
     }
   },
   props: ['id'],
+  mixins: [JsonCSV],
   mounted () {
-    this.picklistItem.pickingItemList.sort((a: any, b: any) => a.productName.localeCompare(b.productName, 'es', { sensitivity: 'base' }));
-    const data = this.picklistItem.pickingItemList.reduce((r: any, e: any) => {
+    this.picklistItem.pickingItemList.sort((a, b) => a.productName.localeCompare(b.productName, 'es', { sensitivity: 'base' }));
+    const data = this.picklistItem.pickingItemList.reduce((r, e) => {
       const alphabet = e.productName[0];
       if (!r[alphabet]) r[alphabet] = { alphabet, record: [e] }
       else r[alphabet].record.push(e);
       return r;
     }, {});
      this.picklistGroup = Object.values(data);
+    emitter.on("export-finished", this.completePicklists)
   },
     methods: {
-         async completePicklists() {
+         async completePicklists(blob) {
       console.log(this.picklistItem)
      
-      const picklistChecked = this.picklistItem.pickingItemList.some((picklist: any) =>
+      const picklistChecked = this.picklistItem.pickingItemList.some((picklist) =>
         picklist.isChecked
       )
       if(picklistChecked) {
-        const selectedProducts = this.getSelectedProductsToCompletePicklist();
-        console.log(selectedProducts)
-
-        const json = JSON.stringify(this.picklistItem);
-        console.log("json :",json)
-
-        const blob = new Blob([json], {type: 'application/json'})
-        console.log("blob :",blob)
-
         const formData = new FormData();
-        const fileName = "CompletePicklist_" + Date.now() +".json";
-        console.log("fileName :",fileName)
-      
+        const fileName = "CompletePicklist_" + Date.now() +".csv";
         formData.append("uploadedFile", blob, fileName);
-        console.log("FormData :",formData)
+        formData.append("configId", "IMP_UPD_PKLST_ITM_ST");
 
-        formData.append("configId", "IMP_PKLST_ND_ITM");
-      
         return this.store.dispatch("picklist/completePicklists", {
-        headers: {
-          'Content-Type': 'multipart/form-data;'
-        },
-        data: formData
-       }).then(() => {
-        this.router.push("/tabs/picklists");
-      })
+          headers: {
+            'Content-Type': 'multipart/form-data;'
+          },
+          data: formData
+        }).then(() => {
+          this.router.push("/tabs/picklists");
+        })
       } else {
         showToast(translate("Something went wrong"));
       }
-
     },
       async completeProductPicklist() {
       const alert = await alertController
@@ -146,8 +136,8 @@ export default defineComponent({
             {
               text:this.$t('Complete'),
               handler: () => {
-                this.completePicklists();
-                
+                if (this.picklistItem.pickingItemList.some((picklist) => picklist.isChecked)) this.generate();
+                else showToast(translate("No item has been picked"));
               },
             },
           ],
@@ -155,11 +145,11 @@ export default defineComponent({
       return alert.present();
     },
     selectAll() {
-      this.picklistItem.pickingItemList.map((picklist: any) => {
+      this.picklistItem.pickingItemList.map((picklist) => {
           picklist.isChecked = true;
       })
     },
-    async presentAlertConfirm(header: string, message: string) {
+    async presentAlertConfirm(header, message) {
       const alert = await alertController
       .create({
         header: header,
@@ -193,7 +183,7 @@ export default defineComponent({
         BarcodeScanner.startScan({ targetedFormats: ['UPC_A'] })
         this.scannerActive = false;
         this.scanResult = result.content;
-        const item = this.picklistItem.find((product: any) => {
+        const item = this.picklistItem.find((product) => {
           if (!product.isChecked) {
             return product.productId === this.scanResult
           }
