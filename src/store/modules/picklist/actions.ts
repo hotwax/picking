@@ -105,11 +105,7 @@ const actions: ActionTree<PicklistState, RootState> = {
     let resp;
 
     try {
-      resp = await PicklistService.completePicklists(
-        {
-          "configId": "IMP_PKLST_ND_ITM"
-        }
-      );
+      resp = await PicklistService.completePicklists(payload);
       if (resp.status === 200 && resp.pickingItemList && !hasError(resp)) {
         commit(types.PICKLIST_SELECTED_PRODUCTS, {configId: payload.configId});
         showToast(translate("Picklist Completed"));

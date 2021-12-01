@@ -35,7 +35,7 @@
  </ion-page>
 </template>
 
-<script lang="ts">
+<script>
 import { IonBackButton, IonButton, IonButtons, IonContent,IonFooter, IonHeader, IonIcon, IonItemDivider, IonItemGroup, IonLabel, IonList, IonPage, IonTitle, IonToolbar, alertController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { barcodeOutline,checkmarkDone } from 'ionicons/icons';
@@ -45,6 +45,8 @@ import { Plugins } from '@capacitor/core';
 import { translate } from '@/i18n'
 import { showToast } from '@/utils';
 import { useRouter } from 'vue-router';
+import { JsonCSV } from '@/mixins/jsonToCsv'
+import emitter from '@/event-bus'
 
 const { BarcodeScanner } = Plugins;
 
@@ -85,98 +87,97 @@ export default defineComponent({
     }
   },
   props: ['id'],
+  mixins: [JsonCSV],
   mounted () {
-    // Sort and arrange products in alphabetical order
-    this.picklistItem.pickingItemList.sort((a: any, b: any) => a.productName.localeCompare(b.productName, 'es', { sensitivity: 'base' }));
-    const data = this.picklistItem.pickingItemList.reduce((r: any, e: any) => {
+    this.picklistItem.pickingItemList.sort((a, b) => a.productName.localeCompare(b.productName, 'es', { sensitivity: 'base' }));
+    const data = this.picklistItem.pickingItemList.reduce((r, e) => {
       const alphabet = e.productName[0];
       if (!r[alphabet]) r[alphabet] = { alphabet, record: [e] }
       else r[alphabet].record.push(e);
       return r;
     }, {});
      this.picklistGroup = Object.values(data);
+    emitter.on("export-finished", this.completePicklists)
   },
     methods: {
-      async completePicklists() {
+
+         async completePicklists(blob) {
+      console.log(this.picklistItem)
      
-        const picklistChecked = this.picklistItem.pickingItemList.some((picklist: any) =>
-          picklist.isChecked
-        )
-        if(picklistChecked) {
-          const selectedProducts = this.getCompletePicklist();
-          const json = JSON.stringify(this.picklistItem);
-          const blob = new Blob([json], {type: 'application/json'})
-          const formData = new FormData();
-          const fileName = "CompletePicklist_" + Date.now() +".json";      
-          formData.append("uploadedFile", blob, fileName);
-          formData.append("configId", "IMP_PKLST_ND_ITM");      
-          return this.store.dispatch("picklist/completePicklists", {
-            headers: {
-              'Content-Type': 'multipart/form-data;'
-            },
-            data: formData
-          }).then(() => {
-            this.router.push("/tabs/picklists");
-          })
-        } else {
-          showToast(translate("Something went wrong"));
-        }
+      const picklistChecked = this.picklistItem.pickingItemList.some((picklist) =>
+        picklist.isChecked
+      )
+      if(picklistChecked) {
+        const formData = new FormData();
+        const fileName = "CompletePicklist_" + Date.now() +".csv";
+        formData.append("uploadedFile", blob, fileName);
+        formData.append("configId", "IMP_UPD_PKLST_ITM_ST");
 
-      },
-      async completeProductPicklist() {
-        const alert = await alertController
-          .create({
-            header: this.$t("Complete picklist"),
-            buttons: [
-              {
-                text: this.$t('Cancel'),
-                role: 'cancel'
-              },
-              {
-                text:this.$t('Complete'),
-                handler: () => {
-                  this.completePicklists();
-                
-                },
-              },
-            ],
-          });
-        return alert.present();
-      },
-      selectAll() {
-        this.picklistItem.pickingItemList.map((picklist: any) => {
-          picklist.isChecked = true;
+        return this.store.dispatch("picklist/completePicklists", {
+          headers: {
+            'Content-Type': 'multipart/form-data;'
+          },
+          data: formData
+        }).then(() => {
+          this.router.push("/tabs/picklists");
         })
-      },
-      async presentAlertConfirm(header: string, message: string) {
-        const alert = await alertController
-          .create({
-            header: header,
-            message: message,
-            buttons: [
-              {
-                text: this.$t('Okay')
+      } else {
+        showToast(translate("Something went wrong"));
+      }
+    },
+      async completeProductPicklist() {
+      const alert = await alertController
+        .create({
+          header: this.$t("Complete picklist"),
+          buttons: [
+            {
+              text: this.$t('Cancel'),
+              role: 'cancel'
+            },
+            {
+              text:this.$t('Complete'),
+              handler: () => {
+                if (this.picklistItem.pickingItemList.some((picklist) => picklist.isChecked)) this.generate();
+                else showToast(translate("No item has been picked"));
               },
-            ],
-          });
-        return alert.present();
-      },
-
-      // Native bar code scanner code
-      async checkCameraPermission() {
-        const status = await BarcodeScanner.checkPermission({ force: true });
-        if (status.granted) {
-          // the user granted permission
-          return true;
-        } else if (status.denied) {
-          // the user has not given permission, showing alert message to enable camera permission in settings
-          this.presentAlertConfirm(translate('No permission'), translate('Please allow camera access in your settings'));
-        } else {
-          // showing alert if there is any other error
-          this.presentAlertConfirm(translate('Error'), translate('Unable to start camera, please try again'));
-        }
-        return false;
-      },
+            },
+          ],
+        });
+      return alert.present();
+    },
+    selectAll() {
+      this.picklistItem.pickingItemList.map((picklist) => {
+          picklist.isChecked = true;
+      })
+    },
+    async presentAlertConfirm(header, message) {
+      const alert = await alertController
+      .create({
+        header: header,
+        message: message,
+        buttons: [
+          {
+            text: this.$t('Okay')
+          },
+        ],
+      });
+      return alert.present();
+    },
+    async checkCameraPermission() {
+      const status = await BarcodeScanner.checkPermission({ force: true });
+      if (status.granted) {
+        // the user granted permission
+        return true;
+      } else if (status.denied) {
+        // the user has not given permission, showing alert message to enable camera permission in settings
+        this.presentAlertConfirm(translate('No permission'), translate('Please allow camera access in your settings'));
+      } else {
+        // showing alert if there is any other error
+        this.presentAlertConfirm(translate('Error'), translate('Unable to start camera, please try again'));
+      }
+      return false;
+    },
+      
       async startScan() {
         const result = await BarcodeScanner.startScan(); // start scanning and wait for a result
         // if the result has content
@@ -184,7 +185,7 @@ export default defineComponent({
           BarcodeScanner.startScan({ targetedFormats: ['UPC_A'] })
           this.scannerActive = false;
           this.scanResult = result.content;
-          const item = this.picklistItem.find((product: any) => {
+          const item = this.picklistItem.find((product) => {
             if (!product.isChecked) {
               return product.productId === this.scanResult
             }
