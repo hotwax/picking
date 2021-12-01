@@ -73,8 +73,6 @@ export default defineComponent({
     ...mapGetters({
       picklists: 'picklist/getPicklists',
       picklistItem: 'picklist/getCurrent',
-      selectedProducts: 'picklist/getSelectedProducts',
-      getCompletePicklist: 'picklist/getCompletePicklist'
     })
   },
   data() {
@@ -98,7 +96,7 @@ export default defineComponent({
     emitter.on("export-finished", this.completePicklists)
   },
   methods: {
-    async completePicklists(blob) {
+    async completePicklist(blob) {
       const picklistChecked = this.picklistItem.pickingItemList.some((picklist) =>
         picklist.isChecked
       )
@@ -236,5 +234,4 @@ export default defineComponent({
 .action-button {
   flex: 1 100%;
 }
-
 </style>

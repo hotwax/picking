@@ -29,20 +29,9 @@ export default defineComponent({
     IonLabel,
     IonThumbnail
   },
-  methods: {
-    selectProduct: function(event: any, list: any) {
-      const existingItemIndex = this.selectedProducts.findIndex((element: any) => element.orderId === list.orderId && element.orderItemSeqId === list.orderItemSeqId)
-      if (event.target.checked && existingItemIndex === -1) {
-        this.store.dispatch("picklist/addToSelectedProducts", { list });
-      } else if(!event.target.checked && existingItemIndex > -1) {
-        this.store.dispatch("picklist/removeFromSelectedProducts", { index: existingItemIndex });
-      }
-    },
-  },
   props: ['picklists'],
   computed: {
     ...mapGetters({
-      selectedProducts: 'picklist/getSelectedProducts',
       products: 'picklist/getCurrent',
       getProduct: 'product/getProduct',      
     }),

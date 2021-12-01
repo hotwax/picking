@@ -17,7 +17,7 @@ const actions: ActionTree<PicklistState, RootState> = {
       resp = await PicklistService.getPicklists();
 
       if (resp.status === 200 && resp.data.pickingList && !hasError(resp)) {
-        commit(types.PICKLIST_ITEMS, { list: resp.data.pickingList })
+        commit(types.PICKLISTS_UPDATED, { list: resp.data.pickingList })
         return resp.data;
       } else {
         showToast(translate('Something went wrong'));
@@ -30,7 +30,7 @@ const actions: ActionTree<PicklistState, RootState> = {
       return Promise.reject(new Error(err))
     }
   },
-
+  
   /**
    * Set current picklist data
    */
@@ -43,7 +43,7 @@ const actions: ActionTree<PicklistState, RootState> = {
         picklist.isChecked = false;
       })
       if (resp.status === 200 && resp.data.pickingItemList && !hasError(resp)) {
-        commit(types.PICKLIST_CURRENT, { current: resp.data })
+        commit(types.PICKLIST_CURRENT_UPDATED, { current: resp.data })
         let productIds: any = new Set(
           resp.data.pickingItemList.map((picklist: any) => {
             return picklist.productId
@@ -70,13 +70,12 @@ const actions: ActionTree<PicklistState, RootState> = {
   /**
    * Complete Picklist
    */
-  async completePicklists ({commit}, payload) {
+  async completePicklist (payload) {
     let resp;
 
     try {
       resp = await PicklistService.completePicklists(payload);
       if (resp.status === 200 && resp.pickingItemList && !hasError(resp)) {
-        commit(types.PICKLIST_SELECTED_PRODUCTS, {configId: payload.configId});
         showToast(translate("Picklist Completed"));
         return resp;  
       } else {
