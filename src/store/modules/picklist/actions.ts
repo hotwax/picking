@@ -74,15 +74,15 @@ const actions: ActionTree<PicklistState, RootState> = {
       })
       if (resp.status === 200 && resp.data.pickingItemList && !hasError(resp)) {
         commit(types.PICKLIST_CURRENT, { current: resp.data })
-      let productIds: any = new Set(
-        resp.data.pickingItemList.map((picklist: any) => {
-          return picklist.productId
-        })
-      );
-      productIds = [...productIds]
-      if (productIds.length) {
-        this.dispatch('picklist/fetchProducts', { productIds })
-      }
+        let productIds: any = new Set(
+          resp.data.pickingItemList.map((picklist: any) => {
+            return picklist.productId
+          })
+        );
+        productIds = [...productIds]
+        if (productIds.length) {
+          this.dispatch('picklist/fetchProducts', { productIds })
+        }
         commit(types.PRODUCT_ADD_TO_CACHED_MULTIPLE, { current: resp.data })
         return resp.data;
       } else {

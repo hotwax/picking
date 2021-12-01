@@ -50,7 +50,7 @@ app.config.globalProperties.$filters = {
     return moment.utc(value, inFormat).tz(userProfile.userTimeZone).format(outFormat ? outFormat : 'MM-DD-YYYY');
   },
   getFeature(featureHierarchy: any, featureKey: string) {
-    let  featureValue = ''
+    let featureValue = ''
     if (featureHierarchy) {
       const feature = featureHierarchy.find((featureItem: any) => featureItem.startsWith(featureKey))
       const featureSplit = feature ? feature.split('/') : [];
@@ -59,7 +59,7 @@ app.config.globalProperties.$filters = {
     return featureValue;
   },
   getFeatures(featureHierarchy: any, featureKey: string) {
-    let  featuresValue = ''
+    let featuresValue = ''
     if (featureHierarchy) {
       featureHierarchy.filter((featureItem: any) => featureItem.startsWith(featureKey)).forEach((feature: any) => {
         const featureSplit = feature ? feature.split('/') : [];
@@ -80,7 +80,7 @@ app.config.globalProperties.$filters = {
       })
     }
     return featuresList;
-  },
+  }
 }
 
 

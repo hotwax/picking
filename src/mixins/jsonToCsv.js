@@ -102,13 +102,6 @@ export const JsonCSV = {
           return pickitem;
         }
       });
-      // const fields = ["picklistId","orderItemSeqId","itemStatusId","quantity","picked","orderId","shipGroupSeqId","inventoryItemId"]
-      // list.map((pickitem) => {
-      //   pickitem['picklistId'] = this.picklistItem.picklist.picklistId
-      //   pickitem['itemStatusId'] = 'PICKITEM_PICKED'
-      //   pickitem.picked = pickitem.quantity
-      // })
-      console.log(list)
       return list;
     }
   },

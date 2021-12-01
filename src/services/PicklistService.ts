@@ -11,12 +11,13 @@ const getPicklists = async (): Promise<any> => {
 // Fetch products 
 const fetchProducts = async (query: any): Promise <any>  => {
   return api({
-          url: "searchProducts", 
-          method: "post",
-          data: query,
-          cache: true
+    url: "searchProducts", 
+    method: "post",
+    data: query,
+    cache: true
   });
 }
+
 const getPicklist = async (query: any): Promise<any> => {
   return api({
     url: `picklists/${query.id}`,

@@ -24,10 +24,10 @@ const getters: GetterTree <PicklistState, RootState> = {
   getCompletePicklist: (state) => (toFacilityId: string) => {
     return state.selectedProducts.map((list) => {
       return {
-          picklistId: list.picklistId,
-          picklistItemSeqId: list.picklistItemSeqId,
-          toFacilityId
-        }
+        picklistId: list.picklistId,
+        picklistItemSeqId: list.picklistItemSeqId,
+        toFacilityId
+      }
     });
   },
 }

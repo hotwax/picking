@@ -7,18 +7,18 @@
       <p class="caption">{{ getProduct(picklist.productId).parentProductName}}</p>
       <h2>{{ getProduct(picklist.productId).productName}}</h2>
       <h2>{{ picklist.productId }}</h2>
-      <p> {{ $t("Colors") }} : {{ $filters.getFeatures(getProduct(picklist.productId).featureHierarchy, '1/COLOR/') }} </p>
-      <p> {{ $t("Sizes") }} : {{ $filters.getFeatures(getProduct(picklist.productId).featureHierarchy, '1/SIZE/') }} </p>
+      <p>{{ $t("Color") }} : {{ $filters.getFeatures(getProduct(picklist.productId).featureHierarchy, '1/COLOR/') }}</p>
+      <p>{{ $t("Size") }} : {{ $filters.getFeatures(getProduct(picklist.productId).featureHierarchy, '1/SIZE/') }}</p>
     </ion-label>
-    <ion-checkbox :modelValue="picklist.isChecked"  slot="end"></ion-checkbox>
+    <ion-checkbox :modelValue="picklist.isChecked" slot="end" />
   </ion-item>
 </template>
 
 <script lang="ts">
 import { IonCheckbox, IonItem, IonLabel, IonThumbnail } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { mapGetters, useStore } from "vuex";
-import  Image  from '@/components/Image.vue'
+import { mapGetters, useStore } from 'vuex';
+import Image from '@/components/Image.vue'
 
 export default defineComponent({
   name: 'PicklistDetailItem',
@@ -39,8 +39,8 @@ export default defineComponent({
       }
     },
   },
- props: ['picklists'],
- computed: {
+  props: ['picklists'],
+  computed: {
     ...mapGetters({
       selectedProducts: 'picklist/getSelectedProducts',
       products: 'picklist/getCurrent',

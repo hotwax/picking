@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-back-button default-href="/" slot="start"></ion-back-button> 
+        <ion-back-button default-href="/" slot="start" />
         <ion-title>{{ id }}</ion-title>
         <ion-buttons slot="end">
           <ion-button @click="selectAll" >{{ $t ("Select all") }}</ion-button>
@@ -96,7 +96,7 @@ export default defineComponent({
       else r[alphabet].record.push(e);
       return r;
     }, {});
-     this.picklistGroup = Object.values(data);
+    this.picklistGroup = Object.values(data);
     emitter.on("export-finished", this.completePicklists)
   },
   methods: {
@@ -104,7 +104,7 @@ export default defineComponent({
       const picklistChecked = this.picklistItem.pickingItemList.some((picklist) =>
         picklist.isChecked
       )
-      if(picklistChecked) {
+      if (picklistChecked) {
         const formData = new FormData();
         const fileName = "CompletePicklist_" + Date.now() +".csv";
         formData.append("uploadedFile", blob, fileName);
@@ -144,7 +144,7 @@ export default defineComponent({
     },
     selectAll() {
       this.picklistItem.pickingItemList.map((picklist) => {
-          picklist.isChecked = true;
+        picklist.isChecked = true;
       })
     },
     async presentAlertConfirm(header, message) {
@@ -188,12 +188,11 @@ export default defineComponent({
             return product.productId === this.scanResult
           }
         })
-
-          if (item) {
-            item.isChecked= true;
-          } else {
-            showToast(translate("Product not found"))
-          }
+        if (item) {
+          item.isChecked= true;
+        } else {
+          showToast(translate("Product not found"))
+        }
       }
     },
     async stopScan() {
@@ -214,7 +213,7 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
       
-    return{
+    return {
       barcodeOutline,
       checkmarkDone,
       store,
@@ -240,6 +239,3 @@ export default defineComponent({
 }
 
 </style>
-
-
-
