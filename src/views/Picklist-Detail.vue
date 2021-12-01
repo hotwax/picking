@@ -99,11 +99,8 @@ export default defineComponent({
      this.picklistGroup = Object.values(data);
     emitter.on("export-finished", this.completePicklists)
   },
-    methods: {
-
-         async completePicklists(blob) {
-      console.log(this.picklistItem)
-     
+  methods: {
+    async completePicklists(blob) {
       const picklistChecked = this.picklistItem.pickingItemList.some((picklist) =>
         picklist.isChecked
       )
@@ -125,7 +122,7 @@ export default defineComponent({
         showToast(translate("Something went wrong"));
       }
     },
-      async completeProductPicklist() {
+    async completeProductPicklist() {
       const alert = await alertController
         .create({
           header: this.$t("Complete picklist"),
@@ -163,6 +160,8 @@ export default defineComponent({
       });
       return alert.present();
     },
+
+    // Native barcode scanner
     async checkCameraPermission() {
       const status = await BarcodeScanner.checkPermission({ force: true });
       if (status.granted) {
@@ -177,40 +176,39 @@ export default defineComponent({
       }
       return false;
     },
-      
-      async startScan() {
-        const result = await BarcodeScanner.startScan(); // start scanning and wait for a result
-        // if the result has content
-        if (result.hasContent) {
-          BarcodeScanner.startScan({ targetedFormats: ['UPC_A'] })
-          this.scannerActive = false;
-          this.scanResult = result.content;
-          const item = this.picklistItem.find((product) => {
-            if (!product.isChecked) {
-              return product.productId === this.scanResult
-            }
-          })
+    async startScan() {
+      const result = await BarcodeScanner.startScan(); // start scanning and wait for a result
+      // if the result has content
+      if (result.hasContent) {
+        BarcodeScanner.startScan({ targetedFormats: ['UPC_A'] })
+        this.scannerActive = false;
+        this.scanResult = result.content;
+        const item = this.picklistItem.find((product) => {
+          if (!product.isChecked) {
+            return product.productId === this.scanResult
+          }
+        })
 
           if (item) {
             item.isChecked= true;
           } else {
             showToast(translate("Product not found"))
           }
-        }
-      },
-      async stopScan() {
-        this.scannerActive = false;
-        await BarcodeScanner.stopScan();
-      },
-      async scan() {
-        const permissionGranted = await this.checkCameraPermission();
-        if(permissionGranted) {
-          this.scannerActive = true;
-          this.startScan();
-        } else {
-          this.stopScan();
-        }
       }
+    },
+    async stopScan() {
+      this.scannerActive = false;
+      await BarcodeScanner.stopScan();
+    },
+    async scan() {
+      const permissionGranted = await this.checkCameraPermission();
+      if(permissionGranted) {
+        this.scannerActive = true;
+        this.startScan();
+      } else {
+        this.stopScan();
+      }
+    }
   },
   setup(){
     const store = useStore();
@@ -238,7 +236,6 @@ export default defineComponent({
 }
 
 .action-button {
-  width: 100%;
   flex: auto;
 }
 
