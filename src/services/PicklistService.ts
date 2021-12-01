@@ -28,7 +28,8 @@ const completePicklists = async (payload: any): Promise <any>  => {
   return api({
     url: `convertAndUploadCsv`,
     method: 'post',
-    data: payload
+    data: payload.data,
+    headers: payload.headers
   });
 }
 
