@@ -3,13 +3,6 @@ import PicklistState from './PicklistState'
 import * as types from './mutation-types'
 
 const mutations: MutationTree <PicklistState> = {
-  [types.PRODUCT_ADD_TO_CACHED_MULTIPLE] (state, payload) {
-    if (payload.products) {
-      payload.products.forEach((product: any) => {
-        state.cached[product.productId] = product
-      });
-    }
-  },
   [types.PICKLIST_CURRENT] (state, payload) {
     state.current = payload.current;
   },

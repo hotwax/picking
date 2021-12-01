@@ -32,36 +32,6 @@ const actions: ActionTree<PicklistState, RootState> = {
   },
 
   /**
-   * Fetch cached products
-   */
-  async fetchProducts ( { commit, state }, { productIds }) {
-    const cachedProductIds = Object.keys(state.cached);
-    const productIdFilter= productIds.reduce((filter: string, productId: any) => {
-      if (filter !== '') filter += ' OR '
-      // If product already exist in cached products skip
-      if (cachedProductIds.includes(productId)) {
-        return filter;
-      } else {
-        return filter += productId;
-      }
-    }, '');
-
-    // If there are no products skip the API call
-    if (productIdFilter === '') return;
-
-    const resp = await PicklistService.fetchProducts({
-      "filters": ['productId: (' + productIdFilter + ')']
-    })
-    if (resp.status === 200 && !hasError(resp)) {
-      const products = resp.data.response.docs;
-      // Handled empty response in case of failed query
-      if (resp.data) commit(types.PRODUCT_ADD_TO_CACHED_MULTIPLE, { products });
-    }
-    // TODO Handle specific error
-    return resp;
-  },
-
-  /**
    * Set current picklist data
    */
   async setCurrentPicklist ({ commit }, payload) {
@@ -81,9 +51,8 @@ const actions: ActionTree<PicklistState, RootState> = {
         );
         productIds = [...productIds]
         if (productIds.length) {
-          this.dispatch('picklist/fetchProducts', { productIds })
+          this.dispatch('product/fetchProducts', { productIds })
         }
-        commit(types.PRODUCT_ADD_TO_CACHED_MULTIPLE, { current: resp.data })
         return resp.data;
       } else {
         showToast(translate('Something went wrong'));

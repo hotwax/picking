@@ -8,16 +8,6 @@ const getPicklists = async (): Promise<any> => {
   });
 }
 
-// Fetch products 
-const fetchProducts = async (query: any): Promise <any>  => {
-  return api({
-    url: "searchProducts", 
-    method: "post",
-    data: query,
-    cache: true
-  });
-}
-
 const getPicklist = async (query: any): Promise<any> => {
   return api({
     url: `picklists/${query.id}`,
@@ -36,7 +26,6 @@ const completePicklists = async (payload: any): Promise <any>  => {
 
 export const PicklistService = {
   getPicklist,
-  fetchProducts,
   getPicklists,
   completePicklists
 }

@@ -9,15 +9,6 @@ const getters: GetterTree <PicklistState, RootState> = {
   getCurrent (state) {
     return state.current;
   },
-  getCached (state) {
-    return state.cached
-  },
-  getList (state) {
-    return state.products
-  },
-  getProduct: (state) => (productId: string) => {
-    return state.cached[productId] ? state.cached[productId] : {};
-  },
   getSelectedProducts (state) {
     return state.selectedProducts;
   },

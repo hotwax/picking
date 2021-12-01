@@ -44,7 +44,7 @@ export default defineComponent({
     ...mapGetters({
       selectedProducts: 'picklist/getSelectedProducts',
       products: 'picklist/getCurrent',
-      getProduct: 'picklist/getProduct',      
+      getProduct: 'product/getProduct',      
     }),
   },
   setup() {

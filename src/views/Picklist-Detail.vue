@@ -71,8 +71,6 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      products: 'product/getList',
-      getProduct: 'product/getProduct',
       picklists: 'picklist/getPicklists',
       picklistItem: 'picklist/getCurrent',
       selectedProducts: 'picklist/getSelectedProducts',
@@ -232,10 +230,11 @@ export default defineComponent({
 <style scoped>
 .footer-buttons {
   gap: 5px;
+  padding: 0 5px;
 }
 
 .action-button {
-  flex: auto;
+  flex: 1 100%;
 }
 
 </style>
