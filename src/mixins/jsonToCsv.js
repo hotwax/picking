@@ -1,3 +1,5 @@
+// TODO: use helper from ionicSdk instead of the mixin to convert the JSON to CSV
+
 import mapKeys from "lodash.mapkeys";
 import pickBy from "lodash.pickby";
 import pick from "lodash.pick";
@@ -11,6 +13,7 @@ export const isType = (value, type) => typeof value === type;
 // library referred: https://www.npmjs.com/package/vue-json-csv
 
 export const JsonCSV = {
+  // TODO: Remove prop from the mixin
   // props: {
   //   /**
   //    * Json to download
@@ -94,6 +97,7 @@ export const JsonCSV = {
       picklistItem: 'picklist/getCurrent'
     }),
     picklistToUpload () {
+      // TODO: Remove the filter and checked code from the mixin
       const list = this.picklistItem.pickingItemList.filter((pickitem) => {
         if (pickitem.isChecked) {
           pickitem['picklistId'] = this.picklistItem.picklist.picklistId
