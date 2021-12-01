@@ -1,5 +1,7 @@
 export default interface PicklistState {
+  cached: any;
   current: object;
-  list: Array<any>;
+  list: {};
+  products: {};
   selectedProducts: any[];
-};
+}

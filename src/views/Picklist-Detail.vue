@@ -44,6 +44,7 @@ import { mapGetters, useStore } from 'vuex';
 import { Plugins } from '@capacitor/core';
 import { translate } from '@/i18n'
 import { showToast } from '@/utils';
+import { useRouter } from 'vue-router';
 
 const { BarcodeScanner } = Plugins;
 
@@ -68,6 +69,8 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
+      products: 'product/getList',
+      getProduct: 'product/getProduct',
       picklists: 'picklist/getPicklists',
       picklistItem: 'picklist/getCurrent',
       selectedProducts: 'picklist/getSelectedProducts',
@@ -93,15 +96,43 @@ export default defineComponent({
      this.picklistGroup = Object.values(data);
   },
     methods: {
-      async completePicklists() {
-      const selectedProducts = this.getSelectedProductsToCompletePicklist("_NA_");  
-      return this.store.dispatch("picklist/completePicklists", {
-          headers: {
-              'Content-Type': 'multipart/form-data;'
-          }
-      }).then(() => {
-        this.store.dispatch("picklist/completePicklists", { items: selectedProducts });
+         async completePicklists() {
+      console.log(this.picklistItem)
+     
+      const picklistChecked = this.picklistItem.pickingItemList.some((picklist: any) =>
+        picklist.isChecked
+      )
+      if(picklistChecked) {
+        const selectedProducts = this.getSelectedProductsToCompletePicklist();
+        console.log(selectedProducts)
+
+        const json = JSON.stringify(this.picklistItem);
+        console.log("json :",json)
+
+        const blob = new Blob([json], {type: 'application/json'})
+        console.log("blob :",blob)
+
+        const formData = new FormData();
+        const fileName = "CompletePicklist_" + Date.now() +".json";
+        console.log("fileName :",fileName)
+      
+        formData.append("uploadedFile", blob, fileName);
+        console.log("FormData :",formData)
+
+        formData.append("configId", "IMP_PKLST_ND_ITM");
+      
+        return this.store.dispatch("picklist/completePicklists", {
+        headers: {
+          'Content-Type': 'multipart/form-data;'
+        },
+        data: formData
+       }).then(() => {
+        this.router.push("/tabs/picklists");
       })
+      } else {
+        showToast(translate("Something went wrong"));
+      }
+
     },
       async completeProductPicklist() {
       const alert = await alertController
@@ -110,10 +141,7 @@ export default defineComponent({
           buttons: [
             {
               text: this.$t('Cancel'),
-              role: 'cancel',
-              handler: blah => {
-                console.log('Confirm Cancel:', blah)
-              },
+              role: 'cancel'
             },
             {
               text:this.$t('Complete'),
@@ -194,10 +222,12 @@ export default defineComponent({
   },
   setup(){
     const store = useStore();
+    const router = useRouter();
       return{
         barcodeOutline,
         checkmarkDone,
-        store
+        store,
+        router
       }
   },
   ionViewDidLeave() {
@@ -211,7 +241,7 @@ export default defineComponent({
 
 <style scoped>
 .footer-buttons {
-  justify-content: space-evenly ;
+  justify-content: stretch;
 }
 </style>
 

@@ -1,14 +1,14 @@
 <template>
-      <ion-item v-for="picklist in picklists" :key="picklist.picklistId"  @click="picklist.isChecked = !picklist.isChecked" lines="none" >
+      <ion-item v-bind:key="picklist.productId" v-for="picklist in picklists"  @click="picklist.isChecked = !picklist.isChecked" lines="none" >
         <ion-thumbnail slot="start">
-          <Image />
+          <Image :src="getProduct(picklist.productId).mainImageUrl" />
        </ion-thumbnail>  
        <ion-label>
-         <p class="caption">{{ $t("STYLE") }}</p>
-         <h2>{{ picklist.productName }}</h2>
+         <p class="caption">{{ getProduct(picklist.productId).parentProductName}}</p>
+         <h2>{{ getProduct(picklist.productId).productName}}</h2>
          <h2>{{ picklist.productId }}</h2>
-         <p> {{ $t("Color") }} : {{ productColor(picklist.productName) }}</p>
-         <p> {{ $t("Size") }} : {{ productSize(picklist.productName) }}</p>
+         <p> {{ $t("Colors") }} : {{ $filters.getFeatures(getProduct(picklist.productId).featureHierarchy, '1/COLOR/') }} </p>
+         <p> {{ $t("Sizes") }} : {{ $filters.getFeatures(getProduct(picklist.productId).featureHierarchy, '1/SIZE/') }} </p>
        </ion-label>
        <ion-checkbox :modelValue="picklist.isChecked"  slot="end"></ion-checkbox>
      </ion-item>
@@ -48,7 +48,9 @@ export default defineComponent({
  props: ['picklists'],
  computed: {
     ...mapGetters({
-      selectedProducts: 'picklist/getSelectedProducts'
+      selectedProducts: 'picklist/getSelectedProducts',
+      products: 'picklist/getCurrent',
+      getProduct: 'picklist/getProduct',      
     }),
   },
   setup(){

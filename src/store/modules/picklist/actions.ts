@@ -29,6 +29,38 @@ const actions: ActionTree<PicklistState, RootState> = {
     }
   },
 
+  /**
+   * Fetch cached products
+   */
+   async fetchProducts ( { commit, state }, { productIds }) {
+    const cachedProductIds = Object.keys(state.cached);
+    const productIdFilter= productIds.reduce((filter: string, productId: any) => {
+      if (filter !== '') filter += ' OR '
+      // If product already exist in cached products skip
+      if (cachedProductIds.includes(productId)) {
+        console.log("Filter", filter)
+        return filter;
+      } else {
+        return filter += productId;
+      }
+    }, '');
+
+    // If there are no products skip the API call
+    if (productIdFilter === '') return;
+
+    const resp = await PicklistService.fetchProducts({
+      "filters": ['productId: (' + productIdFilter + ')']
+    })
+    if (resp.status === 200 && !hasError(resp)) {
+      const products = resp.data.response.docs;
+      // Handled empty response in case of failed query
+      if (resp.data) commit(types.PRODUCT_ADD_TO_CACHED_MULTIPLE, { products });
+    }
+    // TODO Handle specific error
+    console.log("Response",resp.data)
+    return resp;
+  },
+
   async setCurrentPicklist ({ commit }, payload) {
     let resp;
 
@@ -39,6 +71,18 @@ const actions: ActionTree<PicklistState, RootState> = {
       })
       if (resp.status === 200 && resp.data.pickingItemList && !hasError(resp)) {
         commit(types.PICKLIST_CURRENT, { current: resp.data })
+      let productIds: any = new Set(
+        resp.data.pickingItemList.map((picklist: any) => {
+          return picklist.productId
+        })
+      );
+      console.log(productIds)
+      productIds = [...productIds]
+      if (productIds.length) {
+        console.log(productIds)
+        this.dispatch('picklist/fetchProducts', { productIds })
+      }
+        commit(types.PRODUCT_ADD_TO_CACHED_MULTIPLE, { current: resp.data })
         return resp.data;
       } else {
         showToast(translate('Something went wrong'));
@@ -56,17 +100,27 @@ const actions: ActionTree<PicklistState, RootState> = {
   /**
    * Complete Picklist
    */
-   async completePicklists ( payload: any ) {
-     console.log(payload);
-    const resp = await PicklistService.completePicklists(payload);
-    if (resp.status === 200 && !hasError(resp)) {
-      router.push('/tabs/picklists');
-      showToast(translate("Picklist Completed"));
+   async completePicklists ({commit}, payload) {
+    let resp;
 
-    } else {
+    try {
+      resp = await PicklistService.completePicklists(
+        {
+          "configId": "IMP_PKLST_ND_ITM"
+        }
+      );
+      if (resp.status === 200 && resp.pickingItemList && !hasError(resp)) {
+        commit(types.PICKLIST_SELECTED_PRODUCTS, {configId: payload.configId});
+        showToast(translate("Picklist Completed"));
+        console.log("CompletePicklist", resp)
+        return resp;  
+      } else {
+        showToast(translate("Something went wrong"));
+      }
+    } catch (error) {
+      console.log(error);
       showToast(translate("Something went wrong"));
-    }
-    return resp;
+    } 
   }
 }
 export default actions;
