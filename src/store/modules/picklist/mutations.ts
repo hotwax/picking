@@ -8,8 +8,6 @@ const mutations: MutationTree <PicklistState> = {
         payload.products.forEach((product: any) => {
             state.cached[product.productId] = product
         });
-        // console.log("Products",payload)
-        console.log("Cached",state.cached)
      }
   },
   [types.PICKLIST_CURRENT] (state, payload) {

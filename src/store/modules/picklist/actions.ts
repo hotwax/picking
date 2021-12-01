@@ -5,9 +5,11 @@ import * as types from './mutation-types'
 import { PicklistService } from '@/services/PicklistService'
 import { hasError, showToast } from '@/utils'
 import { translate } from '@/i18n'
-import router from '@/router'
 
 const actions: ActionTree<PicklistState, RootState> = {
+  /**
+   * Find picklist
+   */
   async findPickList ({ commit }) {
     let resp;
 
@@ -32,13 +34,12 @@ const actions: ActionTree<PicklistState, RootState> = {
   /**
    * Fetch cached products
    */
-   async fetchProducts ( { commit, state }, { productIds }) {
+  async fetchProducts ( { commit, state }, { productIds }) {
     const cachedProductIds = Object.keys(state.cached);
     const productIdFilter= productIds.reduce((filter: string, productId: any) => {
       if (filter !== '') filter += ' OR '
       // If product already exist in cached products skip
       if (cachedProductIds.includes(productId)) {
-        console.log("Filter", filter)
         return filter;
       } else {
         return filter += productId;
@@ -57,10 +58,12 @@ const actions: ActionTree<PicklistState, RootState> = {
       if (resp.data) commit(types.PRODUCT_ADD_TO_CACHED_MULTIPLE, { products });
     }
     // TODO Handle specific error
-    console.log("Response",resp.data)
     return resp;
   },
 
+  /**
+   * Set current picklist data
+   */
   async setCurrentPicklist ({ commit }, payload) {
     let resp;
 
@@ -76,10 +79,8 @@ const actions: ActionTree<PicklistState, RootState> = {
           return picklist.productId
         })
       );
-      console.log(productIds)
       productIds = [...productIds]
       if (productIds.length) {
-        console.log(productIds)
         this.dispatch('picklist/fetchProducts', { productIds })
       }
         commit(types.PRODUCT_ADD_TO_CACHED_MULTIPLE, { current: resp.data })
@@ -100,7 +101,7 @@ const actions: ActionTree<PicklistState, RootState> = {
   /**
    * Complete Picklist
    */
-   async completePicklists ({commit}, payload) {
+  async completePicklists ({commit}, payload) {
     let resp;
 
     try {
@@ -112,7 +113,6 @@ const actions: ActionTree<PicklistState, RootState> = {
       if (resp.status === 200 && resp.pickingItemList && !hasError(resp)) {
         commit(types.PICKLIST_SELECTED_PRODUCTS, {configId: payload.configId});
         showToast(translate("Picklist Completed"));
-        console.log("CompletePicklist", resp)
         return resp;  
       } else {
         showToast(translate("Something went wrong"));

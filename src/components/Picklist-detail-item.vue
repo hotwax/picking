@@ -1,17 +1,17 @@
 <template>
-      <ion-item v-bind:key="picklist.productId" v-for="picklist in picklists"  @click="picklist.isChecked = !picklist.isChecked" lines="none" >
-        <ion-thumbnail slot="start">
-          <Image :src="getProduct(picklist.productId).mainImageUrl" />
-       </ion-thumbnail>  
-       <ion-label>
-         <p class="caption">{{ getProduct(picklist.productId).parentProductName}}</p>
-         <h2>{{ getProduct(picklist.productId).productName}}</h2>
-         <h2>{{ picklist.productId }}</h2>
-         <p> {{ $t("Colors") }} : {{ $filters.getFeatures(getProduct(picklist.productId).featureHierarchy, '1/COLOR/') }} </p>
-         <p> {{ $t("Sizes") }} : {{ $filters.getFeatures(getProduct(picklist.productId).featureHierarchy, '1/SIZE/') }} </p>
-       </ion-label>
-       <ion-checkbox :modelValue="picklist.isChecked"  slot="end"></ion-checkbox>
-     </ion-item>
+  <ion-item v-bind:key="picklist.productId" v-for="picklist in picklists"  @click="picklist.isChecked = !picklist.isChecked" lines="none" >
+    <ion-thumbnail slot="start">
+      <Image :src="getProduct(picklist.productId).mainImageUrl" />
+    </ion-thumbnail>  
+    <ion-label>
+      <p class="caption">{{ getProduct(picklist.productId).parentProductName}}</p>
+      <h2>{{ getProduct(picklist.productId).productName}}</h2>
+      <h2>{{ picklist.productId }}</h2>
+      <p> {{ $t("Colors") }} : {{ $filters.getFeatures(getProduct(picklist.productId).featureHierarchy, '1/COLOR/') }} </p>
+      <p> {{ $t("Sizes") }} : {{ $filters.getFeatures(getProduct(picklist.productId).featureHierarchy, '1/SIZE/') }} </p>
+    </ion-label>
+    <ion-checkbox :modelValue="picklist.isChecked"  slot="end"></ion-checkbox>
+  </ion-item>
 </template>
 
 <script lang="ts">
@@ -30,13 +30,7 @@ export default defineComponent({
     IonThumbnail
   },
   methods: {
-    productColor(productName: any){
-      return productName.split("-")[2];
-    },
-    productSize(productName: any){
-      return productName.split("-")[1];
-    },
-     selectProduct: function(event: any, list: any) {
+    selectProduct: function(event: any, list: any) {
       const existingItemIndex = this.selectedProducts.findIndex((element: any) => element.orderId === list.orderId && element.orderItemSeqId === list.orderItemSeqId)
       if (event.target.checked && existingItemIndex === -1) {
         this.store.dispatch("picklist/addToSelectedProducts", { list });
@@ -53,11 +47,11 @@ export default defineComponent({
       getProduct: 'picklist/getProduct',      
     }),
   },
-  setup(){
-     const store = useStore(); 
-     return {
-       store
-     }
+  setup() {
+    const store = useStore(); 
+    return {
+      store
+    }
   }
 });
 </script>
