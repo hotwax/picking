@@ -153,7 +153,6 @@ export default defineComponent({
           } else if (result.role && !item) {
             showToast(translate("Product not found"))
           }
-          result.role = "";
         });
       return modal.present();
     }

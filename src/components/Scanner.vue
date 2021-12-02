@@ -31,6 +31,7 @@ export default {
   methods: {
     onDecode (result) {
       modalController.dismiss({dismissed: true}, result);
+      result.role = ''
     },
     closeScanner(){
       modalController.dismiss({dismissed: true});
