@@ -6,6 +6,7 @@ import RootState from './RootState'
 import createPersistedState from "vuex-persistedstate";
 import userModule from './modules/user';
 import picklistModule from "./modules/picklist"
+import productModule from "./modules/product"
 
 
 // TODO check how to register it from the components only
@@ -18,7 +19,7 @@ const state: any = {
 }
 
 const persistState = createPersistedState({
-    paths: ['user', 'picklist'],
+    paths: ['user', 'picklist', 'product'],
     fetchBeforeUse: true
 })
 
@@ -31,7 +32,8 @@ const store = createStore<RootState>({
     plugins: [ persistState ],
     modules: { 
         'user': userModule,
-        'picklist': picklistModule
+        'picklist': picklistModule,
+        'product': productModule
     },
 })
 

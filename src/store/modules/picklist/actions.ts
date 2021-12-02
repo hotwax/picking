@@ -5,9 +5,11 @@ import * as types from './mutation-types'
 import { PicklistService } from '@/services/PicklistService'
 import { hasError, showToast } from '@/utils'
 import { translate } from '@/i18n'
-import router from '@/router'
 
 const actions: ActionTree<PicklistState, RootState> = {
+  /**
+   * Find picklist
+   */
   async findPickList ({ commit }) {
     let resp;
 
@@ -15,7 +17,7 @@ const actions: ActionTree<PicklistState, RootState> = {
       resp = await PicklistService.getPicklists();
 
       if (resp.status === 200 && resp.data.pickingList && !hasError(resp)) {
-        commit(types.PICKLIST_ITEMS, { list: resp.data.pickingList })
+        commit(types.PICKLISTS_UPDATED, { list: resp.data.pickingList })
         return resp.data;
       } else {
         showToast(translate('Something went wrong'));
@@ -28,7 +30,10 @@ const actions: ActionTree<PicklistState, RootState> = {
       return Promise.reject(new Error(err))
     }
   },
-
+  
+  /**
+   * Set current picklist data
+   */
   async setCurrentPicklist ({ commit }, payload) {
     let resp;
 
@@ -38,7 +43,16 @@ const actions: ActionTree<PicklistState, RootState> = {
         picklist.isChecked = false;
       })
       if (resp.status === 200 && resp.data.pickingItemList && !hasError(resp)) {
-        commit(types.PICKLIST_CURRENT, { current: resp.data })
+        commit(types.PICKLIST_CURRENT_UPDATED, { current: resp.data })
+        let productIds: any = new Set(
+          resp.data.pickingItemList.map((picklist: any) => {
+            return picklist.productId
+          })
+        );
+        productIds = [...productIds]
+        if (productIds.length) {
+          this.dispatch('product/fetchProducts', { productIds })
+        }
         return resp.data;
       } else {
         showToast(translate('Something went wrong'));
@@ -56,17 +70,21 @@ const actions: ActionTree<PicklistState, RootState> = {
   /**
    * Complete Picklist
    */
-   async completePicklists ( payload: any ) {
-     console.log(payload);
-    const resp = await PicklistService.completePicklists(payload);
-    if (resp.status === 200 && !hasError(resp)) {
-      router.push('/tabs/picklists');
-      showToast(translate("Picklist Completed"));
+  async completePicklist (payload) {
+    let resp;
 
-    } else {
+    try {
+      resp = await PicklistService.completePicklists(payload);
+      if (resp.status === 200 && resp.pickingItemList && !hasError(resp)) {
+        showToast(translate("Picklist Completed"));
+        return resp;  
+      } else {
+        showToast(translate("Something went wrong"));
+      }
+    } catch (error) {
+      console.log(error);
       showToast(translate("Something went wrong"));
-    }
-    return resp;
+    } 
   }
 }
 export default actions;

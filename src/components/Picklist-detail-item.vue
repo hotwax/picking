@@ -1,24 +1,24 @@
 <template>
-      <ion-item v-for="picklist in picklists" :key="picklist.picklistId"  @click="picklist.isChecked = !picklist.isChecked" lines="none" >
-        <ion-thumbnail slot="start">
-          <Image />
-       </ion-thumbnail>  
-       <ion-label>
-         <p class="caption">{{ $t("STYLE") }}</p>
-         <h2>{{ picklist.productName }}</h2>
-         <h2>{{ picklist.productId }}</h2>
-         <p> {{ $t("Color") }} : {{ productColor(picklist.productName) }}</p>
-         <p> {{ $t("Size") }} : {{ productSize(picklist.productName) }}</p>
-       </ion-label>
-       <ion-checkbox :modelValue="picklist.isChecked"  slot="end"></ion-checkbox>
-     </ion-item>
+  <ion-item v-bind:key="picklist.productId" v-for="picklist in picklists"  @click="picklist.isChecked = !picklist.isChecked" lines="none" >
+    <ion-thumbnail slot="start">
+      <Image :src="getProduct(picklist.productId).mainImageUrl" />
+    </ion-thumbnail>  
+    <ion-label>
+      <p class="caption">{{ getProduct(picklist.productId).parentProductName}}</p>
+      <h2>{{ getProduct(picklist.productId).productName}}</h2>
+      <h2>{{ picklist.productId }}</h2>
+      <p>{{ $t("Color") }} : {{ $filters.getFeatures(getProduct(picklist.productId).featureHierarchy, '1/COLOR/') }}</p>
+      <p>{{ $t("Size") }} : {{ $filters.getFeatures(getProduct(picklist.productId).featureHierarchy, '1/SIZE/') }}</p>
+    </ion-label>
+    <ion-checkbox :modelValue="picklist.isChecked" slot="end" />
+  </ion-item>
 </template>
 
 <script lang="ts">
 import { IonCheckbox, IonItem, IonLabel, IonThumbnail } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { mapGetters, useStore } from "vuex";
-import  Image  from '@/components/Image.vue'
+import { mapGetters, useStore } from 'vuex';
+import Image from '@/components/Image.vue'
 
 export default defineComponent({
   name: 'PicklistDetailItem',
@@ -29,33 +29,18 @@ export default defineComponent({
     IonLabel,
     IonThumbnail
   },
-  methods: {
-    productColor(productName: any){
-      return productName.split("-")[2];
-    },
-    productSize(productName: any){
-      return productName.split("-")[1];
-    },
-     selectProduct: function(event: any, list: any) {
-      const existingItemIndex = this.selectedProducts.findIndex((element: any) => element.orderId === list.orderId && element.orderItemSeqId === list.orderItemSeqId)
-      if (event.target.checked && existingItemIndex === -1) {
-        this.store.dispatch("picklist/addToSelectedProducts", { list });
-      } else if(!event.target.checked && existingItemIndex > -1) {
-        this.store.dispatch("picklist/removeFromSelectedProducts", { index: existingItemIndex });
-      }
-    },
-  },
- props: ['picklists'],
- computed: {
+  props: ['picklists'],
+  computed: {
     ...mapGetters({
-      selectedProducts: 'picklist/getSelectedProducts'
+      products: 'picklist/getCurrent',
+      getProduct: 'product/getProduct',      
     }),
   },
-  setup(){
-     const store = useStore(); 
-     return {
-       store
-     }
+  setup() {
+    const store = useStore(); 
+    return {
+      store
+    }
   }
 });
 </script>

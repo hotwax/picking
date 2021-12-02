@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-back-button default-href="/" slot="start"></ion-back-button> 
+        <ion-back-button default-href="/" slot="start" />
         <ion-title>{{ id }}</ion-title>
         <ion-buttons slot="end">
           <ion-button @click="selectAll" >{{ $t ("Select all") }}</ion-button>
@@ -23,10 +23,10 @@
      <ion-footer>
       <ion-toolbar>
         <ion-buttons class="footer-buttons">
-          <ion-button fill="outline" color="secondary" @click="scanCode()">
+          <ion-button class="action-button" fill="outline" color="secondary" @click="scanCode()">
             <ion-icon slot="start" :icon="barcodeOutline" />{{ $t("Scan") }}
           </ion-button>
-          <ion-button  @click="completeProductPicklist" fill="outline" color="success">
+          <ion-button class="action-button"  @click="completeProductPicklist" fill="outline" color="success">
             <ion-icon slot="start" :icon="checkmarkDone" />{{ $t("Complete") }}
           </ion-button>
         </ion-buttons>
@@ -45,6 +45,9 @@ import { Plugins } from '@capacitor/core';
 import { translate } from '@/i18n'
 import { showToast } from '@/utils';
 import Scanner from '@/components/Scanner'
+import { useRouter } from 'vue-router';
+import { JsonCSV } from '@/mixins/jsonToCsv'
+import emitter from '@/event-bus'
 
 const { BarcodeScanner } = Plugins;
 
@@ -71,8 +74,6 @@ export default defineComponent({
     ...mapGetters({
       picklists: 'picklist/getPicklists',
       picklistItem: 'picklist/getCurrent',
-      selectedProducts: 'picklist/getSelectedProducts',
-      getSelectedProductsToCompletePicklist: 'picklist/getSelectedProductsToCompletePicklist'
     })
   },
   data() {
@@ -83,6 +84,7 @@ export default defineComponent({
     }
   },
   props: ['id'],
+  mixins: [JsonCSV],
   mounted () {
     this.picklistItem.pickingItemList.sort((a, b) => a.productName.localeCompare(b.productName, 'es', { sensitivity: 'base' }));
     const data = this.picklistItem.pickingItemList.reduce((r, e) => {
@@ -91,36 +93,46 @@ export default defineComponent({
       else r[alphabet].record.push(e);
       return r;
     }, {});
-     this.picklistGroup = Object.values(data);
+    this.picklistGroup = Object.values(data);
+    emitter.on("export-finished", this.completePicklists)
   },
-    methods: {
-      async completePicklists() {
-      const selectedProducts = this.getSelectedProductsToCompletePicklist("_NA_");  
-      return this.store.dispatch("picklist/completePicklists", {
+  methods: {
+    async completePicklist(blob) {
+      const picklistChecked = this.picklistItem.pickingItemList.some((picklist) =>
+        picklist.isChecked
+      )
+      if (picklistChecked) {
+        const formData = new FormData();
+        const fileName = "CompletePicklist_" + Date.now() +".csv";
+        formData.append("uploadedFile", blob, fileName);
+        formData.append("configId", "IMP_UPD_PKLST_ITM_ST");
+
+        return this.store.dispatch("picklist/completePicklists", {
           headers: {
-              'Content-Type': 'multipart/form-data;'
-          }
-      }).then(() => {
-        this.store.dispatch("picklist/completePicklists", { items: selectedProducts });
-      })
+            'Content-Type': 'multipart/form-data;'
+          },
+          data: formData
+        }).then(() => {
+          this.router.push("/tabs/picklists");
+        })
+      } else {
+        showToast(translate("Something went wrong"));
+      }
     },
-      async completeProductPicklist() {
+    async completeProductPicklist() {
       const alert = await alertController
         .create({
           header: this.$t("Complete picklist"),
           buttons: [
             {
               text: this.$t('Cancel'),
-              role: 'cancel',
-              handler: blah => {
-                console.log('Confirm Cancel:', blah)
-              },
+              role: 'cancel'
             },
             {
               text:this.$t('Complete'),
               handler: () => {
-                this.completePicklists();
-                
+                if (this.picklistItem.pickingItemList.some((picklist) => picklist.isChecked)) this.generate();
+                else showToast(translate("No item has been picked"));
               },
             },
           ],
@@ -129,7 +141,7 @@ export default defineComponent({
     },
     selectAll() {
       this.picklistItem.pickingItemList.map((picklist) => {
-          picklist.isChecked = true;
+        picklist.isChecked = true;
       })
     },
     async presentAlertConfirm(header, message) {
@@ -145,6 +157,8 @@ export default defineComponent({
       });
       return alert.present();
     },
+
+    // Native barcode scanner
     async checkCameraPermission() {
       const status = await BarcodeScanner.checkPermission({ force: true });
       if (status.granted) {
@@ -171,7 +185,6 @@ export default defineComponent({
             return product.productId === this.scanResult
           }
         })
-
         if (item) {
           item.isChecked = true;
         } else {
@@ -218,11 +231,14 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-      return {
-        barcodeOutline,
-        checkmarkDone,
-        store
-      }
+    const router = useRouter();
+      
+    return {
+      barcodeOutline,
+      checkmarkDone,
+      store,
+      router
+    }
   },
   ionViewDidLeave() {
     // added condition to call stopScan method only when the scanner is active and not always
@@ -235,7 +251,11 @@ export default defineComponent({
 
 <style scoped>
 .footer-buttons {
-  justify-content: space-evenly ;
+  gap: 5px;
+  padding: 0 5px;
+}
+
+.action-button {
+  flex: 1 100%;
 }
 </style>
-

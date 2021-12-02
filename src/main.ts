@@ -48,6 +48,38 @@ app.config.globalProperties.$filters = {
     const userProfile = store.getters['user/getUserProfile'];
     // TODO Fix this setDefault should set the default timezone instead of getting it everytiem and setting the tz
     return moment.utc(value, inFormat).tz(userProfile.userTimeZone).format(outFormat ? outFormat : 'MM-DD-YYYY');
+  },
+  getFeature(featureHierarchy: any, featureKey: string) {
+    let featureValue = ''
+    if (featureHierarchy) {
+      const feature = featureHierarchy.find((featureItem: any) => featureItem.startsWith(featureKey))
+      const featureSplit = feature ? feature.split('/') : [];
+      featureValue = featureSplit[2] ? featureSplit[2] : '';
+    }
+    return featureValue;
+  },
+  getFeatures(featureHierarchy: any, featureKey: string) {
+    let featuresValue = ''
+    if (featureHierarchy) {
+      featureHierarchy.filter((featureItem: any) => featureItem.startsWith(featureKey)).forEach((feature: any) => {
+        const featureSplit = feature ? feature.split('/') : [];
+        const featureValue = featureSplit[2] ? featureSplit[2] : '';
+        featuresValue +=  " " + featureValue;
+      })
+    }
+    // trim removes extra white space from beginning for the first feature
+    return featuresValue.trim();
+  },
+  getFeaturesList(featureHierarchy: any, featureKey: string) {
+    let  featuresList = []
+    if (featureHierarchy) {
+      featuresList = featureHierarchy.filter((featureItem: any) => featureItem.startsWith(featureKey)).map((feature: any) => {
+        const featureSplit = feature ? feature.split('/') : [];
+        const featureValue = featureSplit[2] ? featureSplit[2] : '';
+        return featureValue;
+      })
+    }
+    return featuresList;
   }
 }
 
