@@ -147,12 +147,7 @@ export default defineComponent({
       modal.onDidDismiss()
         .then((result) => {
           //result : value of the scanned barcode/QRcode
-          console.log(result);
-          const item = this.picklistItem.pickingItemList.find((product) => {
-            if (!product.isChecked) {
-              return product.productId === result.role
-            }
-          })
+          const item = this.picklistItem.pickingItemList.find((product) => !product.isChecked && product.productId === result.role)
           if (item) {
             item.isChecked = true;
           } else if (result.role && !item) {
