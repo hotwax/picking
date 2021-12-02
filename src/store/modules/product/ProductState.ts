@@ -1,5 +1,4 @@
 export default interface ProductState {
-    cached: any;
-    products: {};
-  }
+  cached: any;
+}
   
