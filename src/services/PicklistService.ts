@@ -16,10 +16,9 @@ const getPicklist = async (query: any): Promise<any> => {
 
 const completePicklists = async (payload: any): Promise <any>  => {
   return api({
-    url: 'convertAndUploadCsv',
+    url: 'updatePicklistStatus',
     method: 'post',
-    data: payload.data,
-    headers: payload.headers
+    data: payload,
   });
 }
 
