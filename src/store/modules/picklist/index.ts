@@ -9,8 +9,7 @@ const picklistModule: Module<PicklistState, RootState> = {
   namespaced: true,
   state: {
     current: {},
-    list: {},
-    selectedProducts:[]
+    list: {}
   },
   getters,
   mutations,
