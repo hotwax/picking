@@ -147,10 +147,10 @@ export default defineComponent({
       modal.onDidDismiss()
         .then((result) => {
           //result : value of the scanned barcode/QRcode
-          const item = this.picklistItem.pickingItemList.find((product) => !product.isChecked && product.productId === result.role)
+          const item = result.data.value && this.picklistItem.pickingItemList.find((product) => !product.isChecked && product.productId === result.data.value)
           if (item) {
             item.isChecked = true;
-          } else if (result.role && !item) {
+          } else {
             showToast(translate("Product not found"))
           }
         });
