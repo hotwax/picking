@@ -240,3 +240,7 @@ http://ionicframework.com/docs/theming/ */
   line-height: 16px !important;
   letter-spacing: 0.4px !important;
 }
+
+img {
+  object-fit: contain;
+}

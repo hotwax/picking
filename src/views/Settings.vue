@@ -54,6 +54,7 @@ export default defineComponent({
   methods: {
     logout () {
       this.store.dispatch('user/logout').then(() => {
+        this.store.dispatch('picklist/clearPicklist')
         this.router.push('/login');
       })
     },

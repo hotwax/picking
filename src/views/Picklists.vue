@@ -50,8 +50,10 @@ export default defineComponent({
       picklists: 'picklist/getPicklists'
     })
   },
-  mounted () {
-    this.store.dispatch('picklist/findPickList');
+  updated () {
+    this.store.dispatch('picklist/findPickList').catch(err =>
+      this.store.dispatch('picklist/clearPicklist')
+    )
   },
   setup(){
     const store = useStore();
