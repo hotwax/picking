@@ -45,8 +45,6 @@ import { translate } from '@/i18n'
 import { showToast } from '@/utils';
 import Scanner from '@/components/Scanner'
 import { useRouter } from 'vue-router';
-import { JsonCSV } from '@/mixins/jsonToCsv'
-import emitter from '@/event-bus'
 
 export default defineComponent({
   name: 'PicklistDetail',
@@ -79,7 +77,6 @@ export default defineComponent({
     }
   },
   props: ['id'],
-  mixins: [JsonCSV],
   mounted () {
     // Sort picklist products alphabetically
     // Used localeCompare to compare productName
@@ -93,22 +90,18 @@ export default defineComponent({
       return r;
     }, {});
     this.picklistGroup = Object.values(data);
-    emitter.on("export-finished", this.completePicklists)
   },
   methods: {
-    async completePicklist(blob) {
+    async completePicklist() {
       const picklistChecked = this.picklistItem.pickingItemList.some((picklist) =>
         picklist.isChecked
       )
+      const payload = {
+        'picklistId': this.picklistItem.picklist.picklistId,
+        'statusId': 'PICKLIST_PICKED'
+      }
       if (picklistChecked) {
-        const formData = new FormData();
-        const fileName = "CompletePicklist_" + Date.now() +".csv";
-        formData.append("uploadedFile", blob, fileName);
-        formData.append("configId", "IMP_UPD_PKLST_ITM_ST");
-
-        return this.store.dispatch("picklist/completePicklists", {
-          data: formData
-        }).then(() => {
+        return this.store.dispatch("picklist/completePicklist", payload ).then(() => {
           this.router.push("/tabs/picklists");
         })
       } else {
@@ -127,7 +120,7 @@ export default defineComponent({
             {
               text:this.$t('Complete'),
               handler: () => {
-                if (this.picklistItem.pickingItemList.some((picklist) => picklist.isChecked)) this.generate();
+                if (this.picklistItem.pickingItemList.some((picklist) => picklist.isChecked)) this.completePicklist();
                 else showToast(translate("No item has been picked"));
               },
             },

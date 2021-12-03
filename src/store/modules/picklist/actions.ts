@@ -70,14 +70,14 @@ const actions: ActionTree<PicklistState, RootState> = {
   /**
    * Complete Picklist
    */
-  async completePicklist (payload) {
+  async completePicklist ({ commit }, payload) {
     let resp;
 
     try {
       resp = await PicklistService.completePicklist(payload);
-      if (resp.status === 200 && resp.pickingItemList && !hasError(resp)) {
+      if (resp.status === 200 && !hasError(resp)) {
         showToast(translate("Picklist Completed"));
-        return resp;  
+        return resp;
       } else {
         showToast(translate("Something went wrong"));
       }
