@@ -92,9 +92,12 @@ export default defineComponent({
       const picklistChecked = this.picklistItem.pickingItemList.some((picklist) =>
         picklist.isChecked
       )
-      const payload = {'picklistId': this.picklistItem.picklist.picklistId}
+      const payload = {
+        'picklistId': this.picklistItem.picklist.picklistId,
+        'statusId': 'PICKLIST_PICKED'
+      }
       if (picklistChecked) {
-        return this.store.dispatch("picklist/completePicklist", { payload }).then(() => {
+        return this.store.dispatch("picklist/completePicklist", payload ).then(() => {
           this.router.push("/tabs/picklists");
         })
       } else {

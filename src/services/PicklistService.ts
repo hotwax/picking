@@ -16,7 +16,7 @@ const getPicklist = async (query: any): Promise<any> => {
 
 const completePicklists = async (payload: any): Promise <any>  => {
   return api({
-    url: 'updatePicklistStatus',
+    url: 'pickPicklist',
     method: 'post',
     data: payload,
   });
