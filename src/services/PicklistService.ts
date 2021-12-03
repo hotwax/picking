@@ -3,8 +3,7 @@ import api from '@/api';
 const getPicklists = async (): Promise<any> => {
   return api({
     url: 'picklists', 
-    method: 'get',
-    cache: true
+    method: 'get'
   });
 }
 
