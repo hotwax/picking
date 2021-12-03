@@ -81,8 +81,12 @@ export default defineComponent({
   props: ['id'],
   mixins: [JsonCSV],
   mounted () {
-    this.picklistItem.pickingItemList.sort((a, b) => a.productName.localeCompare(b.productName, 'es', { sensitivity: 'base' }));
+    // Sort picklist products alphabetically
+    // Used localeCompare to compare productName
+    this.picklistItem.pickingItemList.sort((a, b) => a.productName.localeCompare(b.productName, { sensitivity: 'base' }));
+    // Arrange picklist products alphabetically
     const data = this.picklistItem.pickingItemList.reduce((r, e) => {
+      // To display "0th" index value i.e. first letter of product name
       const alphabet = e.productName[0];
       if (!r[alphabet]) r[alphabet] = { alphabet, record: [e] }
       else r[alphabet].record.push(e);
