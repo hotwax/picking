@@ -36,9 +36,9 @@
 </template>
 
 <script>
-import { IonBackButton, IonButton, IonButtons, IonContent,IonFooter, IonHeader, IonIcon, IonItemDivider, IonItemGroup, IonLabel, IonList, IonPage, IonTitle, IonToolbar, alertController, modalController } from '@ionic/vue';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonFooter, IonHeader, IonIcon, IonItemDivider, IonItemGroup, IonLabel, IonList, IonPage, IonTitle, IonToolbar, alertController, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { barcodeOutline,checkmarkDone } from 'ionicons/icons';
+import { barcodeOutline, checkmarkDone } from 'ionicons/icons';
 import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
 import { mapGetters, useStore } from 'vuex';
 import { translate } from '@/i18n'
@@ -78,8 +78,12 @@ export default defineComponent({
   },
   props: ['id'],
   mounted () {
-    this.picklistItem.pickingItemList.sort((a, b) => a.productName.localeCompare(b.productName, 'es', { sensitivity: 'base' }));
+    // Sort picklist products alphabetically
+    // Used localeCompare to compare productName
+    this.picklistItem.pickingItemList.sort((a, b) => a.productName.localeCompare(b.productName, { sensitivity: 'base' }));
+    // Arrange picklist products alphabetically
     const data = this.picklistItem.pickingItemList.reduce((r, e) => {
+      // To display "0th" index value i.e. first letter of product name
       const alphabet = e.productName[0];
       if (!r[alphabet]) r[alphabet] = { alphabet, record: [e] }
       else r[alphabet].record.push(e);

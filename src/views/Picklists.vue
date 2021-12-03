@@ -51,7 +51,9 @@ export default defineComponent({
     })
   },
   updated () {
-    this.store.dispatch('picklist/findPickList')
+    this.store.dispatch('picklist/findPickList').catch(err =>
+      this.store.dispatch('picklist/clearPicklist')
+    )
   },
   setup(){
     const store = useStore();

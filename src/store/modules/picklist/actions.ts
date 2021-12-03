@@ -22,7 +22,6 @@ const actions: ActionTree<PicklistState, RootState> = {
       } else {
         showToast(translate('Something went wrong'));
         console.error("error", resp.data._ERROR_MESSAGE_);
-        commit(types.PICKLISTS_UPDATED, { list: '' })
         return Promise.reject(new Error(resp.data._ERROR_MESSAGE_));
       }
     } catch (err) {
@@ -75,7 +74,7 @@ const actions: ActionTree<PicklistState, RootState> = {
     let resp;
 
     try {
-      resp = await PicklistService.completePicklists(payload);
+      resp = await PicklistService.completePicklist(payload);
       if (resp.status === 200 && !hasError(resp)) {
         showToast(translate("Picklist Completed"));
         return resp;
@@ -86,6 +85,14 @@ const actions: ActionTree<PicklistState, RootState> = {
       console.log(error);
       showToast(translate("Something went wrong"));
     } 
+  },
+
+  /*
+  clearing the picklist before the user is logged out, because if some other user log in
+  having zero picklist then it shows the previous picklist entries
+  */
+  clearPicklist ({ commit }) {
+    commit(types.PICKLISTS_UPDATED, { list: {} })
   }
 }
 export default actions;

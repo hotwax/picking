@@ -14,7 +14,7 @@ const getPicklist = async (query: any): Promise<any> => {
   });
 }
 
-const completePicklists = async (payload: any): Promise <any>  => {
+const completePicklist = async (payload: any): Promise <any>  => {
   return api({
     url: 'pickPicklist',
     method: 'post',
@@ -25,5 +25,5 @@ const completePicklists = async (payload: any): Promise <any>  => {
 export const PicklistService = {
   getPicklist,
   getPicklists,
-  completePicklists
+  completePicklist
 }
