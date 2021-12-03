@@ -9,8 +9,8 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true" :style="{'--background': scannerActive ? 'transparent' : '#fff'}">
-      <ion-list v-if="!scannerActive">
+    <ion-content :fullscreen="true">
+      <ion-list>
         <ion-item-group v-for="picklist in picklistGroup" :key="picklist.alphabet" >
           <ion-item-divider>
             <ion-label> {{ picklist.alphabet }}</ion-label>
@@ -23,7 +23,7 @@
      <ion-footer>
       <ion-toolbar>
         <ion-buttons class="footer-buttons">
-          <ion-button class="action-button" fill="outline" color="secondary" @click="scan()">
+          <ion-button class="action-button" fill="outline" color="secondary" @click="scanCode()">
             <ion-icon slot="start" :icon="barcodeOutline" />{{ $t("Scan") }}
           </ion-button>
           <ion-button class="action-button"  @click="completeProductPicklist" fill="outline" color="success">
@@ -36,19 +36,17 @@
 </template>
 
 <script>
-import { IonBackButton, IonButton, IonButtons, IonContent,IonFooter, IonHeader, IonIcon, IonItemDivider, IonItemGroup, IonLabel, IonList, IonPage, IonTitle, IonToolbar, alertController } from '@ionic/vue';
+import { IonBackButton, IonButton, IonButtons, IonContent,IonFooter, IonHeader, IonIcon, IonItemDivider, IonItemGroup, IonLabel, IonList, IonPage, IonTitle, IonToolbar, alertController, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { barcodeOutline,checkmarkDone } from 'ionicons/icons';
 import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
 import { mapGetters, useStore } from 'vuex';
-import { Plugins } from '@capacitor/core';
 import { translate } from '@/i18n'
 import { showToast } from '@/utils';
+import Scanner from '@/components/Scanner'
 import { useRouter } from 'vue-router';
 import { JsonCSV } from '@/mixins/jsonToCsv'
 import emitter from '@/event-bus'
-
-const { BarcodeScanner } = Plugins;
 
 export default defineComponent({
   name: 'PicklistDetail',
@@ -77,9 +75,7 @@ export default defineComponent({
   },
   data() {
     return {
-      picklistGroup: [],
-      scanResult: '',
-      scannerActive: false
+      picklistGroup: []
     }
   },
   props: ['id'],
@@ -143,69 +139,25 @@ export default defineComponent({
         picklist.isChecked = true;
       })
     },
-    async presentAlertConfirm(header, message) {
-      const alert = await alertController
-      .create({
-        header: header,
-        message: message,
-        buttons: [
-          {
-            text: this.$t('Okay')
-          },
-        ],
-      });
-      return alert.present();
-    },
-
-    // Native barcode scanner
-    async checkCameraPermission() {
-      const status = await BarcodeScanner.checkPermission({ force: true });
-      if (status.granted) {
-        // the user granted permission
-        return true;
-      } else if (status.denied) {
-        // the user has not given permission, showing alert message to enable camera permission in settings
-        this.presentAlertConfirm(translate('No permission'), translate('Please allow camera access in your settings'));
-      } else {
-        // showing alert if there is any other error
-        this.presentAlertConfirm(translate('Error'), translate('Unable to start camera, please try again'));
-      }
-      return false;
-    },
-    async startScan() {
-      const result = await BarcodeScanner.startScan(); // start scanning and wait for a result
-      // if the result has content
-      if (result.hasContent) {
-        BarcodeScanner.startScan({ targetedFormats: ['UPC_A'] })
-        this.scannerActive = false;
-        this.scanResult = result.content;
-        const item = this.picklistItem.find((product) => {
-          if (!product.isChecked) {
-            return product.productId === this.scanResult
+    async scanCode() {
+      const modal = await modalController
+        .create({
+          component: Scanner,
+        });
+      modal.onDidDismiss()
+        .then((result) => {
+          //result : value of the scanned barcode/QRcode
+          const item = result.data.value && this.picklistItem.pickingItemList.find((product) => !product.isChecked && product.productId === result.data.value)
+          if (item) {
+            item.isChecked = true;
+          } else {
+            showToast(translate("Product not found"))
           }
-        })
-        if (item) {
-          item.isChecked= true;
-        } else {
-          showToast(translate("Product not found"))
-        }
-      }
-    },
-    async stopScan() {
-      this.scannerActive = false;
-      await BarcodeScanner.stopScan();
-    },
-    async scan() {
-      const permissionGranted = await this.checkCameraPermission();
-      if(permissionGranted) {
-        this.scannerActive = true;
-        this.startScan();
-      } else {
-        this.stopScan();
-      }
+        });
+      return modal.present();
     }
   },
-  setup(){
+  setup() {
     const store = useStore();
     const router = useRouter();
       
@@ -214,12 +166,6 @@ export default defineComponent({
       checkmarkDone,
       store,
       router
-    }
-  },
-  ionViewDidLeave() {
-    // added condition to call stopScan method only when the scanner is active and not always
-    if (this.scannerActive) {
-      this.stopScan();
     }
   }
 });

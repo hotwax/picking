@@ -1,6 +1,6 @@
 <template>
   <ion-item v-for="picklist in picklists" :key="picklist.picklistId" @click="viewPicklist(picklist)" detail>
-    <ion-label>{{ user.partyName }}</ion-label>
+    <ion-label>{{ user && user.partyName }}</ion-label>
     <ion-note slot="end">{{ $filters.formatDate(picklist.picklistDate) }}</ion-note>
   </ion-item>
 </template>

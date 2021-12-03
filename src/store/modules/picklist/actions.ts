@@ -85,6 +85,14 @@ const actions: ActionTree<PicklistState, RootState> = {
       console.log(error);
       showToast(translate("Something went wrong"));
     } 
+  },
+
+  /*
+  clearing the picklist before the user is logged out, because if some other user log in
+  having zero picklist then it shows the previous picklist entries
+  */
+  clearPicklist ({ commit }) {
+    commit(types.PICKLISTS_UPDATED, { list: {} })
   }
 }
 export default actions;
