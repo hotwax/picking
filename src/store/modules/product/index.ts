@@ -2,18 +2,17 @@ import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
 import { Module } from 'vuex'
-import PicklistState from './PicklistState'
+import ProductState from './ProductState'
 import RootState from '@/store/RootState'
 
-const picklistModule: Module<PicklistState, RootState> = {
+const productModule: Module<ProductState, RootState> = {
   namespaced: true,
   state: {
-    current: {},
-    list: {}
+    cached: {}
   },
   getters,
   mutations,
   actions
 }
 
-export default picklistModule;
+export default productModule;
