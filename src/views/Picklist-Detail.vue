@@ -36,9 +36,9 @@
 </template>
 
 <script>
-import { IonBackButton, IonButton, IonButtons, IonContent,IonFooter, IonHeader, IonIcon, IonItemDivider, IonItemGroup, IonLabel, IonList, IonPage, IonTitle, IonToolbar, alertController, modalController } from '@ionic/vue';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonFooter, IonHeader, IonIcon, IonItemDivider, IonItemGroup, IonLabel, IonList, IonPage, IonTitle, IonToolbar, alertController, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { barcodeOutline,checkmarkDone } from 'ionicons/icons';
+import { barcodeOutline, checkmarkDone } from 'ionicons/icons';
 import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
 import { mapGetters, useStore } from 'vuex';
 import { translate } from '@/i18n'
@@ -107,9 +107,6 @@ export default defineComponent({
         formData.append("configId", "IMP_UPD_PKLST_ITM_ST");
 
         return this.store.dispatch("picklist/completePicklists", {
-          headers: {
-            'Content-Type': 'multipart/form-data;'
-          },
           data: formData
         }).then(() => {
           this.router.push("/tabs/picklists");
