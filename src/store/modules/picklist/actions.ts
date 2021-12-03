@@ -74,7 +74,7 @@ const actions: ActionTree<PicklistState, RootState> = {
     let resp;
 
     try {
-      resp = await PicklistService.completePicklists(payload);
+      resp = await PicklistService.completePicklist(payload);
       if (resp.status === 200 && resp.pickingItemList && !hasError(resp)) {
         showToast(translate("Picklist Completed"));
         return resp;  
