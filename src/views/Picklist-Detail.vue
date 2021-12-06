@@ -78,7 +78,7 @@ export default defineComponent({
   },
   props: ['id'],
   async mounted () {
-    if (!this.picklistItem.pickingItemList) {
+    if (!(this.picklistItem && this.picklistItem.pickingItemList)) {
       await this.store.dispatch('picklist/setCurrentPicklist', { id: this.id })
     }
     // Sort picklist products alphabetically
