@@ -1,0 +1,7 @@
+---
+title: 'Improved: code to render the details page properly when refreshing the page
+  by checking the current picklist data'
+ticket_id: "#1w3v47q"
+merge_request: 22
+author: Yash Maheshwari
+type: fixed
