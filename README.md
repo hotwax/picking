@@ -1,11 +1,21 @@
-# pickingapp
 
-HotWax Commerce - pickingapp
+![image](https://user-images.githubusercontent.com/15027245/144850931-00a65946-1cde-478b-bdf9-63fff63c4217.png)
+
+# Prerequisite
+Ionic CLI - If you don't have the ionic CLI installed refer [official documentation](https://ionicframework.com/docs/intro/cli) for the installation instructions.
 
 
-# Build Notes
+# Build Notes (Users)
 
-### Clone the repository (code)
+1. Download the app from [release](https://github.com/hotwax/pickingapp/releases) page and extract it.
+2. Go to the app directory.
+3. Run following command to download dependencies  
+    `npm i`
+4. Create a `.env` file by taking reference from the `.env.example` and set the `VUE_APP_BASE_URL` to the instance you want to connect the app.
+5. To run the app in browser use the command: `ionic serve`
+
+
+# Build Notes (Contributors)
 
 1. Open a Terminal window
 2. Clone app using the command: `git clone https://github.com/hotwax/pickingapp.git <repository-name>`
@@ -13,11 +23,7 @@ HotWax Commerce - pickingapp
 4. Run following command to download dependencies
     `npm i`
 5. Create a `.env` file by taking reference from the `.env.example` and change the `VUE_APP_BASE_URL` to the instance you want to connect the app.
-
-### Start App
-
-- If you don't have the ionic CLI installed check https://ionicframework.com/docs/intro/cli for the installation instructions.
-- To run the app in browser use the command: `ionic serve`
+6. To run the app in browser use the command: `ionic serve`
 
 
 # Contribution Guideline
