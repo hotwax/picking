@@ -1,4 +1,3 @@
-
 ![image](https://user-images.githubusercontent.com/15027245/144850931-00a65946-1cde-478b-bdf9-63fff63c4217.png)
 
 # Prerequisite
@@ -39,6 +38,10 @@ Ionic CLI - If you don't have the ionic CLI installed refer [official documentat
 9. Congrats! Your PR should now me merged in!
 
 If you can't handle some parts of the issue then please ask for help in the comment. If you have any problems during the implementation of some complex issue, feel free to implement just a part of it.
+
+# UI / UX Resources
+Below you may find some useful resources for improving the UI / UX of the app.
+    - https://www.figma.com/community/file/885791511781717756/Ionic-5-Material-UI-Kit-(Community)
 
 ## Report a bug or request a feature
 
