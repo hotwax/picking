@@ -78,9 +78,7 @@ export default defineComponent({
   },
   props: ['id'],
   async mounted () {
-    if (!(this.picklistItem && this.picklistItem.pickingItemList)) {
-      await this.store.dispatch('picklist/setCurrentPicklist', { id: this.id })
-    }
+    await this.store.dispatch('picklist/setCurrentPicklist', { id: this.id })
     // Sort picklist products alphabetically
     // Used localeCompare to compare productName
     this.picklistItem.pickingItemList.sort((a, b) => a.productName.localeCompare(b.productName, { sensitivity: 'base' }));

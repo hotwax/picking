@@ -34,8 +34,16 @@ const actions: ActionTree<PicklistState, RootState> = {
   /**
    * Set current picklist data
    */
-  async setCurrentPicklist ({ commit }, payload) {
+  async setCurrentPicklist ({ commit, state }, payload) {
     let resp;
+
+    const current = state.current as any
+
+    if (current.picklist && current.pickingItemList && current.picklist.picklistId === payload.id) {
+      return {
+        'pickingItemList': current.pickingItemList
+      }
+    }
 
     try {
       resp = await PicklistService.getPicklist(payload);
