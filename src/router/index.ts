@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import Login from '@/views/Login.vue'
+import picklistPdf from '@/views/picklistPdf.vue'
 import store from '@/store'
 import Tabs from '../views/Tabs.vue'
 
@@ -57,6 +58,12 @@ const routes: Array<RouteRecordRaw> = [
     component: Login,
     beforeEnter: loginGuard
   },
+  {
+    path: '/pdf',
+    name: 'Pdf',
+    component:picklistPdf,
+    props: true
+  }
 ]
 
 const router = createRouter({
