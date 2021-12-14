@@ -59,11 +59,11 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      currentInstanceUrlSaved: 'user/getInstanceUrl'
+      currentInstanceUrl: 'user/getInstanceUrl'
     })
   },
   mounted() {
-    this.instanceUrl = this.currentInstanceUrlSaved;
+    this.instanceUrl = this.currentInstanceUrl;
   },
   methods: {
     login: function () {
