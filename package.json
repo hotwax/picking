@@ -24,10 +24,10 @@
     "mitt": "^2.1.0",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
-    "vue": "^3.0.0-0",
+    "vue": "^3.2.26",
     "vue-barcode-reader": "git+https://github.com/disha1202/vue-barcode-reader.git",
     "vue-i18n": "^9.0.0",
-    "vue-router": "^4.0.0-0",
+    "vue-router": "^4.0.12",
     "vuex": "^4.0.1",
     "vuex-persistedstate": "^4.0.0-beta.3"
   },
