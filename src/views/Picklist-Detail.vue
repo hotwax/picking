@@ -139,19 +139,10 @@ export default defineComponent({
         .create({
           component: Scanner,
         });
-      modal.onDidDismiss()
-        .then((result) => {
-          //result : value of the scanned barcode/QRcode
-          const item = result.data.value && this.picklistItem.pickingItemList.find((product) => !product.isChecked && product.productId === result.data.value)
-          if (item) {
-            item.isChecked = true;
-          } else {
-            showToast(translate("Product not found"))
-          }
-        });
       return modal.present();
     }
   },
+
   setup() {
     const store = useStore();
     const router = useRouter();
