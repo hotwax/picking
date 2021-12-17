@@ -63,7 +63,7 @@ export default defineComponent({
     IonPage, 
     IonTitle, 
     IonToolbar,
-    PicklistDetailItem
+    PicklistDetailItem,
   },
   computed: {
     ...mapGetters({

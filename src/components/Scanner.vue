@@ -6,12 +6,18 @@
       </ion-button>
     </ion-buttons>  
   </ion-toolbar>   
-  <div class="scanner">
-    <StreamBarcodeReader
-    @decode="onDecode"
-    />
-  </div> 
-  <ion-button @mousedown="scan" @mouseout="stopScan" class="scan">Scan</ion-button>
+  <ion-content class="content">
+    <div class="scanner">
+      <StreamBarcodeReader
+      @decode="onDecode"
+      />
+    </div> 
+    <ion-fab class="scan">
+      <ion-fab-button @mousedown="scan" @mouseout="stopScan" >
+        <ion-icon :icon="scanOutline" />
+      </ion-fab-button>
+    </ion-fab>
+  </ion-content>
 </template>
 
 <script>
@@ -21,12 +27,13 @@ import { translate } from '@/i18n'
 import { showToast } from '@/utils';
 import { IonButton, IonButtons, IonIcon, IonToolbar, modalController } from '@ionic/vue';
 import { 
-  closeOutline
+  closeOutline,
+  scanOutline
 } from 'ionicons/icons';
 export default {
   name: 'Scanner',
   components: {
-    IonButton,
+    IonButton, 
     IonButtons,
     IonIcon, 
     IonToolbar,
@@ -73,7 +80,8 @@ export default {
   },
   setup() {
     return {
-      closeOutline
+      closeOutline,
+      scanOutline
     }
   }
 }
@@ -81,7 +89,16 @@ export default {
 <style scoped>
 .scan{
   position: absolute;
-  right: 45%;
-  bottom: 5%;
+  bottom: 15%;
+  right: 50%;
+}
+.content{
+  min-height: 100%;
+}
+.scanner{
+  position: absolute;
+  bottom: 0%;
+  top: 0%;
+ max-width: 100%;
 }
 </style>
