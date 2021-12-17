@@ -21,10 +21,8 @@
 </template>
 
 <script>
-import { mapGetters} from 'vuex';
+import emitter from "@/event-bus"
 import { StreamBarcodeReader } from "vue-barcode-reader";
-import { translate } from '@/i18n'
-import { showToast } from '@/utils';
 import { IonButton, IonButtons, IonIcon, IonToolbar, modalController } from '@ionic/vue';
 import { 
   closeOutline,
@@ -39,12 +37,7 @@ export default {
     IonToolbar,
     StreamBarcodeReader,
   },  
-  computed: {
-    ...mapGetters({
-      picklists: 'picklist/getPicklists',
-      picklistItem: 'picklist/getCurrent',
-    })
-  },
+  
   data(){
     return{
       flag:false,
@@ -55,17 +48,12 @@ export default {
      if(this.flag === true){
        console.log(result);
        this.checkedProducts(result)
-      // modalController.dismiss({dismissed: true, value: result});
      }
     },
     checkedProducts(result){
-      const item = result && this.picklistItem.pickingItemList.find((product) => !product.isChecked && product.productId === result)
-      if (item) {
-        item.isChecked = true;
-        showToast(translate("Product found"));
+      if(result){
+        emitter.emit('checkedProducts', result);
         result = ''
-      } else {
-        showToast(translate("Product not found"))
       }
     },
     closeScanner(){
@@ -99,6 +87,7 @@ export default {
   position: absolute;
   bottom: 0%;
   top: 0%;
- max-width: 100%;
+  max-width: 100%;
 }
+
 </style>

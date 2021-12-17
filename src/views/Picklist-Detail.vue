@@ -36,6 +36,7 @@
 </template>
 
 <script>
+// import { StreamBarcodeReader } from "vue-barcode-reader";
 import { IonBackButton, IonButton, IonButtons, IonContent, IonFooter, IonHeader, IonIcon, IonItemDivider, IonItemGroup, IonLabel, IonList, IonPage, IonTitle, IonToolbar, alertController, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { barcodeOutline, checkmarkDone } from 'ionicons/icons';
@@ -43,9 +44,9 @@ import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
 import { mapGetters, useStore } from 'vuex';
 import { translate } from '@/i18n'
 import { showToast } from '@/utils';
-import Scanner from '@/components/Scanner'
 import { useRouter } from 'vue-router';
-
+import emitter from "@/event-bus"
+import Scanner from '@/components/Scanner';
 export default defineComponent({
   name: 'PicklistDetail',
   components: {
@@ -64,6 +65,7 @@ export default defineComponent({
     IonTitle, 
     IonToolbar,
     PicklistDetailItem,
+    
   },
   computed: {
     ...mapGetters({
@@ -73,7 +75,7 @@ export default defineComponent({
   },
   data() {
     return {
-      picklistGroup: []
+      picklistGroup: [],
     }
   },
   props: ['id'],
@@ -91,7 +93,11 @@ export default defineComponent({
       return r;
     }, {});
     this.picklistGroup = Object.values(data);
+    emitter.on("checkedProducts", this.checkedProducts);
   },
+   destroyed() {
+    emitter.off("checkedProducts", this.checkedProducts);
+   },
   methods: {
     async completePicklist() {
       const picklistChecked = this.picklistItem.pickingItemList.some((picklist) =>
@@ -129,6 +135,16 @@ export default defineComponent({
         });
       return alert.present();
     },
+    checkedProducts(result){
+      const item = result && this.picklistItem.pickingItemList.find((product) => !product.isChecked && product.productId === result)
+      if (item) {
+      item.isChecked = true;
+       showToast(translate("Product found"));
+      }
+       else {
+        showToast(translate("Product not found"))
+      }
+    },
     selectAll() {
       this.picklistItem.pickingItemList.map((picklist) => {
         picklist.isChecked = true;
@@ -138,11 +154,14 @@ export default defineComponent({
       const modal = await modalController
         .create({
           component: Scanner,
+          cssClass:'scanner-modal',
+          backdropDismiss:false,
+          showBackdrop:false
+
         });
       return modal.present();
     }
   },
-
   setup() {
     const store = useStore();
     const router = useRouter();

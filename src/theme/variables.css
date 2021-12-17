@@ -244,3 +244,7 @@ http://ionicframework.com/docs/theming/ */
 img {
   object-fit: contain;
 }
+.scanner-modal{
+  --max-height:70%;
+  top: 30%;
+}
