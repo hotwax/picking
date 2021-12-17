@@ -95,7 +95,7 @@ export default defineComponent({
     this.picklistGroup = Object.values(data);
     emitter.on("checkedProducts", this.checkedProducts);
   },
-   destroyed() {
+   unmounted() {
     emitter.off("checkedProducts", this.checkedProducts);
    },
   methods: {
