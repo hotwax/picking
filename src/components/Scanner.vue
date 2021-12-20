@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     onDecode (result) {
-      if(this.flag == true){
+      if(this.flag){
         this.checkedProducts(result)
       }
     },
