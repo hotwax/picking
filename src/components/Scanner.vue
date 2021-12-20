@@ -31,7 +31,7 @@ import {
 export default {
   name: 'Scanner',
   components: {
-    IonButton, 
+    IonButton,
     IonButtons,
     IonContent,
     IonFab,
@@ -40,34 +40,34 @@ export default {
     IonToolbar,
     StreamBarcodeReader,
   },  
-  data(){
-    return{
-      flag:false,
+  data () {
+    return {
+      flag: false,
     }
   },
   methods: {
     onDecode (result) {
-      if(this.flag){
+      if (this.flag) {
         this.checkedProducts(result)
       }
     },
-    checkedProducts(result){
-      if(result){
+    checkedProducts (result) {
+      if (result) {
         emitter.emit('checkedProducts', result);
         result = ''
       }
     },
-    closeScanner(){
-      modalController.dismiss({dismissed: true});
+    closeScanner () {
+      modalController.dismiss({ dismissed: true });
     },
-    scan(){
+    scan () {
       this.flag = true;
     },
-    stopScan(){
+    stopScan () {
       this.flag = false;
     },
   },
-  setup() {
+  setup () {
     return {
       closeOutline,
       scanOutline
@@ -76,19 +76,18 @@ export default {
 }
 </script> 
 <style scoped>
-.scan{
+.scan {
   position: absolute;
   bottom: 15%;
   right: 50%;
 }
-.content{
+.content {
   min-height: 100%;
 }
-.scanner{
+.scanner {
   position: absolute;
   bottom: 0%;
   top: 0%;
   max-width: 100%;
 }
-
 </style>

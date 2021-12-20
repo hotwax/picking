@@ -94,9 +94,9 @@ export default defineComponent({
     this.picklistGroup = Object.values(data);
     emitter.on("checkedProducts", this.checkedProducts);
   },
-   unmounted() {
+  unmounted() {
     emitter.off("checkedProducts", this.checkedProducts);
-   },
+  },
   methods: {
     async completePicklist() {
       const picklistChecked = this.picklistItem.pickingItemList.some((picklist) =>
@@ -134,7 +134,7 @@ export default defineComponent({
         });
       return alert.present();
     },
-    checkedProducts(result){
+    checkedProducts(result) {
       const item = result && this.picklistItem.pickingItemList.find((product) => !product.isChecked && product.productId === result)
       if (item) {
         item.isChecked = true;
