@@ -153,9 +153,9 @@ export default defineComponent({
       const modal = await modalController
         .create({
           component: Scanner,
-          cssClass:'scanner-modal',
-          backdropDismiss:false,
-          showBackdrop:false
+          cssClass: 'scanner-modal',
+          backdropDismiss: false,
+          showBackdrop: false
         });
       return modal.present();
     }
