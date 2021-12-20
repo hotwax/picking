@@ -23,7 +23,7 @@
 <script>
 import emitter from "@/event-bus"
 import { StreamBarcodeReader } from "vue-barcode-reader";
-import { IonButton, IonButtons, IonIcon, IonToolbar, modalController } from '@ionic/vue';
+import { IonButton, IonButtons, IonContent, IonFab, IonFabButton, IonIcon, IonToolbar, modalController } from '@ionic/vue';
 import { 
   closeOutline,
   scanOutline
@@ -33,6 +33,9 @@ export default {
   components: {
     IonButton, 
     IonButtons,
+    IonContent,
+    IonFab,
+    IonFabButton,
     IonIcon, 
     IonToolbar,
     StreamBarcodeReader,
