@@ -37,18 +37,16 @@ export default {
     IonToolbar,
     StreamBarcodeReader,
   },  
-  
   data(){
     return{
       flag:false,
     }
   },
   methods: {
-   onDecode (result) {
-     if(this.flag === true){
-       console.log(result);
-       this.checkedProducts(result)
-     }
+    onDecode (result) {
+      if(this.flag == true){
+        this.checkedProducts(result)
+      }
     },
     checkedProducts(result){
       if(result){

@@ -36,7 +36,6 @@
 </template>
 
 <script>
-// import { StreamBarcodeReader } from "vue-barcode-reader";
 import { IonBackButton, IonButton, IonButtons, IonContent, IonFooter, IonHeader, IonIcon, IonItemDivider, IonItemGroup, IonLabel, IonList, IonPage, IonTitle, IonToolbar, alertController, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { barcodeOutline, checkmarkDone } from 'ionicons/icons';
@@ -138,10 +137,10 @@ export default defineComponent({
     checkedProducts(result){
       const item = result && this.picklistItem.pickingItemList.find((product) => !product.isChecked && product.productId === result)
       if (item) {
-      item.isChecked = true;
-       showToast(translate("Product found"));
+        item.isChecked = true;
+        showToast(translate("Product found"));
       }
-       else {
+      else {
         showToast(translate("Product not found"))
       }
     },
@@ -157,7 +156,6 @@ export default defineComponent({
           cssClass:'scanner-modal',
           backdropDismiss:false,
           showBackdrop:false
-
         });
       return modal.present();
     }
