@@ -21,13 +21,11 @@ const actions: ActionTree<PicklistState, RootState> = {
         return resp.data;
       } else {
         commit(types.PICKLISTS_UPDATED, { list: [] })
-        // showToast(translate('Something went wrong'));
         console.error("error", resp.data._ERROR_MESSAGE_);
         return Promise.reject(new Error(resp.data._ERROR_MESSAGE_));
       }
     } catch (err) {
       commit(types.PICKLISTS_UPDATED, { list: [] })
-      //showToast(translate('Something went wrong'));
       console.error("error", err);
       return Promise.reject(new Error(err))
     }
