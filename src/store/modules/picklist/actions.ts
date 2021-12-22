@@ -20,12 +20,14 @@ const actions: ActionTree<PicklistState, RootState> = {
         commit(types.PICKLISTS_UPDATED, { list: resp.data.pickingList })
         return resp.data;
       } else {
-        showToast(translate('Something went wrong'));
+        commit(types.PICKLISTS_UPDATED, { list: [] })
+        // showToast(translate('Something went wrong'));
         console.error("error", resp.data._ERROR_MESSAGE_);
         return Promise.reject(new Error(resp.data._ERROR_MESSAGE_));
       }
     } catch (err) {
-      showToast(translate('Something went wrong'));
+      commit(types.PICKLISTS_UPDATED, { list: [] })
+      //showToast(translate('Something went wrong'));
       console.error("error", err);
       return Promise.reject(new Error(err))
     }
@@ -86,9 +88,7 @@ const actions: ActionTree<PicklistState, RootState> = {
       if (resp.status === 200 && !hasError(resp)) {
         showToast(translate("Picklist Completed"));
         return resp;
-      } else {
-        showToast(translate("Something went wrong"));
-      }
+      } 
     } catch (error) {
       console.log(error);
       showToast(translate("Something went wrong"));

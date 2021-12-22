@@ -12,7 +12,8 @@
     </ion-header>
     
     <ion-content :fullscreen="true">
-      <ion-list v-if="picklists.length">
+      <p v-if="!picklists.length">You don't have any picklists assigned to you right now.</p>
+      <ion-list v-else>
         <ion-list-header lines="none">
           <ion-label>{{ $t("In progress") }}</ion-label>
         </ion-list-header>
@@ -28,6 +29,7 @@ import { defineComponent } from 'vue';
 import { filter } from 'ionicons/icons';
 import PicklistItem from '@/components/Picklist-item.vue';
 import { mapGetters, useStore } from 'vuex';
+
 
 export default defineComponent({
   name: 'Picklists',
@@ -50,10 +52,9 @@ export default defineComponent({
       picklists: 'picklist/getPicklists'
     })
   },
-  updated () {
-    this.store.dispatch('picklist/findPickList').catch(err =>
-      this.store.dispatch('picklist/clearPicklist')
-    )
+  
+  mounted () {
+    this.store.dispatch('picklist/findPickList')
   },
   setup(){
     const store = useStore();

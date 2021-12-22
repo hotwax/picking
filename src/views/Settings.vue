@@ -66,8 +66,11 @@ export default defineComponent({
           }
         })
       }
+      this.store.dispatch('picklist/findPickList')
+  
     }
   },
+ 
   setup(){
     const store = useStore();
     const router = useRouter();
