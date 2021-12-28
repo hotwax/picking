@@ -246,6 +246,5 @@ img {
 }
 
 .scanner-modal {
-  --max-height: 70%;
-  top: 30%;
+  top: 50%;
 }

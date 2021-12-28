@@ -10,13 +10,44 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-list>
+      <ion-list :class="{list: isOpen}">
         <ion-item-group v-for="picklist in picklistGroup" :key="picklist.alphabet" >
           <ion-item-divider>
             <ion-label> {{ picklist.alphabet }}</ion-label>
           </ion-item-divider>
           <PicklistDetailItem :picklists="picklist.record"/>
         </ion-item-group>
+        <ion-item-group v-for="picklist in picklistGroup" :key="picklist.alphabet" >
+          <ion-item-divider>
+            <ion-label> {{ picklist.alphabet }}</ion-label>
+          </ion-item-divider>
+          <PicklistDetailItem :picklists="picklist.record"/>
+        </ion-item-group>
+        <ion-item-group v-for="picklist in picklistGroup" :key="picklist.alphabet" >
+          <ion-item-divider>
+            <ion-label> {{ picklist.alphabet }}</ion-label>
+          </ion-item-divider>
+          <PicklistDetailItem :picklists="picklist.record"/>
+        </ion-item-group>
+        <ion-item-group v-for="picklist in picklistGroup" :key="picklist.alphabet" >
+          <ion-item-divider>
+            <ion-label> {{ picklist.alphabet }}</ion-label>
+          </ion-item-divider>
+          <PicklistDetailItem :picklists="picklist.record"/>
+        </ion-item-group>
+        <ion-item-group v-for="picklist in picklistGroup" :key="picklist.alphabet" >
+          <ion-item-divider>
+            <ion-label> {{ picklist.alphabet }}</ion-label>
+          </ion-item-divider>
+          <PicklistDetailItem :picklists="picklist.record"/>
+        </ion-item-group>
+        <ion-item-group v-for="picklist in picklistGroup" :key="picklist.alphabet" >
+          <ion-item-divider>
+            <ion-label> {{ picklist.alphabet }}</ion-label>
+          </ion-item-divider>
+          <PicklistDetailItem :picklists="picklist.record"/>
+        </ion-item-group>
+
       </ion-list>
      </ion-content>
 
@@ -63,8 +94,7 @@ export default defineComponent({
     IonPage, 
     IonTitle, 
     IonToolbar,
-    PicklistDetailItem,
-    
+    PicklistDetailItem
   },
   computed: {
     ...mapGetters({
@@ -74,9 +104,11 @@ export default defineComponent({
   },
   data() {
     return {
+      isOpen: false,
       picklistGroup: [],
     }
   },
+
   props: ['id'],
   async mounted () {
     await this.store.dispatch('picklist/setCurrentPicklist', { id: this.id })
@@ -94,7 +126,12 @@ export default defineComponent({
     this.picklistGroup = Object.values(data);
     emitter.on("checkedProducts", this.checkedProducts);
   },
+  created () {
+    emitter.on("closeScan", this.closeScan);
+  },
+  
   unmounted() {
+    emitter.off("closeScan", this.closeScan);
     emitter.off("checkedProducts", this.checkedProducts);
   },
   methods: {
@@ -150,6 +187,7 @@ export default defineComponent({
       })
     },
     async scanCode() {
+      this.isOpen = true;
       const modal = await modalController
         .create({
           component: Scanner,
@@ -158,6 +196,9 @@ export default defineComponent({
           showBackdrop: false
         });
       return modal.present();
+    },
+    closeScan(){
+      this.isOpen = false;
     }
   },
   setup() {
@@ -182,5 +223,10 @@ export default defineComponent({
 
 .action-button {
   flex: 1 100%;
+}
+
+.list {
+  height: 50%;
+  overflow-y: scroll;
 }
 </style>

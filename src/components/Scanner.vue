@@ -1,18 +1,16 @@
-<template>
-  <ion-toolbar>
-    <ion-buttons slot="end" @click="closeScanner()" >
-      <ion-button >
-        <ion-icon :icon="closeOutline" />
-      </ion-button>
-    </ion-buttons>  
-  </ion-toolbar>   
+<template>  
   <ion-content class="content">
+    <ion-fab vertical="start" horizontal="end">
+     <ion-fab-button @click="closeScanner()" size="small" color="medium">
+       <ion-icon :icon="closeOutline" />
+     </ion-fab-button>
+    </ion-fab> 
     <div class="scanner">
       <StreamBarcodeReader
       @decode="onDecode"
       />
     </div> 
-    <ion-fab class="scan">
+    <ion-fab class="scan" vertical="bottom" horizontal="center">
       <ion-fab-button @mousedown="scan" @mouseout="stopScan" >
         <ion-icon :icon="scanOutline" />
       </ion-fab-button>
@@ -21,9 +19,10 @@
 </template>
 
 <script>
+
 import emitter from "@/event-bus"
 import { StreamBarcodeReader } from "vue-barcode-reader";
-import { IonButton, IonButtons, IonContent, IonFab, IonFabButton, IonIcon, IonToolbar, modalController } from '@ionic/vue';
+import { IonContent, IonFab, IonFabButton, IonIcon, modalController } from '@ionic/vue';
 import { 
   closeOutline,
   scanOutline
@@ -31,13 +30,10 @@ import {
 export default {
   name: 'Scanner',
   components: {
-    IonButton,
-    IonButtons,
     IonContent,
     IonFab,
     IonFabButton,
     IonIcon, 
-    IonToolbar,
     StreamBarcodeReader,
   },  
   data () {
@@ -59,6 +55,7 @@ export default {
     },
     closeScanner () {
       modalController.dismiss({ dismissed: true });
+      emitter.emit("closeScan");
     },
     scan () {
       this.flag = true;
@@ -75,19 +72,13 @@ export default {
   }
 }
 </script> 
+
 <style scoped>
-.scan {
-  position: absolute;
-  bottom: 15%;
-  right: 50%;
+.scanner > div > div > video {
+  height: 100%;
 }
-.content {
-  min-height: 100%;
-}
-.scanner {
-  position: absolute;
-  bottom: 0%;
-  top: 0%;
-  max-width: 100%;
+
+.overlay-element {
+  display: none;
 }
 </style>
