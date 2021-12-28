@@ -16,9 +16,9 @@
         <ion-list-header lines="none">
           <ion-label>{{ $t("Completed") }}</ion-label>
         </ion-list-header>
-
+        <!-- TODO : We are only storing the id of completed picklist, so not showing any other information right now -->
         <ion-item v-for="picklist in completedPicklist" :key="picklist.picklistId">
-          <ion-label> {{ user && user.partyName }}</ion-label>
+          <ion-label>{{ user && user.partyName }}</ion-label>
         </ion-item>
       </ion-list>
 
@@ -29,8 +29,6 @@
         <PicklistItem :picklists="picklists"/>
       </ion-list>
     </ion-content>
-    
-
   </ion-page>
 </template>
 
