@@ -81,27 +81,28 @@ const actions: ActionTree<PicklistState, RootState> = {
   async completePicklist ({ commit }, payload) {
     let resp;
 
-    // try {
-    //   resp = await PicklistService.completePicklist(payload);
-    //   if (resp.status === 200 && !hasError(resp)) {
-    //     showToast(translate("Picklist Completed"));
-    //     return resp;
-    //   } else {
-    //     showToast(translate("Something went wrong"));
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    //   showToast(translate("Something went wrong"));
-    // } 
-    commit(types.PICKLIST_COMPLETED, {completed: payload})
+    try {
+      resp = await PicklistService.completePicklist(payload);
+      if (resp.status === 200 && !hasError(resp)) {
+        showToast(translate("Picklist Completed"));
+    commit(types.PICKLIST_COMPLETED, payload.picklistId)
+        return resp;
+      } else {
+        showToast(translate("Something went wrong"));
+      }
+    } catch (error) {
+      console.log(error);
+      showToast(translate("Something went wrong"));
+    } 
   },
 
   /*
   clearing the picklist before the user is logged out, because if some other user log in
   having zero picklist then it shows the previous picklist entries
   */
-  clearPicklist ({ commit }) {
+  clearPicklist ({ commit , state }) {
     commit(types.PICKLISTS_UPDATED, { list: {} })
+    commit(types.PICKLIST_COMPLETED_CLEARED)
   }
 }
 export default actions;

@@ -11,6 +11,9 @@ const mutations: MutationTree <PicklistState> = {
   },
   [types.PICKLIST_COMPLETED] (state, payload) {
     state.completed.push(payload);
+  },
+  [types.PICKLIST_COMPLETED_CLEARED] (state, payload) {
+    state.completed = [];
   }
 }
 export default mutations;

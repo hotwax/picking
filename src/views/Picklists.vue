@@ -12,15 +12,13 @@
     </ion-header>
     
     <ion-content :fullscreen="true">
-      <ion-list v-if="picklists.length">
+      <ion-list v-if="completedPicklist.length">
         <ion-list-header lines="none">
           <ion-label>{{ $t("Completed") }}</ion-label>
         </ion-list-header>
-        <!-- <PicklistItem :picklists="picklists"/> -->
-        <ion-item v-for="picklist in completedPicklists" :key="picklist.picklistId">
-          <ion-label>
-            {{ picklist.completed.picklistId }}
-          </ion-label>
+
+        <ion-item v-for="picklist in completedPicklist" :key="picklist.picklistId">
+          <ion-label> {{ user && user.partyName }}</ion-label>
         </ion-item>
       </ion-list>
 
@@ -63,7 +61,8 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       picklists: 'picklist/getPicklists',
-      completedPicklists: 'picklist/getCompleted'
+      completedPicklist: 'picklist/getCompleted',
+      user: 'user/getUserProfile'
     })
   },
   updated () {
