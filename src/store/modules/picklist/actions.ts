@@ -81,18 +81,19 @@ const actions: ActionTree<PicklistState, RootState> = {
   async completePicklist ({ commit }, payload) {
     let resp;
 
-    try {
-      resp = await PicklistService.completePicklist(payload);
-      if (resp.status === 200 && !hasError(resp)) {
-        showToast(translate("Picklist Completed"));
-        return resp;
-      } else {
-        showToast(translate("Something went wrong"));
-      }
-    } catch (error) {
-      console.log(error);
-      showToast(translate("Something went wrong"));
-    } 
+    // try {
+    //   resp = await PicklistService.completePicklist(payload);
+    //   if (resp.status === 200 && !hasError(resp)) {
+    //     showToast(translate("Picklist Completed"));
+    //     return resp;
+    //   } else {
+    //     showToast(translate("Something went wrong"));
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    //   showToast(translate("Something went wrong"));
+    // } 
+    commit(types.PICKLIST_COMPLETED, {completed: payload})
   },
 
   /*

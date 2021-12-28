@@ -22,6 +22,7 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       user: 'user/getUserProfile'
+      completed: 'picklist/getCompleted'
     })
   },
   methods: {
@@ -29,6 +30,7 @@ export default defineComponent({
       this.store.dispatch('picklist/setCurrentPicklist', { id: picklist.picklistId }).then((resp) => {
         if (resp.pickingItemList) {
           this.router.push({ path: `/picklist-details/${picklist.picklistId}` });
+          console.log(this.completed)
         }
       });
     }

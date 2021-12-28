@@ -8,6 +8,9 @@ const getters: GetterTree <PicklistState, RootState> = {
   },
   getCurrent (state) {
     return state.current;
+  },
+  getCompleted (state) {
+    return state.completed;
   }
 }
 export default getters;

@@ -14,16 +14,30 @@
     <ion-content :fullscreen="true">
       <ion-list v-if="picklists.length">
         <ion-list-header lines="none">
+          <ion-label>{{ $t("Completed") }}</ion-label>
+        </ion-list-header>
+        <!-- <PicklistItem :picklists="picklists"/> -->
+        <ion-item v-for="picklist in completedPicklists" :key="picklist.picklistId">
+          <ion-label>
+            {{ picklist.completed.picklistId }}
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+      <ion-list v-if="picklists.length">
+        <ion-list-header lines="none">
           <ion-label>{{ $t("In progress") }}</ion-label>
         </ion-list-header>
         <PicklistItem :picklists="picklists"/>
       </ion-list>
     </ion-content>
+    
+
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonButtons, IonContent, IonHeader, IonIcon, IonLabel, IonList, IonListHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { IonButtons, IonContent, IonHeader, IonIcon, IonItem ,IonLabel, IonList, IonListHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { filter } from 'ionicons/icons';
 import PicklistItem from '@/components/Picklist-item.vue';
@@ -43,11 +57,13 @@ export default defineComponent({
     IonPage,
     IonTitle,
     IonToolbar,
-    PicklistItem
+    PicklistItem,
+    IonItem
   },
   computed: {
     ...mapGetters({
-      picklists: 'picklist/getPicklists'
+      picklists: 'picklist/getPicklists',
+      completedPicklists: 'picklist/getCompleted'
     })
   },
   updated () {
