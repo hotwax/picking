@@ -46,6 +46,7 @@ export default defineComponent({
     IonContent,
     IonHeader,
     IonIcon,
+    IonItem,
     IonLabel, 
     IonList, 
     IonListHeader, 
@@ -53,8 +54,7 @@ export default defineComponent({
     IonPage,
     IonTitle,
     IonToolbar,
-    PicklistItem,
-    IonItem
+    PicklistItem
   },
   computed: {
     ...mapGetters({
