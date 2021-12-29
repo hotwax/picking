@@ -17,41 +17,10 @@
           </ion-item-divider>
           <PicklistDetailItem :picklists="picklist.record"/>
         </ion-item-group>
-        <ion-item-group v-for="picklist in picklistGroup" :key="picklist.alphabet" >
-          <ion-item-divider>
-            <ion-label> {{ picklist.alphabet }}</ion-label>
-          </ion-item-divider>
-          <PicklistDetailItem :picklists="picklist.record"/>
-        </ion-item-group>
-        <ion-item-group v-for="picklist in picklistGroup" :key="picklist.alphabet" >
-          <ion-item-divider>
-            <ion-label> {{ picklist.alphabet }}</ion-label>
-          </ion-item-divider>
-          <PicklistDetailItem :picklists="picklist.record"/>
-        </ion-item-group>
-        <ion-item-group v-for="picklist in picklistGroup" :key="picklist.alphabet" >
-          <ion-item-divider>
-            <ion-label> {{ picklist.alphabet }}</ion-label>
-          </ion-item-divider>
-          <PicklistDetailItem :picklists="picklist.record"/>
-        </ion-item-group>
-        <ion-item-group v-for="picklist in picklistGroup" :key="picklist.alphabet" >
-          <ion-item-divider>
-            <ion-label> {{ picklist.alphabet }}</ion-label>
-          </ion-item-divider>
-          <PicklistDetailItem :picklists="picklist.record"/>
-        </ion-item-group>
-        <ion-item-group v-for="picklist in picklistGroup" :key="picklist.alphabet" >
-          <ion-item-divider>
-            <ion-label> {{ picklist.alphabet }}</ion-label>
-          </ion-item-divider>
-          <PicklistDetailItem :picklists="picklist.record"/>
-        </ion-item-group>
-
       </ion-list>
-     </ion-content>
+    </ion-content>
 
-     <ion-footer>
+    <ion-footer>
       <ion-toolbar>
         <ion-buttons class="footer-buttons">
           <ion-button class="action-button" fill="outline" color="secondary" @click="scanCode()">
@@ -63,7 +32,7 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-footer>
- </ion-page>
+  </ion-page>
 </template>
 
 <script>
