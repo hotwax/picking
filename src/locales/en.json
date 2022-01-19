@@ -31,5 +31,6 @@
   "store name": "store name",
   "Time zone updated successfully": "Time zone updated successfully",
   "Unable to start camera, please try again": "Unable to start camera, please try again",
-  "Username": "Username"
+  "Username": "Username",
+  "You don't have any picklists assigned to you right now.": "You don't have any picklists assigned to you right now."
 }
