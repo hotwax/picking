@@ -16,7 +16,7 @@
       <ion-item>
         <ion-icon :icon="codeWorkingOutline" slot="start"/>
         <ion-label>{{ $t("OMS") }}</ion-label>
-        <ion-note slot="end">{{ instanceUrl }}</ion-note>
+        <p slot="end">{{ instanceUrl }}</p>
       </ion-item>
       <ion-item>
         <ion-icon :icon="personCircleOutline" slot="start" />
@@ -88,9 +88,4 @@ export default defineComponent({
   }
 });
 </script>
-<style scoped>
-ion-select {
-  --placeholder-opacity: 1;
-}
-</style>
 
