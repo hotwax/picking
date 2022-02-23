@@ -23,4 +23,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_HOTWAX_DIGITAL_COMMERCE }}'
           channelId: live
           projectId: hotwax-digital-commerce
-          target: commerce-hub-dev
+          target: bopis-dev
