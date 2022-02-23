@@ -6,7 +6,7 @@
     "hotwax-digital-commerce": {
       "hosting": {
         "bopis-dev": [
-          "dev-commerce-hub"
+          "bopis-dev"
         ]
       }
     }
