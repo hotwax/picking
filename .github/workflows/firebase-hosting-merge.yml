@@ -20,7 +20,7 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_HOTWAX_DIGITAL_COMMERCE }}'
+          firebaseServiceAccount: '${{ secrets.HOTWAX_PUBLIC_SECRET }}'
           channelId: live
           projectId: hotwax-digital-commerce
           target: bopis-dev
