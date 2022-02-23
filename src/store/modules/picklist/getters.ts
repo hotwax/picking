@@ -10,7 +10,6 @@ const getters: GetterTree <PicklistState, RootState> = {
     return state.current;
   },
   isScrollable(state) {
-    console.log("djghj")
     return state.picklist.list.length > 0 && state.picklist.list.length < state.picklist.total;
   }
 }
