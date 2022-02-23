@@ -47,13 +47,29 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      picklists: 'picklist/getPicklists'
+      picklists: 'picklist/getPicklists',
+      currentFacilityId: 'user/getCurrentFacility'
     })
   },
+  methods: {
+    async getPickLists() {
+      const payload = {
+        "inputFields": {
+          "statusId": ["PICKLIST_CANCELLED", "PICKLIST_COMPLETED", "PICKLIST_PICKED"],
+          "statusId_op": "not-in",
+          "facilityId": this.currentFacilityId.facilityId
+        },
+        "fieldList": ["picklistId", "picklistDate"],
+        "entityName": "PicklistAndRole",
+        "noConditionFind": "Y"
+      }
+      this.store.dispatch('picklist/findPickList', payload).catch(err =>
+        this.store.dispatch('picklist/clearPicklist')
+      )
+    }
+  },
   updated () {
-    this.store.dispatch('picklist/findPickList').catch(err =>
-      this.store.dispatch('picklist/clearPicklist')
-    )
+    this.getPickLists();
   },
   setup(){
     const store = useStore();

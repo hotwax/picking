@@ -1,10 +1,11 @@
 import api from '@/api';
 
-const getPicklists = async (): Promise<any> => {
+const getPicklists = async (payload: any): Promise<any> => {
   return api({
-    url: 'picklists', 
-    method: 'get'
-  });
+    url: 'performFind',
+    method: 'post',
+    data: payload
+  })
 }
 
 const getPicklist = async (query: any): Promise<any> => {
