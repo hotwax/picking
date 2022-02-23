@@ -1,6 +1,6 @@
 {
     "hosting": {
-      "target": "commerce-hub-dev",
+      "target": "bopis-dev",
       "public": "dist",
       "ignore": [
         "firebase.json",
