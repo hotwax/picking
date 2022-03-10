@@ -244,3 +244,17 @@ http://ionicframework.com/docs/theming/ */
 img {
   object-fit: contain;
 }
+
+@media (prefers-color-scheme: dark) {
+  ion-chip > ion-icon {
+    color: var(--ion-color-dark);
+  }
+
+  .chip-outline {
+    border-color: var(--ion-color-dark);
+  }
+
+  ion-item {
+    --border-color: var(--ion-color-medium)
+  }
+} 
