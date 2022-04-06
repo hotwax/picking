@@ -9,7 +9,7 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
+    <ion-content>
       <ion-list :class="{list: isOpen}">
         <ion-item-group v-for="picklist in picklistGroup" :key="picklist.alphabet" >
           <ion-item-divider>

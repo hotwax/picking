@@ -11,7 +11,7 @@
       </ion-toolbar>
     </ion-header>
     
-    <ion-content :fullscreen="true">
+    <ion-content>
       <ion-list v-if="picklists.length">
         <ion-list-header lines="none">
           <ion-label>{{ $t("In progress") }}</ion-label>

@@ -5,13 +5,18 @@
         <ion-title>{{ $t("Settings") }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
+    <ion-content>
       <ion-item>
         <ion-icon :icon="businessOutline" slot="start" />
         <ion-label>{{$t("Store")}}</ion-label>
         <ion-select interface="popover" :placeholder="$t('store name')" :value="currentFacility.facilityId" @ionChange="setFacility($event)">
           <ion-select-option v-for="facility in (userProfile ? userProfile.facilities : [])" :key="facility.facilityId" :value="facility.facilityId" >{{ facility.name }}</ion-select-option>
         </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-icon :icon="codeWorkingOutline" slot="start"/>
+        <ion-label>{{ $t("OMS") }}</ion-label>
+        <p slot="end">{{ instanceUrl }}</p>
       </ion-item>
       <ion-item>
         <ion-icon :icon="personCircleOutline" slot="start" />
@@ -25,7 +30,7 @@
 <script lang="ts">
 import { IonButton, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { businessOutline, personCircleOutline } from 'ionicons/icons';
+import { businessOutline, personCircleOutline, codeWorkingOutline } from 'ionicons/icons';
 import { mapGetters, useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
@@ -48,7 +53,8 @@ export default defineComponent({
     ...mapGetters({
       userProfile: 'user/getUserProfile',
       currentFacility: 'user/getCurrentFacility',
-      uploadProducts: 'product/getUploadProducts'
+      uploadProducts: 'product/getUploadProducts',
+      instanceUrl: 'user/getInstanceUrl'
     })
   },
   methods: {
@@ -73,7 +79,8 @@ export default defineComponent({
     const router = useRouter();
 
     return {
-      businessOutline, 
+      businessOutline,
+      codeWorkingOutline, 
       personCircleOutline,
       store,
       router
@@ -81,9 +88,4 @@ export default defineComponent({
   }
 });
 </script>
-<style scoped>
-ion-select {
-  --placeholder-opacity: 1;
-}
-</style>
 
