@@ -1,12 +1,20 @@
 {
   "projects": {
-    "default": "hotwax-digital-commerce"
+    "default": "hotwax-digital-commerce",
+    "production": "digital-commerce-71eb8"
   },
   "targets": {
     "hotwax-digital-commerce": {
       "hosting": {
-        "bopis-dev": [
-          "bopis-dev"
+        "pickingapp-dev": [
+          "pickingapp-dev"
+        ]
+      }
+    },
+    "digital-commerce-71eb8": {
+      "hosting": {
+        "picking": [
+          "picking"
         ]
       }
     }
