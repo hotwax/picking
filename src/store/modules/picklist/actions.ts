@@ -20,8 +20,7 @@ const actions: ActionTree<PicklistState, RootState> = {
         commit(types.PICKLISTS_UPDATED, { list: resp.data.pickingList })
         return resp.data;
       } else {
-        showToast(translate('Something went wrong'));
-        console.error("error", resp.data._ERROR_MESSAGE_);
+        showToast(translate('picklists not found'));
         return Promise.reject(new Error(resp.data._ERROR_MESSAGE_));
       }
     } catch (err) {
