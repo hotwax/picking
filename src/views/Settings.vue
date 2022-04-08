@@ -5,7 +5,7 @@
         <ion-title>{{ $t("Settings") }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
+    <ion-content>
       <ion-item>
         <ion-icon :icon="businessOutline" slot="start" />
         <ion-label>{{$t("Store")}}</ion-label>

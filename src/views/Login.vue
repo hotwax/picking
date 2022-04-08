@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content :fullscreen="true">
+    <ion-content>
       <div class="flex">
         <form class="login-container" @keyup.enter="login(form)" @submit.prevent="login(form)">
           <Logo />
@@ -69,9 +69,9 @@ export default defineComponent({
   },
   methods: {
     login: function () {
-      this.store.dispatch("user/setUserInstanceUrl", this.instanceUrl)
+      this.store.dispatch("user/setUserInstanceUrl", this.instanceUrl.trim())
       const { username, password } = this;
-      this.store.dispatch("user/login", { username, password }).then((data: any) => {
+      this.store.dispatch("user/login", { username: username.trim(), password }).then((data: any) => {
         if (data.token) {
           this.username = ''
           this.password = ''
