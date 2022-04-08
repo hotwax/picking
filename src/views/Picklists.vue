@@ -64,7 +64,7 @@ export default defineComponent({
 
       const payload = {
         "inputFields": {
-          "statusId": ["PICKLIST_CANCELLED", "PICKLIST_COMPLETED", "PICKLIST_PICKED"],
+          "statusId": ["PICKLIST_CANCELLED", "PICKLIST_COMPLETED", "PICKLIST_PICKED", "PICKLIST_PRINTED"],
           "statusId_op": "not-in",
           "facilityId": this.currentFacilityId.facilityId
         },
