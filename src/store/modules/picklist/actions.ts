@@ -10,14 +10,17 @@ const actions: ActionTree<PicklistState, RootState> = {
   /**
    * Find picklist
    */
-  async findPickList ({ commit }) {
+  async findPickList({ commit, state }, payload) {
     let resp;
 
     try {
-      resp = await PicklistService.getPicklists();
+      resp = await PicklistService.getPicklists(payload);
 
-      if (resp.status === 200 && resp.data.pickingList && !hasError(resp)) {
-        commit(types.PICKLISTS_UPDATED, { list: resp.data.pickingList })
+      if(resp.status === 200 && resp.data.docs?.length > 0 && !hasError(resp)) {
+        let list = resp.data.docs;
+
+        if(payload.viewIndex && payload.viewIndex > 0) list = state.picklist.list.concat(list)
+        commit(types.PICKLISTS_UPDATED, { list , total: resp.data.count })
         return resp.data;
       } else {
         showToast(translate('Something went wrong'));
