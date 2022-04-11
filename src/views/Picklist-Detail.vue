@@ -15,7 +15,7 @@
           <ion-item-divider>
             <ion-label> {{ picklist.alphabet }}</ion-label>
           </ion-item-divider>
-          <PicklistDetailItem :picklists="picklist.record"/>
+          <PicklistDetailItem :picklists="picklist.record" />
         </ion-item-group>
       </ion-list>
      </ion-content>
@@ -29,9 +29,11 @@
           <ion-button class="action-button"  @click="completeProductPicklist" fill="outline" color="success">
             <ion-icon slot="start" :icon="checkmarkDone" />{{ $t("Complete") }}
           </ion-button>
+          <button @click="generatePdf">PDF</button>
         </ion-buttons>
       </ion-toolbar>
     </ion-footer>
+    <PicklistPdf :picklistChecked="picklistChecked" v-show="false" />
  </ion-page>
 </template>
 
@@ -43,8 +45,12 @@ import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
 import { mapGetters, useStore } from 'vuex';
 import { translate } from '@/i18n'
 import { showToast } from '@/utils';
-import Scanner from '@/components/Scanner'
+import Scanner from '@/components/Scanner';
+import pdfMake from 'pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import htmlToPdfmake from 'html-to-pdfmake';
 import { useRouter } from 'vue-router';
+import PicklistPdf from "@/views/picklistPdf.vue";
 
 export default defineComponent({
   name: 'PicklistDetail',
@@ -63,13 +69,21 @@ export default defineComponent({
     IonPage, 
     IonTitle, 
     IonToolbar,
-    PicklistDetailItem
+    PicklistDetailItem,
+    PicklistPdf
   },
   computed: {
     ...mapGetters({
       picklists: 'picklist/getPicklists',
       picklistItem: 'picklist/getCurrent',
-    })
+    }),
+    picklistChecked(){
+      if (this.picklistItem.pickingItemList)
+      return this.picklistItem.pickingItemList.filter((picklist) =>
+      picklist.isChecked
+      )
+      return {}
+    } 
   },
   data() {
     return {
@@ -108,6 +122,21 @@ export default defineComponent({
       } else {
         showToast(translate("Something went wrong"));
       }
+    },
+    generatePdf() {
+      console.log(this.picklistChecked);
+      pdfMake.vfs = pdfFonts.pdfMake.vfs;
+      const pdfDocument =  document.getElementById('PDF');
+      const html =  htmlToPdfmake(pdfDocument.innerHTML);  
+      const docDefinition = {
+        content: [html],
+        styles:{
+         'yellow':{
+            background:'yellow' // it will add a yellow background to all elements with class yellow
+          }   
+        } 
+      }
+      pdfMake.createPdf(docDefinition).open();
     },
     async completeProductPicklist() {
       const alert = await alertController
