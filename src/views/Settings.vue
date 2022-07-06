@@ -35,7 +35,7 @@
 <script lang="ts">
 import { IonButton, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { businessOutline, personCircleOutline, codeWorkingOutline } from 'ionicons/icons';
+import { businessOutline, personCircleOutline, codeWorkingOutline, timeOutline } from 'ionicons/icons';
 import { mapGetters, useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import TimeZoneModal from '@/views/TimezoneModal.vue';
@@ -91,6 +91,7 @@ export default defineComponent({
     const router = useRouter();
 
     return {
+      timeOutline,
       businessOutline,
       codeWorkingOutline, 
       personCircleOutline,
