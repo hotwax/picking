@@ -51,7 +51,6 @@
     "eslint-plugin-vue": "^7.0.0-0",
     "typescript": "~3.9.3",
     "vue-cli-plugin-i18n": "^1.0.1",
-    "vue-jest": "^5.0.0-0",
-    "vue-loader-v16": "^16.0.0-beta.5.4"
+    "vue-jest": "^5.0.0-0"
   }
 }
