@@ -17,4 +17,12 @@ const showToast = async (message: string) => {
       return toast.present();
 }
 
-export { showToast, hasError }
+const getFeature = (features: any, key: string) => {
+  let featureValue = ''
+  if (features) {
+    featureValue = features.find((data: any) => data.feature.productFeatureTypeEnumId === key)?.feature.description
+  }
+  return featureValue;
+}
+
+export { showToast, hasError, getFeature }
