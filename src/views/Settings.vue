@@ -8,7 +8,7 @@
     <ion-content>
       <ion-item>
         <ion-icon :icon="businessOutline" slot="start" />
-        <ion-label>{{$t("Store")}}</ion-label>
+        <ion-label>{{$t("eCom Store")}}</ion-label>
         <ion-select interface="popover" :placeholder="$t('store name')" :value="currentFacility.facilityId" @ionChange="setFacility($event)">
           <ion-select-option v-for="facility in (userProfile ? userProfile.facilities : [])" :key="facility.facilityId" :value="facility.facilityId" >{{ facility.name }}</ion-select-option>
         </ion-select>
