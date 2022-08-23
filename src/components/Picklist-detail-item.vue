@@ -4,7 +4,7 @@
       <Image :src="getProduct(picklist.productId).images?.mainImageUrl" />
     </ion-thumbnail>  
     <ion-label>
-      <p class="caption">{{ getProduct(picklist.productId).assocs?.toProduct?.productName}}</p>
+      <p class="caption">{{ getProduct(picklist.productId).parent?.productName}}</p>
       <h2>{{ getProduct(picklist.productId).productName}}</h2>
       <h2>{{ picklist.productId }}</h2>
       <p v-if="getFeature(getProduct(picklist.productId).features, 'Color')">{{ $t("Color") }} : {{ getFeature(getProduct(picklist.productId).features, 'Color') }}</p>
