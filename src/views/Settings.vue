@@ -10,7 +10,7 @@
         <ion-icon :icon="businessOutline" slot="start" />
         <ion-label>{{$t("eCom Store")}}</ion-label>
         <ion-select interface="popover" :placeholder="$t('store name')" :value="currentFacility.facilityId" @ionChange="setFacility($event)">
-          <ion-select-option v-for="facility in (userProfile ? userProfile.facilities : [])" :key="facility.facilityId" :value="facility.facilityId" >{{ facility.name }}</ion-select-option>
+          <ion-select-option v-for="facility in (userProfile ? userProfile.facilities : [])" :key="facility.facilityId" :value="facility.facilityId" >{{ facility.facilityName }}</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item>
@@ -20,7 +20,7 @@
       </ion-item>
       <ion-item>
         <ion-icon :icon="personCircleOutline" slot="start" />
-        <ion-label>{{ userProfile !== null ? userProfile.partyName : '' }}</ion-label>
+        <ion-label>{{ userProfile !== null ? userProfile.userFullName : '' }}</ion-label>
         <ion-button slot="end" fill="outline" color="dark" @click="logout()">{{ $t("Logout") }}</ion-button>
       </ion-item>
     </ion-content>

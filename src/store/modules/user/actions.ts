@@ -8,6 +8,7 @@ import { translate } from '@/i18n'
 import moment from 'moment';
 import emitter from '@/event-bus'
 import "moment-timezone";
+import { isError, getProfile, updateToken, updateInstanceUrl } from '@hotwax/oms-api'
 
 const actions: ActionTree<UserState, RootState> = {
 
@@ -19,6 +20,7 @@ const actions: ActionTree<UserState, RootState> = {
       const resp = await UserService.login(username, password)
       if (resp.status === 200 && resp.data) {
         if (resp.data.token) {
+          updateToken(resp.data.token)
           const permissionId = process.env.VUE_APP_PERMISSION_ID;
           if (permissionId) {
             const checkPermissionResponse = await UserService.checkPermission({
@@ -74,21 +76,21 @@ const actions: ActionTree<UserState, RootState> = {
   async logout ({ commit }) {
     // TODO add any other tasks if need
     commit(types.USER_END_SESSION)
-    
+    updateToken('')
   },
 
   /**
    * Get User profile
    */
   async getProfile ( { commit }) {
-    const resp = await UserService.getProfile()
-    if (resp.status === 200) {
+    const resp = await getProfile()
+    if (!isError(resp)) {
       const localTimeZone = moment.tz.guess();
-      if (resp.data.userTimeZone !== localTimeZone) {
-        emitter.emit('timeZoneDifferent', { profileTimeZone: resp.data.userTimeZone, localTimeZone});
+      if (resp.timeZone !== localTimeZone) {
+        emitter.emit('timeZoneDifferent', { profileTimeZone: resp.timeZone, localTimeZone});
       }
-      commit(types.USER_INFO_UPDATED, resp.data);
-      commit(types.USER_CURRENT_FACILITY_UPDATED, resp.data.facilities.length > 0 ? resp.data.facilities[0] : {});
+      commit(types.USER_INFO_UPDATED, resp);
+      commit(types.USER_CURRENT_FACILITY_UPDATED, resp.facilities.length > 0 ? resp.facilities[0] : {});
     }
   },
 
@@ -115,6 +117,7 @@ const actions: ActionTree<UserState, RootState> = {
    */
    setUserInstanceUrl ({ state, commit }, payload){
     commit(types.USER_INSTANCE_URL_UPDATED, payload)
+    updateInstanceUrl(payload)
   }
 }
 export default actions;
