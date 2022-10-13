@@ -57,3 +57,7 @@ If you have any questions or ideas feel free to join our <a href="https://discor
 # The license
 
 Bopis app is completely free and released under the Apache v2.0 License. Check <a href="https://github.com/hotwax/bopis/blob/main/LICENSE" target="_blank">LICENSE</a> for more details.
+
+# link to Figma file 
+feel free to join our link to acess figma file  <a href="https://www.figma.com/community/file/885791511781717756/Ionic-5-Material-UI-Kit-(Community)" target="_blank">figma file link</a>
+    
