@@ -60,12 +60,6 @@ Bopis app is completely free and released under the Apache v2.0 License. Check <
 
 # Project Contributors⭐ 
 
-<table align="center">
-<tr>
-<td>
 <a href="https://github.com/hotwax/picking/graphs/contributors" align="center">
   <img src="https://contrib.rocks/image?repo=hotwax/picking" /> 
 </a>
-</td>
-</tr>
-</table>
