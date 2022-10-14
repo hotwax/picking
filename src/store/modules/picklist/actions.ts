@@ -90,7 +90,7 @@ const actions: ActionTree<PicklistState, RootState> = {
         showToast(translate("Something went wrong"));
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       showToast(translate("Something went wrong"));
     } 
   },
