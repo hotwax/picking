@@ -57,3 +57,9 @@ If you have any questions or ideas feel free to join our <a href="https://discor
 # The license
 
 Bopis app is completely free and released under the Apache v2.0 License. Check <a href="https://github.com/hotwax/bopis/blob/main/LICENSE" target="_blank">LICENSE</a> for more details.
+
+# Project Contributors⭐ 
+
+<a href="https://github.com/hotwax/picking/graphs/contributors" align="center">
+  <img src="https://contrib.rocks/image?repo=hotwax/picking" /> 
+</a>
