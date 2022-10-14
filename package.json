@@ -24,6 +24,7 @@
     "mitt": "^2.1.0",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
+    "npm": "^6.14.15",
     "register-service-worker": "^1.7.2",
     "vue": "^3.0.0-0",
     "vue-barcode-reader": "^1.0.0",
