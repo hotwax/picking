@@ -51,9 +51,11 @@ export default defineComponent({
     })
   },
   updated () {
-    this.store.dispatch('picklist/findPickList').catch(err =>
-      this.store.dispatch('picklist/clearPicklist')
-    )
+    if(this.$route.path != "/tabs/settings") {
+      this.store.dispatch('picklist/findPickList').catch(err =>
+        this.store.dispatch('picklist/clearPicklist')
+      ) 
+    }
   },
   setup(){
     const store = useStore();
