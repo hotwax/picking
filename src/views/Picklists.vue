@@ -50,12 +50,10 @@ export default defineComponent({
       picklists: 'picklist/getPicklists'
     })
   },
-  updated () {
-    if(this.$route.path != "/tabs/settings") {
+  ionViewDidEnter() {
       this.store.dispatch('picklist/findPickList').catch(err =>
         this.store.dispatch('picklist/clearPicklist')
       ) 
-    }
   },
   setup(){
     const store = useStore();
