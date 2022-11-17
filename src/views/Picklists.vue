@@ -51,9 +51,9 @@ export default defineComponent({
     })
   },
   ionViewDidEnter() {
-      this.store.dispatch('picklist/findPickList').catch(err =>
-        this.store.dispatch('picklist/clearPicklist')
-      ) 
+    this.store.dispatch('picklist/findPickList').catch(err =>
+      this.store.dispatch('picklist/clearPicklist')
+    ) 
   },
   setup(){
     const store = useStore();
