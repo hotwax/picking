@@ -50,7 +50,7 @@ export default defineComponent({
       picklists: 'picklist/getPicklists'
     })
   },
-  updated () {
+  ionViewDidEnter() {
     this.store.dispatch('picklist/findPickList').catch(err =>
       this.store.dispatch('picklist/clearPicklist')
     )
