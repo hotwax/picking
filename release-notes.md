@@ -1,3 +1,17 @@
+# Release 1.2.0
+## What's Changed
+* Added GitHub contribution badge by @Vanshiii203 in https://github.com/hotwax/picking/pull/73
+* used console.error instead of console.log by @divyanshugour in https://github.com/hotwax/picking/pull/79
+* Fixed 'something went wrong' toast appearing on tab switch (#1x0k51t) by @k2maan in https://github.com/hotwax/picking/pull/87
+* Added support to alias specific instance URL with environment configuration(#30dkjp1) by @disha1202 in https://github.com/hotwax/picking/pull/88
+
+## New Contributors
+* @Vanshiii203 made their first contribution in https://github.com/hotwax/picking/pull/73
+* @divyanshugour made their first contribution in https://github.com/hotwax/picking/pull/79
+* @k2maan made their first contribution in https://github.com/hotwax/picking/pull/87
+
+**Full Changelog**: https://github.com/hotwax/picking/compare/v1.1.0...v1.2.0
+
 # Release 1.1.0
 
 ## What's Changed
