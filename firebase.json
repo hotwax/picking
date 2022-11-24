@@ -1,7 +1,7 @@
 {
   "hosting": [
     {
-      "target": "picking",
+      "target": "prod",
       "public": "dist",
       "ignore": [
         "firebase.json",
@@ -12,21 +12,36 @@
         "source": "**",
         "destination": "/index.html"
       } ]
-
     },
     {
-      "target": "pickingapp-dev",
+      "target": "dev",
       "public": "dist",
       "ignore": [
         "firebase.json",
         "**/.*",
         "**/node_modules/**"
       ],
-      "rewrites": [ {
-        "source": "**",
-        "destination": "/index.html"
-      } ]
-
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "uat",
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
     }
   ]
 }
