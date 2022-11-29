@@ -10,7 +10,7 @@
           "pickingapp-dev"
         ],
         "uat": [
-          "pickingapp-uat"
+          "picking-uat"
         ]
       }
     },
