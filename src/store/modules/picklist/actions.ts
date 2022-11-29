@@ -19,7 +19,7 @@ const actions: ActionTree<PicklistState, RootState> = {
       if (resp.status === 200 && resp.data.pickingList && !hasError(resp)) {
         commit(types.PICKLISTS_UPDATED, { list: resp.data.pickingList })
         return resp.data;
-      } else if(!resp.data.pickingList) {
+      } else if(!resp.data.pickingList && !hasError(resp)) {
         showToast(translate('No picklist found'));
       } else {
         showToast(translate('Something went wrong'));
