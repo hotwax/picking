@@ -13,6 +13,7 @@
   "Logout": "Logout",
   "No item has been picked": "No item has been picked",
   "No permission": "No permission",
+  "No picklist found": "No picklist found",
   "Okay": "Okay",
   "OMS": "OMS",
   "Only show my picklists": "Only show my picklists",
@@ -29,6 +30,7 @@
   "Sorry, your username or password is incorrect. Please try again.": "Sorry, your username or password is incorrect. Please try again.",
   "eCom Store": "eCom Store",
   "store name": "store name",
+  "There are no picklists available": "There are no picklists available",
   "Time zone updated successfully": "Time zone updated successfully",
   "Unable to start camera, please try again": "Unable to start camera, please try again",
   "Username": "Username"
