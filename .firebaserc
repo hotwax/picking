@@ -6,14 +6,17 @@
   "targets": {
     "hotwax-digital-commerce": {
       "hosting": {
-        "pickingapp-dev": [
+        "dev": [
           "pickingapp-dev"
+        ],
+        "uat": [
+          "picking-uat"
         ]
       }
     },
     "digital-commerce-71eb8": {
       "hosting": {
-        "picking": [
+        "prod": [
           "picking"
         ]
       }
