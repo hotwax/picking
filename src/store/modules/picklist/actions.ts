@@ -16,12 +16,12 @@ const actions: ActionTree<PicklistState, RootState> = {
     try {
       resp = await PicklistService.getPicklists();
 
-      if(resp.status === 200 && resp.data.pickingList && !hasError(resp)) {
+      if (resp.status === 200 && resp.data.pickingList && !hasError(resp)) {
         commit(types.PICKLISTS_UPDATED, { list: resp.data.pickingList })
         return resp.data;
       } else {
         showToast(translate('No picklist found'));
-        console.error("error", resp.data._ERROR_MESSAGE_);    
+        console.error("error", resp.data._ERROR_MESSAGE_);
         return Promise.reject(new Error(resp.data._ERROR_MESSAGE_));
       }
     } catch (err) {
