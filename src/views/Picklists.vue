@@ -18,6 +18,9 @@
         </ion-list-header>
         <PicklistItem :picklists="picklists"/>
       </ion-list>
+      <div v-else>
+        <p class="ion-text-center">{{ $t("There are no picklists available")}}</p>
+      </div>
     </ion-content>
   </ion-page>
 </template>
