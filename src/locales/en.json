@@ -1,6 +1,9 @@
 {
+  "Are you sure you want to change the time zone to?": "Are you sure you want to change the time zone to {timeZoneId}?",
   "Cancel": "Cancel",
+  "Change": "Change",
   "Click the backdrop to dismiss.": "Click the backdrop to dismiss.",
+  "Confirm": "Confirm",
   "Color": "Color",
   "Complete": "Complete",
   "Complete picklist": "Complete picklist",
@@ -14,6 +17,7 @@
   "No item has been picked": "No item has been picked",
   "No permission": "No permission",
   "No picklist found": "No picklist found",
+  "No time zone found": "No time zone found",
   "Okay": "Okay",
   "OMS": "OMS",
   "Only show my picklists": "Only show my picklists",
@@ -24,6 +28,8 @@
   "Product not found": "Product not found",
   "Scan": "Scan",
   "Select all" : "Select all",
+  "Search time zones": "Search time zones",
+  "Select time zone": "Select time zone",
   "Settings": "Settings",
   "Size": "Size",
   "Something went wrong": "Something went wrong",
@@ -33,5 +39,6 @@
   "There are no picklists available": "There are no picklists available",
   "Time zone updated successfully": "Time zone updated successfully",
   "Unable to start camera, please try again": "Unable to start camera, please try again",
+  "Update time zone": "Update time zone",
   "Username": "Username"
 }
