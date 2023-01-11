@@ -36,6 +36,7 @@
     "@capacitor/cli": "^2.4.7",
     "@intlify/vue-i18n-loader": "^2.1.0",
     "@types/jest": "^27.5.0",
+    "@types/luxon": "^3.2.0",
     "@typescript-eslint/eslint-plugin": "~5.26.0",
     "@typescript-eslint/parser": "~5.26.0",
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -49,13 +50,13 @@
     "@vue/compiler-sfc": "^3.0.0-0",
     "@vue/eslint-config-typescript": "^9.1.0",
     "@vue/test-utils": "^2.0.0-0",
+    "@vue/vue3-jest": "^28.0.0",
     "cypress": "^8.3.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
     "jest": "^28.1.0",
     "ts-jest": "^28.0.8",
     "typescript": "~4.7.4",
-    "vue-cli-plugin-i18n": "^1.0.1",
-    "@vue/vue3-jest": "^28.0.0"
+    "vue-cli-plugin-i18n": "^1.0.1"
   }
 }
