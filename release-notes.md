@@ -1,3 +1,13 @@
+# Release 1.3.0
+
+## What's Changed
+* Implemented autodeploy flow for UAT (#31ngcmh) by @k2maan in https://github.com/hotwax/picking/pull/90
+* Implemented message display in UI when no picklists found (#31fnaw8) by @k2maan in https://github.com/hotwax/picking/pull/91
+* Upgraded to ionic 6.2.9 (#2w9wz26)  by @k2maan and @shashwatbangar in https://github.com/hotwax/picking/pull/95 and https://github.com/hotwax/picking/pull/94
+
+
+**Full Changelog**: https://github.com/hotwax/picking/compare/v1.2.0...v.1.3.0
+
 # Release 1.2.0
 ## What's Changed
 * Added GitHub contribution badge by @Vanshiii203 in https://github.com/hotwax/picking/pull/73
