@@ -54,7 +54,7 @@ export default defineComponent({
     })
   },
   ionViewDidEnter() {
-    this.store.dispatch('picklist/findPickList').catch(err =>
+    this.store.dispatch('picklist/findPickList').catch(() =>
       this.store.dispatch('picklist/clearPicklist')
     )
   },
