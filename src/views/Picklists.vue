@@ -11,13 +11,16 @@
       </ion-toolbar>
     </ion-header>
     
-    <ion-content :fullscreen="true">
+    <ion-content>
       <ion-list v-if="picklists.length">
         <ion-list-header lines="none">
           <ion-label>{{ $t("In progress") }}</ion-label>
         </ion-list-header>
         <PicklistItem :picklists="picklists"/>
       </ion-list>
+      <div v-else>
+        <p class="ion-text-center">{{ $t("There are no picklists available")}}</p>
+      </div>
     </ion-content>
   </ion-page>
 </template>
@@ -50,8 +53,8 @@ export default defineComponent({
       picklists: 'picklist/getPicklists'
     })
   },
-  updated () {
-    this.store.dispatch('picklist/findPickList').catch(err =>
+  ionViewDidEnter() {
+    this.store.dispatch('picklist/findPickList').catch(() =>
       this.store.dispatch('picklist/clearPicklist')
     )
   },
