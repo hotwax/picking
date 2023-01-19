@@ -106,6 +106,12 @@ export default defineComponent({
     })
   },
   methods: {
+    async changeTimeZone() {
+      const timeZoneModal = await modalController.create({
+        component: TimeZoneModal,
+      });
+      return timeZoneModal.present();
+    },
     logout () {
       this.store.dispatch('user/logout').then(() => {
         this.store.dispatch('picklist/clearPicklist')
@@ -135,6 +141,7 @@ export default defineComponent({
       personCircleOutline,
       openOutline,
       store,
+      timeOutline,
       router
     }
   }
