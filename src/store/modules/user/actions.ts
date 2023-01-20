@@ -85,10 +85,6 @@ const actions: ActionTree<UserState, RootState> = {
       if (resp.data.userTimeZone) {
         Settings.defaultZone = resp.data.userTimeZone;
       }
-      const localTimeZone = DateTime.local().zoneName;
-      if (resp.data.userTimeZone !== localTimeZone) {
-        emitter.emit('timeZoneDifferent', { profileTimeZone: resp.data.userTimeZone, localTimeZone});
-      }
       commit(types.USER_INFO_UPDATED, resp.data);
       commit(types.USER_CURRENT_FACILITY_UPDATED, resp.data.facilities.length > 0 ? resp.data.facilities[0] : {});
     }
@@ -101,7 +97,7 @@ const actions: ActionTree<UserState, RootState> = {
       const resp = await UserService.setUserTimeZone(payload)
       if (resp.status === 200 && !hasError(resp)) {
         const current: any = state.current;
-        current.userTimeZone = payload.tzId;
+        current.userTimeZone = payload.timeZoneId;
         commit(types.USER_INFO_UPDATED, current);
         Settings.defaultZone = current.userTimeZone;
         showToast(translate("Time zone updated successfully"));

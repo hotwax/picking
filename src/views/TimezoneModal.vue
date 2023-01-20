@@ -129,27 +129,24 @@ export default defineComponent({
       });
     },
     async getAvailableTimeZones() {
-      UserService.getAvailableTimeZones().then((resp: any) => {
-        if(resp.status === 200 && !hasError(resp)) {
-          // We are filtering valid the timeZones coming with response here
-          this.timeZones = resp.data.filter((timeZone: any) => {
-            return DateTime.local().setZone(timeZone.id).isValid;
-          });
-          this.findTimeZone();
-        }
-      })
+      const resp = await UserService.getAvailableTimeZones()
+      if(resp.status === 200 && !hasError(resp)) {
+        // We are filtering valid the timeZones coming with response here
+        this.timeZones = resp.data.filter((timeZone: any) => {
+          return DateTime.local().setZone(timeZone.id).isValid;
+        });
+        this.findTimeZone();
+      }
     },
-    selectSearchBarText(event: any) {
-      event.target.getInputElement().then((element: any) => {
-        element.select();
-      })
+    async selectSearchBarText(event: any) {
+      const element = await event.target.getInputElement()
+      element.select();
     },
     async setUserTimeZone() {
-      return this.store.dispatch("user/setUserTimeZone", {
-        "tzId": this.timeZoneId
-      }).then(() => {
-        this.closeModal()
+      await this.store.dispatch("user/setUserTimeZone", {
+        "timeZoneId": this.timeZoneId
       })
+      this.closeModal()
     }
   },
   beforeMount () {
