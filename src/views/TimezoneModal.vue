@@ -9,7 +9,7 @@
       <ion-title>{{ $t("Select time zone") }}</ion-title>
     </ion-toolbar>
     <ion-toolbar>
-      <ion-searchbar @ionFocus="selectSearchBarText($event)" :placeholder="$t('Search time zones')"  v-model="queryString" @keyup.enter="queryString = $event.target.value; findTimeZone()" />
+      <ion-searchbar @ionFocus="selectSearchBarText($event)" :placeholder="$t('Search time zones')"  v-model="queryString" @keyup.enter="queryString = $event.target.value; findTimeZone()" @keydown="preventSpecialCharacters($event)" />
     </ion-toolbar>
   </ion-header>
 
@@ -115,17 +115,13 @@ export default defineComponent({
       });
       return alert.present();
     },
-    escapeRegExp(text: string) {
-      //TODO Handle it in a better way
-      // Currently when the user types special character as it part of Regex expressions it breaks the code
-      // so removed the characters for now
-      return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+    preventSpecialCharacters($event: any) {
+      if(/[`!@#$%^&*()_+\-=\\|,.<>?~]/.test($event.key)) $event.preventDefault();
     },
     findTimeZone() { 
-      const regularExp = new RegExp(`${this.escapeRegExp(this.queryString)}`, 'i');
-
+      const queryString = this.queryString.toLowerCase();
       this.filteredTimeZones = this.timeZones.filter((timeZone: any) => {
-        return regularExp.test(timeZone.id) || regularExp.test(timeZone.label);
+        return timeZone.id.toLowerCase().match(queryString) || timeZone.label.toLowerCase().match(queryString);
       });
     },
     async getAvailableTimeZones() {
