@@ -82,7 +82,8 @@
 <script lang="ts">
 import { IonAvatar, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { businessOutline, personCircleOutline, codeWorkingOutline, openOutline, timeOutline } from 'ionicons/icons';import { mapGetters, useStore } from 'vuex';
+import { businessOutline, personCircleOutline, codeWorkingOutline, openOutline, timeOutline } from 'ionicons/icons'; 
+import { mapGetters, useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import Image from '@/components/Image.vue';
 import TimeZoneModal from '@/views/TimezoneModal.vue';
