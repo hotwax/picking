@@ -182,7 +182,4 @@ export default defineComponent({
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   }
-  hr {
-    border-top: 1px solid var(--ion-color-medium);
-  }
 </style>
