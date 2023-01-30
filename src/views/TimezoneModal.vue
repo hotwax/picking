@@ -116,6 +116,7 @@ export default defineComponent({
       return alert.present();
     },
     preventSpecialCharacters($event: any) {
+      // Searching special characters fails the API, hence, they must be omitted
       if(/[`!@#$%^&*()_+\-=\\|,.<>?~]/.test($event.key)) $event.preventDefault();
     },
     findTimeZone() { 
