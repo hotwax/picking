@@ -72,7 +72,7 @@ export default defineComponent({
     async loadMorePicklists(event: any) {
       this.getPickLists(
         undefined,
-        Math.ceil(this.picklists.length / process.env.VUE_APP_VIEW_SIZE).toString()
+        Math.ceil(this.picklists.length / (process.env.VUE_APP_VIEW_SIZE as any)).toString()
       ).then(() => {
         event.target.complete();
       })
