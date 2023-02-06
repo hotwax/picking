@@ -10,14 +10,26 @@ const actions: ActionTree<PicklistState, RootState> = {
   /**
    * Find picklist
    */
-  async findPickList ({ commit }) {
+  async findPickList ({ commit, state }, payload) {
     let resp;
-
+    const params = {
+      "inputFields": {
+        "statusId": ["PICKLIST_CANCELLED", "PICKLIST_COMPLETED", "PICKLIST_PICKED"],
+        "statusId_op": "not-in",
+        "facilityId": this.state.user.currentFacility.facilityId
+      },
+      viewSize: payload.viewSize,
+      viewIndex: payload.viewIndex,
+      "fieldList": ["picklistId", "picklistDate"],
+      "entityName": "PicklistAndRole",
+      "noConditionFind": "Y"
+    }
     try {
-      resp = await PicklistService.getPicklists();
-
-      if (resp.status === 200 && resp.data.pickingList && !hasError(resp)) {
-        commit(types.PICKLISTS_UPDATED, { list: resp.data.pickingList })
+      resp = await PicklistService.getPicklists(params);
+      if (resp.status === 200 && resp.data.docs?.length > 0 && !hasError(resp)) {
+        let list = resp.data.docs;
+        if (payload.viewIndex && payload.viewIndex > 0) list = state.picklist.list.concat(list)
+        commit(types.PICKLISTS_UPDATED, { list, total: resp.data.count })
         return resp.data;
       } else {
         showToast(translate('No picklist found'));
@@ -100,7 +112,7 @@ const actions: ActionTree<PicklistState, RootState> = {
   having zero picklist then it shows the previous picklist entries
   */
   clearPicklist ({ commit }) {
-    commit(types.PICKLISTS_UPDATED, { list: {} })
+    commit(types.PICKLISTS_UPDATED, { list: [], total: 0 })
   }
 }
 export default actions;

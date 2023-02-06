@@ -21,12 +21,15 @@
       <div v-else>
         <p class="ion-text-center">{{ $t("There are no picklists available")}}</p>
       </div>
+      <ion-infinite-scroll @ionInfinite="loadMorePicklists($event)" threshold="100px" :disabled="!isScrollable">
+        <ion-infinite-scroll-content loading-spinner="crescent" :loading-text="$t('Loading')" />
+      </ion-infinite-scroll>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonButtons, IonContent, IonHeader, IonIcon, IonLabel, IonList, IonListHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonLabel, IonList, IonListHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { filter } from 'ionicons/icons';
 import PicklistItem from '@/components/Picklist-item.vue';
@@ -39,6 +42,8 @@ export default defineComponent({
     IonContent,
     IonHeader,
     IonIcon,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
     IonLabel, 
     IonList, 
     IonListHeader, 
@@ -50,13 +55,31 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      picklists: 'picklist/getPicklists'
+      picklists: 'picklist/getPicklists',
+      currentFacilityId: 'user/getCurrentFacility',
+      isScrollable: 'picklist/isScrollable'
     })
   },
+  methods: {
+    async getPickLists(vSize?: any, vIndex?: any) {
+      const viewSize = vSize ? vSize : process.env.VUE_APP_VIEW_SIZE;
+      const viewIndex = vIndex ? vIndex : 0;
+
+      this.store.dispatch('picklist/findPickList', { viewSize, viewIndex }).catch(err =>
+        this.store.dispatch('picklist/clearPicklist')
+      )
+    },
+    async loadMorePicklists(event: any) {
+      this.getPickLists(
+        undefined,
+        Math.ceil(this.picklists.length / process.env.VUE_APP_VIEW_SIZE).toString()
+      ).then(() => {
+        event.target.complete();
+      })
+    },
+  },
   ionViewDidEnter() {
-    this.store.dispatch('picklist/findPickList').catch(() =>
-      this.store.dispatch('picklist/clearPicklist')
-    )
+    this.getPickLists();
   },
   setup(){
     const store = useStore();

@@ -1,4 +1,7 @@
 export default interface PicklistState {
   current: object;
-  list: [];
+  picklist: {
+    list: [],
+    total: any
+  };
 }
