@@ -65,9 +65,7 @@ export default defineComponent({
       const viewSize = vSize ? vSize : process.env.VUE_APP_VIEW_SIZE;
       const viewIndex = vIndex ? vIndex : 0;
 
-      this.store.dispatch('picklist/findPickList', { viewSize, viewIndex }).catch(err =>
-        this.store.dispatch('picklist/clearPicklist')
-      )
+      this.store.dispatch('picklist/findPickList', { viewSize, viewIndex })
     },
     async loadMorePicklists(event: any) {
       this.getPickLists(
