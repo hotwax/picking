@@ -54,6 +54,9 @@ export default defineComponent({
       this.router.push("/login")
     }
   },
+  created() {
+    init(this.userToken, this.instanceUrl, this.maxAge)
+  },
   async mounted() {
     this.loader = await loadingController
       .create({
@@ -64,7 +67,6 @@ export default defineComponent({
     emitter.on('presentLoader', this.presentLoader);
     emitter.on('dismissLoader', this.dismissLoader);
     emitter.on('unauthorized', this.unauthorized);
-    init(this.userToken, this.instanceUrl, this.maxAge)
   },
   unmounted() {
     emitter.off('presentLoader', this.presentLoader);
