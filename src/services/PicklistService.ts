@@ -1,4 +1,4 @@
-import api from '@/api';
+import { api } from '@/adapter';
 
 const getPicklists = async (): Promise<any> => {
   return api({
