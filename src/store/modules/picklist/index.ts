@@ -12,6 +12,14 @@ const picklistModule: Module<PicklistState, RootState> = {
     picklist: {
       list: [],
       total: 0
+    },
+    completed: {
+      list: [],
+      total: 0
+    },
+    filters: {
+      hideCompletedPicklists: false,
+      showMyPicklists: false
     }
   },
   getters,

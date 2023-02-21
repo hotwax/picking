@@ -1,24 +1,31 @@
 <template>
   <ion-page>
+    <PicklistFilters content-id="filter-content" />
     <ion-header :translucent="true">
       <ion-toolbar>
         <ion-title>{{ $t("Picklists") }}</ion-title>
         <ion-buttons slot="end">
           <ion-menu-button>
-            <ion-icon :icon="filter" />
+            <ion-icon :icon="filterOutline" />
           </ion-menu-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
     
-    <ion-content>
+    <ion-content id="filter-content">
+      <ion-list v-if="completedPicklists.length && !hideCompleted">
+        <ion-list-header lines="none">
+          <ion-label>{{ $t("Completed") }}</ion-label>
+        </ion-list-header>
+        <PicklistItem :picklists="completedPicklists"/>
+      </ion-list>
       <ion-list v-if="picklists.length">
         <ion-list-header lines="none">
           <ion-label>{{ $t("In progress") }}</ion-label>
         </ion-list-header>
         <PicklistItem :picklists="picklists"/>
       </ion-list>
-      <div v-else>
+      <div v-if="!picklists.length && !completedPicklists.length">
         <p class="ion-text-center">{{ $t("There are no picklists available")}}</p>
       </div>
       <ion-infinite-scroll @ionInfinite="loadMorePicklists($event)" threshold="100px" :disabled="!isScrollable">
@@ -31,9 +38,10 @@
 <script lang="ts">
 import { IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonLabel, IonList, IonListHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { filter } from 'ionicons/icons';
+import { filterOutline } from 'ionicons/icons';
 import PicklistItem from '@/components/Picklist-item.vue';
 import { mapGetters, useStore } from 'vuex';
+import PicklistFilters from '@/components/Picklist-filters.vue';
 
 export default defineComponent({
   name: 'Picklists',
@@ -44,20 +52,23 @@ export default defineComponent({
     IonIcon,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
-    IonLabel, 
-    IonList, 
-    IonListHeader, 
+    IonLabel,
+    IonList,
+    IonListHeader,
     IonMenuButton,
     IonPage,
     IonTitle,
     IonToolbar,
-    PicklistItem
-  },
+    PicklistItem,
+    PicklistFilters
+},
   computed: {
     ...mapGetters({
       picklists: 'picklist/getPicklists',
+      completedPicklists: 'picklist/getCompletedPicklists',
       currentFacilityId: 'user/getCurrentFacility',
-      isScrollable: 'picklist/isScrollable'
+      isScrollable: 'picklist/isScrollable',
+      hideCompleted: 'picklist/hideCompletedPicklists'
     })
   },
   methods: {
@@ -83,7 +94,7 @@ export default defineComponent({
     const store = useStore();
 
     return {
-      filter,
+      filterOutline,
       store
     }
   }

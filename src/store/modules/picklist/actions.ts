@@ -14,22 +14,31 @@ const actions: ActionTree<PicklistState, RootState> = {
     let resp;
     const params = {
       "inputFields": {
-        "statusId": ["PICKLIST_CANCELLED", "PICKLIST_COMPLETED", "PICKLIST_PICKED"],
+        "statusId": ["PICKLIST_CANCELLED", "PICKLIST_PICKED"],
         "statusId_op": "not-in",
-        "facilityId": this.state.user.currentFacility.facilityId
-      },
+        "facilityId": this.state.user.currentFacility.facilityId,
+        },
       viewSize: payload.viewSize,
       viewIndex: payload.viewIndex,
-      "fieldList": ["picklistId", "picklistDate"],
+      "fieldList": ["picklistId", "picklistDate", "statusId", "partyId"],
       "entityName": "PicklistAndRole",
       "noConditionFind": "Y"
     }
     try {
       resp = await PicklistService.getPicklists(params);
       if (resp.status === 200 && resp.data.docs?.length > 0 && !hasError(resp)) {
-        let list = resp.data.docs;
-        if (payload.viewIndex && payload.viewIndex > 0) list = state.picklist.list.concat(list)
-        commit(types.PICKLISTS_UPDATED, { list, total: resp.data.count })
+        const list = resp.data.docs;
+        let picklists = list.filter((picklist: any) => picklist.statusId == 'PICKLIST_PRINTED');
+        let completedPicklistsCount = 0;
+        const completedPicklists = list.filter((picklist: any) => {
+          if (picklist.statusId == 'PICKLIST_COMPLETED' && completedPicklistsCount < 10) {
+            completedPicklistsCount++;
+            return true;
+          }
+        })
+        if (payload.viewIndex && payload.viewIndex > 0) picklists = state.picklist.list.concat(picklists);
+        commit(types.PICKLISTS_UPDATED, { list: picklists, total: picklists.length });
+        commit(types.PICKLISTS_COMPLETED_UPDATED, { list: completedPicklists, total: completedPicklistsCount });
         return resp.data;
       } else {
         showToast(translate('No picklist found'));
@@ -108,11 +117,19 @@ const actions: ActionTree<PicklistState, RootState> = {
   },
 
   /*
+  apply filters
+  */
+  setFilters ({ commit }, payload) {
+    commit(types.PICKLIST_FILTERS_UPDATED, payload)
+  },
+
+  /*
   clearing the picklist before the user is logged out, because if some other user log in
   having zero picklist then it shows the previous picklist entries
   */
   clearPicklist ({ commit }) {
     commit(types.PICKLISTS_UPDATED, { list: [], total: 0 })
+    commit(types.PICKLISTS_COMPLETED_UPDATED, { list: [], total: 0 })
   }
 }
 export default actions;

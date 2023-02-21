@@ -4,4 +4,9 @@ export default interface PicklistState {
     list: [],
     total: any
   };
+  completed: {
+    list: [],
+    total: any
+  };
+  filters: any;
 }

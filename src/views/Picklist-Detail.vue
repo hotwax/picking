@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-back-button default-href="/" slot="start" />
         <ion-title>{{ id }}</ion-title>
-        <ion-buttons slot="end">
+        <ion-buttons v-if="picklistItem.status !== 'Completed'" slot="end">
           <ion-button @click="selectAll" >{{ $t ("Select all") }}</ion-button>
         </ion-buttons>
       </ion-toolbar>
@@ -20,7 +20,7 @@
       </ion-list>
      </ion-content>
 
-     <ion-footer>
+     <ion-footer v-if="picklistItem.status !== 'Completed'">
       <ion-toolbar>
         <ion-buttons class="footer-buttons">
           <ion-button class="action-button" fill="outline" color="secondary" @click="scanCode()">
@@ -67,7 +67,6 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      picklists: 'picklist/getPicklists',
       picklistItem: 'picklist/getCurrent',
     })
   },
