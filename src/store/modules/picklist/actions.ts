@@ -26,9 +26,9 @@ const actions: ActionTree<PicklistState, RootState> = {
     }
     try {
       resp = await PicklistService.getPicklists(params);
-      if (resp.status === 200 && resp.data.docs?.length > 0 && !hasError(resp)) {
+      if (resp.status === 200 && !hasError(resp) && resp.data.docs?.length > 0) {
         let list = resp.data.docs;
-        if (payload.viewIndex && payload.viewIndex > 0) list = state.picklist.list.concat(list)
+        if (payload.viewIndex) list = state.picklist.list.concat(list)
         commit(types.PICKLISTS_UPDATED, { list, total: resp.data.count })
         return resp.data;
       } else {
