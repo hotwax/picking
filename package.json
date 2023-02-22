@@ -1,6 +1,6 @@
 {
-  "name": "ionic-sdk",
-  "version": "0.0.1",
+  "name": "picking",
+  "version": "1.4.0",
   "private": true,
   "description": "An Ionic project",
   "scripts": {
