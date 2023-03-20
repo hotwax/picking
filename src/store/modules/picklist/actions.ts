@@ -35,7 +35,7 @@ const actions: ActionTree<PicklistState, RootState> = {
         const pickersDetails = await dispatch('party/getPickersDetails', pickersLoginIds, { root: true });
         
         list = list.map((item: any) => ({ ...item, pickersFullName: pickersDetails[item.partyId].fullName }))
-        if (payload.viewIndex) list = state.picklist.list.concat(list);
+        if (payload.viewIndex > 0) list = state.picklist.list.concat(list);
 
         commit(types.PICKLISTS_UPDATED, { list: list, total: resp.data.count });
         return resp.data;

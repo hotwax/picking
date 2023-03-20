@@ -1,5 +1,5 @@
 <template>
-  <ion-item v-for="picklist in picklists" :key="picklist.picklistId" @click="viewPicklist(picklist)" detail>
+  <ion-item button v-for="picklist in picklists" :key="picklist.picklistId" @click="viewPicklist(picklist)" detail>
     <ion-label>{{ picklist.pickersFullName }}</ion-label>
     <ion-note slot="end">{{ getTime(picklist.picklistDate) }}</ion-note>
   </ion-item>
@@ -33,7 +33,7 @@ export default defineComponent({
         }
       });
     },
-    getTime(time: any) {
+    getTime(time: number) {
       return DateTime.fromMillis(time).toLocaleString(DateTime.DATETIME_MED)
     }
   },
