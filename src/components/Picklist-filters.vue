@@ -50,32 +50,33 @@ export default defineComponent({
     IonToggle,
     IonToolbar
   },
-  setup() {
-    const store = useStore();
-    return {
-      store
-    };
-  },
   computed: {
     ...mapGetters({
       user: 'user/getUserProfile',
-      picklists: 'picklist/getPicklists',
-      completedPicklists: 'picklist/getCompletedPicklists',
       hideCompleted: 'picklist/hideCompletedPicklists',
       showMine: 'picklist/showMyPicklists'
     })
   },
   methods: {
-    showMyPicklists(event: any) {
+    async showMyPicklists(event: any, viewSize = process.env.VUE_APP_VIEW_SIZE, viewIndex = '0') {
       this.store.dispatch('picklist/setFilters', { showMyPicklists: event.detail.checked });
       if(this.showMine) {
-        this.picklists.filter((picklist: any) => this.user.partyId === picklist.partyId)
-        this.completedPicklists.filter((picklist: any) => this.user.partyId === picklist.partyId)
+        await this.store.dispatch('picklist/fetchPickLists', { viewSize, viewIndex, partyId: this.user.partyId });
+        await this.store.dispatch('picklist/fetchCompletedPickLists', { partyId: this.user.partyId });
+      } else {
+        await this.store.dispatch('picklist/fetchPickLists', { viewSize, viewIndex });
+        await this.store.dispatch('picklist/fetchCompletedPickLists');
       }
     },
     hideCompletedPicklists(event: any) {
       this.store.dispatch('picklist/setFilters', { hideCompletedPicklists: event.detail.checked });
     }
+  },
+  setup() {
+    const store = useStore();
+    return {
+      store
+    };
   },
 });
 </script>

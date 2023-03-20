@@ -7,6 +7,7 @@ import createPersistedState from "vuex-persistedstate";
 import userModule from './modules/user';
 import picklistModule from "./modules/picklist"
 import productModule from "./modules/product"
+import partyModule from './modules/party'
 
 
 // TODO check how to register it from the components only
@@ -33,7 +34,8 @@ const store = createStore<RootState>({
     modules: { 
         'user': userModule,
         'picklist': picklistModule,
-        'product': productModule
+        'product': productModule,
+        'party': partyModule
     },
 })
 

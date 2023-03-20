@@ -10,40 +10,37 @@ const actions: ActionTree<PicklistState, RootState> = {
   /**
    * Find picklist
    */
-  async findPickList ({ commit, state }, payload) {
+  async fetchPickLists({ commit, state, dispatch }, payload) {
     let resp;
     const params = {
       "inputFields": {
-        "statusId": ["PICKLIST_CANCELLED", "PICKLIST_PICKED"],
-        "statusId_op": "not-in",
+        "statusId": "PICKLIST_PRINTED",
         "facilityId": this.state.user.currentFacility.facilityId,
-        },
-      viewSize: payload.viewSize,
-      viewIndex: payload.viewIndex,
+      },
+      "orderBy": "picklistDate DESC",
+      "viewSize": payload.viewSize,
+      "viewIndex": payload.viewIndex,
       "fieldList": ["picklistId", "picklistDate", "statusId", "partyId"],
       "entityName": "PicklistAndRole",
       "noConditionFind": "Y"
-    }
+    } as any
+
+    if (payload.partyId) params.inputFields.partyId = payload.partyId
+
     try {
       resp = await PicklistService.getPicklists(params);
       if (resp.status === 200 && resp.data.docs?.length > 0 && !hasError(resp)) {
-        const list = resp.data.docs;
-        let picklists = list.filter((picklist: any) => picklist.statusId == 'PICKLIST_PRINTED');
-        let completedPicklistsCount = 0;
-        const completedPicklists = list.filter((picklist: any) => {
-          if (picklist.statusId == 'PICKLIST_COMPLETED' && completedPicklistsCount < 10) {
-            completedPicklistsCount++;
-            return true;
-          }
-        })
-        if (payload.viewIndex && payload.viewIndex > 0) picklists = state.picklist.list.concat(picklists);
-        commit(types.PICKLISTS_UPDATED, { list: picklists, total: picklists.length });
-        commit(types.PICKLISTS_COMPLETED_UPDATED, { list: completedPicklists, total: completedPicklistsCount });
+        let list = resp.data.docs;
+        const pickersLoginIds = [...new Set(list.map((item: any) => item.partyId))]
+        const pickersDetails = await dispatch('party/getPickersDetails', pickersLoginIds, { root: true });
+        
+        list = list.map((item: any) => ({ ...item, pickersFullName: pickersDetails[item.partyId].fullName }))
+        if (payload.viewIndex) list = state.picklist.list.concat(list);
+
+        commit(types.PICKLISTS_UPDATED, { list: list, total: resp.data.count });
         return resp.data;
       } else {
-        showToast(translate('No picklist found'));
-        console.error("error", resp.data._ERROR_MESSAGE_);
-        return Promise.reject(new Error(resp.data._ERROR_MESSAGE_));
+        commit(types.PICKLISTS_UPDATED, { list: [], total: 0});
       }
     } catch (err: any) {
       showToast(translate('Something went wrong'));
@@ -52,6 +49,46 @@ const actions: ActionTree<PicklistState, RootState> = {
     }
   },
   
+  /**
+   * Get completed picklists
+   */
+  async fetchCompletedPickLists({ commit, dispatch }, payload) {
+    let resp;
+    const params = {
+      "inputFields": {
+        "statusId": "PICKLIST_COMPLETED",
+        "facilityId": this.state.user.currentFacility.facilityId,
+      },
+      "orderBy": "picklistDate DESC",
+      "viewSize": 10,
+      "fieldList": ["picklistId", "picklistDate", "statusId", "partyId"],
+      "entityName": "PicklistAndRole",
+      "noConditionFind": "Y"
+    } as any
+
+    if (payload?.partyId) params.inputFields.partyId = payload.partyId
+
+    try {
+      resp = await PicklistService.getPicklists(params);
+      if (resp.status === 200 && resp.data.docs?.length > 0 && !hasError(resp)) {
+        let list = resp.data.docs;
+        const pickersLoginIds = [...new Set(list.map((item: any) => item.partyId))]
+        const pickersDetails = await dispatch('party/getPickersDetails', pickersLoginIds, { root: true });
+
+        list = list.map((item: any) => ({ ...item, pickersFullName: pickersDetails[item.partyId].fullName }))
+
+        commit(types.PICKLISTS_COMPLETED_UPDATED, { list: list, total: resp.data.count });
+        return resp.data;
+      } else {
+        commit(types.PICKLISTS_COMPLETED_UPDATED, { list: [], total: 0 });
+      }
+    } catch (err: any) {
+      showToast(translate('Something went wrong'));
+      console.error("error", err);
+      return Promise.reject(new Error(err))
+    }
+  },
+
   /**
    * Set current picklist data
    */

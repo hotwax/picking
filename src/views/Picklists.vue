@@ -15,15 +15,15 @@
     <ion-content id="filter-content">
       <ion-list v-if="completedPicklists.length && !hideCompleted">
         <ion-list-header lines="none">
-          <ion-label>{{ $t("Completed") }}</ion-label>
+          <ion-note>{{ $t("Completed") }}</ion-note>
         </ion-list-header>
-        <PicklistItem :picklists="completedPicklists"/>
+        <PicklistItem :picklists="completedPicklists" />
       </ion-list>
       <ion-list v-if="picklists.length">
         <ion-list-header lines="none">
-          <ion-label>{{ $t("In progress") }}</ion-label>
+          <ion-note>{{ $t("In progress") }}</ion-note>
         </ion-list-header>
-        <PicklistItem :picklists="picklists"/>
+        <PicklistItem :picklists="picklists" />
       </ion-list>
       <div v-if="!picklists.length && !completedPicklists.length">
         <p class="ion-text-center">{{ $t("There are no picklists available")}}</p>
@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonLabel, IonList, IonListHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonList, IonListHeader, IonMenuButton, IonNote, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { filterOutline } from 'ionicons/icons';
 import PicklistItem from '@/components/Picklist-item.vue';
@@ -52,21 +52,20 @@ export default defineComponent({
     IonIcon,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
-    IonLabel,
     IonList,
     IonListHeader,
     IonMenuButton,
+    IonNote,
     IonPage,
     IonTitle,
     IonToolbar,
     PicklistItem,
     PicklistFilters
-},
+  },
   computed: {
     ...mapGetters({
       picklists: 'picklist/getPicklists',
       completedPicklists: 'picklist/getCompletedPicklists',
-      currentFacilityId: 'user/getCurrentFacility',
       isScrollable: 'picklist/isScrollable',
       hideCompleted: 'picklist/hideCompletedPicklists'
     })
@@ -76,18 +75,22 @@ export default defineComponent({
       const viewSize = vSize ? vSize : process.env.VUE_APP_VIEW_SIZE;
       const viewIndex = vIndex ? vIndex : 0;
 
-      this.store.dispatch('picklist/findPickList', { viewSize, viewIndex })
+      this.store.dispatch('picklist/fetchPickLists', { viewSize, viewIndex })
+    },
+    async getCompletedPickLists() {
+      this.store.dispatch('picklist/fetchCompletedPickLists')
     },
     async loadMorePicklists(event: any) {
       this.getPickLists(
         undefined,
-        Math.ceil(this.picklists.length / (process.env.VUE_APP_VIEW_SIZE as any)).toString()
+        Math.ceil(this.picklists.length / (process.env.VUE_APP_VIEW_SIZE)).toString()
       ).then(() => {
         event.target.complete();
       })
-    },
+    }
   },
   ionViewDidEnter() {
+    this.getCompletedPickLists();
     this.getPickLists();
   },
   setup(){

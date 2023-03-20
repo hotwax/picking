@@ -1,6 +1,6 @@
 <template>
   <ion-item v-for="picklist in picklists" :key="picklist.picklistId" @click="viewPicklist(picklist)" detail>
-    <ion-label>{{ user && user.partyName }}</ion-label>
+    <ion-label>{{ picklist.pickersFullName }}</ion-label>
     <ion-note slot="end">{{ getTime(picklist.picklistDate) }}</ion-note>
   </ion-item>
 </template>
@@ -23,7 +23,7 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       user: 'user/getUserProfile'
-    })
+    }),
   },
   methods: {
     viewPicklist (picklist: any) {
