@@ -83,6 +83,22 @@
             <ion-button @click="changeTimeZone()" slot="end" fill="outline" color="dark">{{ $t("Change") }}</ion-button>
           </ion-item>
         </ion-card>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              {{ $t("Sort picklist items") }}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            {{ $t('Sorting reorders items in a picklist based on inventory location or custom preferences.') }}
+          </ion-card-content>
+          <ion-item lines="none">
+            <ion-label>{{ $t("Sort by") }}</ion-label>
+            <ion-select interface="popover" :value="sortByParameter" @ionChange="updateSortBy($event)">
+              <ion-select-option v-for="option in sortBy" :key="option.value" :value="option.value" >{{ option.name }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-card>
       </section>
     </ion-content>
   </ion-page>
@@ -124,7 +140,21 @@ export default defineComponent({
     return {
       baseURL: process.env.VUE_APP_BASE_URL,
       appInfo: (process.env.VUE_APP_VERSION_INFO ? JSON.parse(process.env.VUE_APP_VERSION_INFO) : {}) as any,
-      appVersion: ""
+      appVersion: "",
+      sortBy: [
+        {
+          name: 'Product name',
+          value: 'productName'
+        },
+        {
+          name: 'Location ID',
+          value: 'locationSeqId'
+        },
+        {
+          name: 'Bin ID',
+          value: 'picklistBinId'
+        }
+      ]
     };
   },
   computed: {
@@ -132,7 +162,8 @@ export default defineComponent({
       userProfile: 'user/getUserProfile',
       currentFacility: 'user/getCurrentFacility',
       uploadProducts: 'product/getUploadProducts',
-      instanceUrl: 'user/getInstanceUrl'
+      instanceUrl: 'user/getInstanceUrl',
+      sortByParameter: 'user/getSortBy'
     })
   },
   mounted() {
@@ -165,6 +196,9 @@ export default defineComponent({
     },
     getDateTime(time: any) {
       return DateTime.fromMillis(time).toLocaleString(DateTime.DATETIME_MED);
+    },
+    updateSortBy(event: any) {
+      this.store.dispatch('user/updateSortBy', event.detail.value)
     }
   },
   setup(){

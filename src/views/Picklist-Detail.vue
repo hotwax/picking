@@ -11,9 +11,9 @@
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-item-group v-for="picklist in picklistGroup" :key="picklist.alphabet" >
+        <ion-item-group v-for="picklist in picklistGroup" :key="picklist.sortBy" >
           <ion-item-divider>
-            <ion-label> {{ picklist.alphabet }}</ion-label>
+            <ion-label> {{ picklist.sortBy }}</ion-label>
           </ion-item-divider>
           <PicklistDetailItem :picklists="picklist.record"/>
         </ion-item-group>
@@ -69,6 +69,7 @@ export default defineComponent({
     ...mapGetters({
       picklists: 'picklist/getPicklists',
       picklistItem: 'picklist/getCurrent',
+      sortByParameter: 'user/getSortBy'
     })
   },
   data() {
@@ -79,18 +80,7 @@ export default defineComponent({
   props: ['id'],
   async mounted () {
     await this.store.dispatch('picklist/setCurrentPicklist', { id: this.id })
-    // Sort picklist products alphabetically
-    // Used localeCompare to compare productName
-    this.picklistItem.pickingItemList.sort((a, b) => a.productName.localeCompare(b.productName, { sensitivity: 'base' }));
-    // Arrange picklist products alphabetically
-    const data = this.picklistItem.pickingItemList.reduce((r, e) => {
-      // To display "0th" index value i.e. first letter of product name
-      const alphabet = e.productName[0];
-      if (!r[alphabet]) r[alphabet] = { alphabet, record: [e] }
-      else r[alphabet].record.push(e);
-      return r;
-    }, {});
-    this.picklistGroup = Object.values(data);
+    this.sortPickists()
   },
   methods: {
     async completePicklist() {
@@ -150,6 +140,18 @@ export default defineComponent({
           }
         });
       return modal.present();
+    },
+    sortPickists() {
+      // Sort picklist products based on the sorting parameter selected
+      this.picklistItem.pickingItemList.sort((a, b) => a[this.sortByParameter].localeCompare(b[this.sortByParameter], { sensitivity: 'base' }));
+      const data = this.picklistItem.pickingItemList.reduce((r, e) => {
+        // Display the 0th index alphabet if alphabetical/productName sorting is applied
+        const sortBy = this.sortByParameter === 'productName' ? e[this.sortByParameter][0] : e[this.sortByParameter];
+        if (!r[sortBy]) r[sortBy] = { sortBy, record: [e] }
+        else r[sortBy].record.push(e);
+        return r;
+      }, {});
+      this.picklistGroup = Object.values(data);
     }
   },
   setup() {
