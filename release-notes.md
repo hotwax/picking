@@ -1,3 +1,11 @@
+# Release 1.5.0
+
+## What's Changed
+* Implemented: support to sort picklists by Product Name, Bin ID and Location Sequence ID and added option on settings page to change the sort option(#85zrtk08m) by @k2maan in https://github.com/hotwax/picking/pull/113
+
+
+**Full Changelog**: https://github.com/hotwax/picking/compare/v1.4.0...v1.5.0
+
 # Release 1.4.0
 
 ## What's Changed
