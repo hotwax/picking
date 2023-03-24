@@ -23,7 +23,7 @@ const getters: GetterTree <UserState, RootState> = {
         return baseUrl ? baseUrl : state.instanceUrl;
     },
     getSortBy (state) {
-        return state.sortBy;
+        return state.picklistItemSortBy;
     }
 }
 export default getters;

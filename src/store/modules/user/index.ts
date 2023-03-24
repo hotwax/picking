@@ -12,7 +12,7 @@ const userModule: Module<UserState, RootState> = {
       current: null,
       currentFacility: {},
       instanceUrl: '',
-      sortBy: 'productName'
+      picklistItemSortBy: 'productName'
     },
     getters,
     actions,
