@@ -163,7 +163,7 @@ export default defineComponent({
       currentFacility: 'user/getCurrentFacility',
       uploadProducts: 'product/getUploadProducts',
       instanceUrl: 'user/getInstanceUrl',
-      sortByParameter: 'user/getSortBy'
+      sortByParameter: 'user/getPicklistItemSortBy'
     })
   },
   mounted() {

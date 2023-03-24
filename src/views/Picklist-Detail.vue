@@ -69,7 +69,7 @@ export default defineComponent({
     ...mapGetters({
       picklists: 'picklist/getPicklists',
       picklistItem: 'picklist/getCurrent',
-      sortByParameter: 'user/getSortBy'
+      picklistItemSortBy: 'user/getPicklistItemSortBy'
     })
   },
   data() {
@@ -143,10 +143,10 @@ export default defineComponent({
     },
     sortPickists() {
       // Sort picklist products based on the sorting parameter selected
-      this.picklistItem.pickingItemList.sort((a, b) => a[this.sortByParameter].localeCompare(b[this.sortByParameter], { sensitivity: 'base' }));
+      this.picklistItem.pickingItemList.sort((a, b) => a[this.picklistItemSortBy].localeCompare(b[this.picklistItemSortBy], { sensitivity: 'base' }));
       const data = this.picklistItem.pickingItemList.reduce((r, e) => {
         // Display the 0th index alphabet if alphabetical/productName sorting is applied
-        const sortBy = this.sortByParameter === 'productName' ? e[this.sortByParameter][0] : e[this.sortByParameter];
+        const sortBy = this.picklistItemSortBy === 'productName' ? e[this.picklistItemSortBy][0] : e[this.picklistItemSortBy];
         if (!r[sortBy]) r[sortBy] = { sortBy, record: [e] }
         else r[sortBy].record.push(e);
         return r;

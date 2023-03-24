@@ -21,7 +21,7 @@ const mutations: MutationTree <UserState> = {
         state.instanceUrl = payload;
     },
     [types.USER_SORTBY_UPDATED] (state, payload) {
-        state.sortBy = payload
+        state.picklistItemSortBy = payload
     }
 }
 export default mutations;
