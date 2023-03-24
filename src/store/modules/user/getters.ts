@@ -22,7 +22,7 @@ const getters: GetterTree <UserState, RootState> = {
         const baseUrl = process.env.VUE_APP_BASE_URL;
         return baseUrl ? baseUrl : state.instanceUrl;
     },
-    getSortBy (state) {
+    getPicklistItemSortBy (state) {
         return state.picklistItemSortBy;
     }
 }
