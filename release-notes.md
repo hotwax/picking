@@ -1,3 +1,24 @@
+# Release 1.5.0
+
+## What's Changed
+* Implemented: support to sort picklists by Product Name, Bin ID and Location Sequence ID and added option on settings page to change the sort option(#85zrtk08m) by @k2maan in https://github.com/hotwax/picking/pull/113
+
+
+**Full Changelog**: https://github.com/hotwax/picking/compare/v1.4.0...v1.5.0
+
+# Release 1.4.0
+
+## What's Changed
+* Improved: UI of Settings page(#32j3r6t) by @shashwatbangar in https://github.com/hotwax/picking/pull/92
+* Added hotwax-apps-theme package(#85zrj08rb) by @disha1202 in https://github.com/hotwax/picking/pull/100
+* Added support to change timezone and migrated from moment to luxon (#85zrhudt7) by @k2maan in https://github.com/hotwax/picking/pull/102
+* Implemented: Code to show app version & build information on Settings page (#85zrhn8w8) by @k2maan in https://github.com/hotwax/picking/pull/103 and @shashwatbangar in https://github.com/hotwax/picking/pull/101
+* Implemented: support for using api and client methods from OMS api package (#85zrm1ktj) by @k2maan in https://github.com/hotwax/picking/pull/106
+* Fixed: code to show cursor while hovering on picklist (#85zrnrmdh) by @k2maan in https://github.com/hotwax/picking/pull/107
+
+
+**Full Changelog**: https://github.com/hotwax/picking/compare/v1.3.0...v1.4.0
+
 # Release 1.3.0
 
 ## What's Changed

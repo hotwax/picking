@@ -117,6 +117,10 @@ const actions: ActionTree<UserState, RootState> = {
    setUserInstanceUrl ({ commit }, payload){
     commit(types.USER_INSTANCE_URL_UPDATED, payload)
     updateInstanceUrl(payload)
+  },
+
+  updateSortBy({ commit }, payload) {
+    commit(types.USER_SORTBY_UPDATED, payload)
   }
 }
 export default actions;

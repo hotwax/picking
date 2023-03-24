@@ -11,7 +11,8 @@ const userModule: Module<UserState, RootState> = {
       token: '',
       current: null,
       currentFacility: {},
-      instanceUrl: ''
+      instanceUrl: '',
+      picklistItemSortBy: 'productName'
     },
     getters,
     actions,
