@@ -25,11 +25,11 @@ const actions: ActionTree<PicklistState, RootState> = {
       "noConditionFind": "Y"
     } as any
 
-    if (payload.partyId) params.inputFields.partyId = payload.partyId
+    if (state.filters.showMyPicklists) params.inputFields.partyId = payload.partyId
 
     try {
       resp = await PicklistService.getPicklists(params);
-      if (resp.status === 200 && resp.data.docs?.length > 0 && !hasError(resp)) {
+      if (resp.status === 200 && !hasError(resp) && resp.data.docs?.length > 0) {
         let list = resp.data.docs;
         const pickersLoginIds = [...new Set(list.map((item: any) => item.partyId))]
         const pickersDetails = await dispatch('party/getPickersDetails', pickersLoginIds, { root: true });
@@ -52,7 +52,7 @@ const actions: ActionTree<PicklistState, RootState> = {
   /**
    * Get completed picklists
    */
-  async fetchCompletedPickLists({ commit, dispatch }, payload) {
+  async fetchCompletedPickLists({ commit, dispatch, state }, payload) {
     let resp;
     const params = {
       "inputFields": {
@@ -66,11 +66,11 @@ const actions: ActionTree<PicklistState, RootState> = {
       "noConditionFind": "Y"
     } as any
 
-    if (payload?.partyId) params.inputFields.partyId = payload.partyId
+    if (state.filters.showMyPicklists) params.inputFields.partyId = payload.partyId
 
     try {
       resp = await PicklistService.getPicklists(params);
-      if (resp.status === 200 && resp.data.docs?.length > 0 && !hasError(resp)) {
+      if (resp.status === 200 && !hasError(resp) && resp.data.docs?.length > 0) {
         let list = resp.data.docs;
         const pickersLoginIds = [...new Set(list.map((item: any) => item.partyId))]
         const pickersDetails = await dispatch('party/getPickersDetails', pickersLoginIds, { root: true });

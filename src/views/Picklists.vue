@@ -25,7 +25,7 @@
         </ion-list-header>
         <PicklistItem :picklists="picklists" />
       </ion-list>
-      <div v-if="!picklists.length && !completedPicklists.length">
+      <div v-if="!picklists.length && (!completedPicklists.length || hideCompleted)">
         <p class="ion-text-center">{{ $t("There are no picklists available")}}</p>
       </div>
       <ion-infinite-scroll @ionInfinite="loadMorePicklists($event)" threshold="100px" :disabled="!isScrollable">

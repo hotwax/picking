@@ -60,13 +60,8 @@ export default defineComponent({
   methods: {
     async showMyPicklists(event: any, viewSize = process.env.VUE_APP_VIEW_SIZE, viewIndex = '0') {
       this.store.dispatch('picklist/setFilters', { showMyPicklists: event.detail.checked });
-      if(this.showMine) {
-        await this.store.dispatch('picklist/fetchPickLists', { viewSize, viewIndex, partyId: this.user.partyId });
-        await this.store.dispatch('picklist/fetchCompletedPickLists', { partyId: this.user.partyId });
-      } else {
-        await this.store.dispatch('picklist/fetchPickLists', { viewSize, viewIndex });
-        await this.store.dispatch('picklist/fetchCompletedPickLists');
-      }
+      await this.store.dispatch('picklist/fetchPickLists', { viewSize, viewIndex, partyId: this.user.partyId });
+      await this.store.dispatch('picklist/fetchCompletedPickLists', { partyId: this.user.partyId });
     },
     hideCompletedPicklists(event: any) {
       this.store.dispatch('picklist/setFilters', { hideCompletedPicklists: event.detail.checked });
