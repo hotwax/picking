@@ -10,7 +10,7 @@ import { IonItem, IonLabel, IonNote } from '@ionic/vue';
 import { DateTime } from 'luxon';
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
-import { mapGetters, useStore } from 'vuex';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'PicklistItem',
@@ -20,11 +20,6 @@ export default defineComponent({
     IonNote
   },
   props: ['picklists'],
-  computed: {
-    ...mapGetters({
-      user: 'user/getUserProfile'
-    }),
-  },
   methods: {
     viewPicklist (picklist: any) {
       this.store.dispatch('picklist/setCurrentPicklist', { id: picklist.picklistId }).then((resp) => {

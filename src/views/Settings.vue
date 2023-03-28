@@ -94,7 +94,7 @@
           </ion-card-content>
           <ion-item lines="none">
             <ion-label>{{ $t("Sort by") }}</ion-label>
-            <ion-select interface="popover" :value="sortByParameter" @ionChange="updateSortBy($event)">
+            <ion-select interface="popover" :value="picklistItemSortBy" @ionChange="updateSortBy($event)">
               <ion-select-option v-for="option in sortBy" :key="option.value" :value="option.value" >{{ option.name }}</ion-select-option>
             </ion-select>
           </ion-item>
@@ -163,7 +163,7 @@ export default defineComponent({
       currentFacility: 'user/getCurrentFacility',
       uploadProducts: 'product/getUploadProducts',
       instanceUrl: 'user/getInstanceUrl',
-      sortByParameter: 'user/getPicklistItemSortBy'
+      picklistItemSortBy: 'user/getPicklistItemSortBy'
     })
   },
   mounted() {

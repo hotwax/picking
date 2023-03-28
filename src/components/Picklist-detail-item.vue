@@ -32,8 +32,7 @@ export default defineComponent({
   props: ['picklists'],
   computed: {
     ...mapGetters({
-      getProduct: 'product/getProduct',
-      picklistItem: 'picklist/getCurrent'
+      getProduct: 'product/getProduct'
     }),
   },
   setup() {
