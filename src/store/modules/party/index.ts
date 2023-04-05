@@ -8,7 +8,7 @@ import RootState from '../../RootState'
 const PartyModule: Module<PartyState, RootState> = {
     namespaced: true,
     state: {
-      namesByLoginId: {},
+      namesByPartyId: {},
     },
     getters,
     actions,

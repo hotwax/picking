@@ -31,8 +31,8 @@ const actions: ActionTree<PicklistState, RootState> = {
       resp = await PicklistService.getPicklists(params);
       if (resp.status === 200 && !hasError(resp) && resp.data.docs?.length > 0) {
         let list = resp.data.docs;
-        const pickersLoginIds = [...new Set(list.map((item: any) => item.partyId))]
-        const pickersDetails = await dispatch('party/getPickersDetails', pickersLoginIds, { root: true });
+        const pickersPartyIds = [...new Set(list.map((item: any) => item.partyId))]
+        const pickersDetails = await dispatch('party/getPickersDetails', pickersPartyIds, { root: true });
         
         list = list.map((item: any) => ({ ...item, pickersFullName: pickersDetails[item.partyId].fullName }))
         if (payload.viewIndex > 0) list = state.picklist.list.concat(list);
@@ -72,8 +72,8 @@ const actions: ActionTree<PicklistState, RootState> = {
       resp = await PicklistService.getPicklists(params);
       if (resp.status === 200 && !hasError(resp) && resp.data.docs?.length > 0) {
         let list = resp.data.docs;
-        const pickersLoginIds = [...new Set(list.map((item: any) => item.partyId))]
-        const pickersDetails = await dispatch('party/getPickersDetails', pickersLoginIds, { root: true });
+        const pickersPartyIds = [...new Set(list.map((item: any) => item.partyId))]
+        const pickersDetails = await dispatch('party/getPickersDetails', pickersPartyIds, { root: true });
 
         list = list.map((item: any) => ({ ...item, pickersFullName: pickersDetails[item.partyId].fullName }))
 
