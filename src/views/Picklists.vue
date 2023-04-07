@@ -77,7 +77,7 @@ export default defineComponent({
       await this.store.dispatch('picklist/findPickList', { viewSize, viewIndex })
     },
     async getCompletedPickLists() {
-      await this.store.dispatch('picklist/fetchCompletedPickLists')
+      await this.store.dispatch('picklist/findCompletedPickLists')
     },
     async loadMorePicklists(event: any) {
       this.getPickLists(

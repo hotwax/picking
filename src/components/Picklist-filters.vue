@@ -61,7 +61,7 @@ export default defineComponent({
     async showMyPicklists(event: any) {
       this.store.dispatch('picklist/setFilters', { showMyPicklists: event.detail.checked });
       await this.store.dispatch('picklist/findPickList', { viewSize: process.env.VUE_APP_VIEW_SIZE, viewIndex: 0 });
-      await this.store.dispatch('picklist/fetchCompletedPickLists');
+      await this.store.dispatch('picklist/findCompletedPickLists');
     },
     hideCompletedPicklists(event: any) {
       this.store.dispatch('picklist/setFilters', { hideCompletedPicklists: event.detail.checked });

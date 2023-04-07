@@ -50,7 +50,7 @@ const actions: ActionTree<PicklistState, RootState> = {
   /**
    * Get completed picklists
    */
-  async fetchCompletedPickLists({ commit, dispatch, state }) {
+  async findCompletedPickLists({ commit, dispatch, state }) {
     let resp;
     const params = {
       "inputFields": {
