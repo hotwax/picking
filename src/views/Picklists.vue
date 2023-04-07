@@ -74,11 +74,10 @@ export default defineComponent({
     async getPickLists(vSize?: any, vIndex?: any) {
       const viewSize = vSize ? vSize : process.env.VUE_APP_VIEW_SIZE;
       const viewIndex = vIndex ? vIndex : 0;
-
-      this.store.dispatch('picklist/fetchPickLists', { viewSize, viewIndex })
+      await this.store.dispatch('picklist/findPickList', { viewSize, viewIndex })
     },
     async getCompletedPickLists() {
-      this.store.dispatch('picklist/fetchCompletedPickLists')
+      await this.store.dispatch('picklist/fetchCompletedPickLists')
     },
     async loadMorePicklists(event: any) {
       this.getPickLists(

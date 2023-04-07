@@ -21,6 +21,7 @@ const actions: ActionTree<PartyState, RootState> = {
       "fieldList": ["firstName", "lastName", "partyId"],
       "entityName": "PartyAndUserLoginAndPerson",
       "viewSize": unavailablePickersPartyIds.length,
+      "distinct": "Y",
       "noConditionFind": "Y"
     }
     try { 

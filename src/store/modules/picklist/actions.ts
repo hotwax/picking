@@ -10,7 +10,7 @@ const actions: ActionTree<PicklistState, RootState> = {
   /**
    * Find picklist
    */
-  async fetchPickLists({ commit, state, dispatch }, payload) {
+  async findPickList({ commit, state, dispatch }, payload) {
     let resp;
     const params = {
       "inputFields": {
@@ -25,34 +25,32 @@ const actions: ActionTree<PicklistState, RootState> = {
       "noConditionFind": "Y"
     } as any
 
-    if (state.filters.showMyPicklists) params.inputFields.partyId = payload.partyId
-
+    if (state.filters.showMyPicklists) params.inputFields.partyId = this.state.user.current.partyId;
+    
+    let list = [] as any;
     try {
       resp = await PicklistService.getPicklists(params);
       if (resp.status === 200 && !hasError(resp) && resp.data.docs?.length > 0) {
-        let list = resp.data.docs;
+        list = resp.data.docs;
         const pickersPartyIds = [...new Set(list.map((item: any) => item.partyId))]
         const pickersDetails = await dispatch('party/getPickersDetails', pickersPartyIds, { root: true });
         
         list = list.map((item: any) => ({ ...item, pickersFullName: pickersDetails[item.partyId].fullName }))
         if (payload.viewIndex > 0) list = state.picklist.list.concat(list);
-
-        commit(types.PICKLISTS_UPDATED, { list: list, total: resp.data.count });
-        return resp.data;
-      } else {
-        commit(types.PICKLISTS_UPDATED, { list: [], total: 0});
       }
     } catch (err: any) {
       showToast(translate('Something went wrong'));
       console.error("error", err);
       return Promise.reject(new Error(err))
+    } finally {
+      commit(types.PICKLISTS_UPDATED, { list: list, total: resp.data.count ? resp.data.count : 0 });
     }
   },
   
   /**
    * Get completed picklists
    */
-  async fetchCompletedPickLists({ commit, dispatch, state }, payload) {
+  async fetchCompletedPickLists({ commit, dispatch, state }) {
     let resp;
     const params = {
       "inputFields": {
@@ -66,26 +64,24 @@ const actions: ActionTree<PicklistState, RootState> = {
       "noConditionFind": "Y"
     } as any
 
-    if (state.filters.showMyPicklists) params.inputFields.partyId = payload.partyId
+    if (state.filters.showMyPicklists) params.inputFields.partyId = this.state.user.current.partyId
 
+    let list = [] as any
     try {
       resp = await PicklistService.getPicklists(params);
       if (resp.status === 200 && !hasError(resp) && resp.data.docs?.length > 0) {
-        let list = resp.data.docs;
+        list = resp.data.docs;
         const pickersPartyIds = [...new Set(list.map((item: any) => item.partyId))]
         const pickersDetails = await dispatch('party/getPickersDetails', pickersPartyIds, { root: true });
 
         list = list.map((item: any) => ({ ...item, pickersFullName: pickersDetails[item.partyId].fullName }))
-
-        commit(types.PICKLISTS_COMPLETED_UPDATED, { list: list, total: resp.data.count });
-        return resp.data;
-      } else {
-        commit(types.PICKLISTS_COMPLETED_UPDATED, { list: [], total: 0 });
       }
     } catch (err: any) {
       showToast(translate('Something went wrong'));
       console.error("error", err);
       return Promise.reject(new Error(err))
+    } finally {
+      commit(types.PICKLISTS_COMPLETED_UPDATED, { list: list, total: resp.data.count ? resp.data.count : 0 });
     }
   },
 

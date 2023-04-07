@@ -1,5 +1,5 @@
 <template>
-  <ion-item button v-for="picklist in picklists" :key="picklist.picklistId" @click="viewPicklist(picklist)" detail>
+  <ion-item button v-for="(picklist, index) in picklists" :key="index" @click="viewPicklist(picklist)" detail>
     <ion-label>{{ picklist.pickersFullName }}</ion-label>
     <ion-note slot="end">{{ getTime(picklist.picklistDate) }}</ion-note>
   </ion-item>

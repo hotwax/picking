@@ -54,14 +54,14 @@ export default defineComponent({
     ...mapGetters({
       user: 'user/getUserProfile',
       hideCompleted: 'picklist/hideCompletedPicklists',
-      showMine: 'picklist/showMyPicklists'
+      showMine: 'picklist/showMyPicklists',
     })
   },
   methods: {
-    async showMyPicklists(event: any, viewSize = process.env.VUE_APP_VIEW_SIZE, viewIndex = '0') {
+    async showMyPicklists(event: any) {
       this.store.dispatch('picklist/setFilters', { showMyPicklists: event.detail.checked });
-      await this.store.dispatch('picklist/fetchPickLists', { viewSize, viewIndex, partyId: this.user.partyId });
-      await this.store.dispatch('picklist/fetchCompletedPickLists', { partyId: this.user.partyId });
+      await this.store.dispatch('picklist/findPickList', { viewSize: process.env.VUE_APP_VIEW_SIZE, viewIndex: 0 });
+      await this.store.dispatch('picklist/fetchCompletedPickLists');
     },
     hideCompletedPicklists(event: any) {
       this.store.dispatch('picklist/setFilters', { hideCompletedPicklists: event.detail.checked });
