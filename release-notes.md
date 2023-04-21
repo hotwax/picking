@@ -1,3 +1,10 @@
+# Release 1.6.1
+
+## What's Changed
+* Fixed: picker name missing for some picklists by @k2maan in https://github.com/hotwax/picking/pull/118
+
+**Full Changelog**: https://github.com/hotwax/picking/compare/v1.6.0...v1.6.1
+
 # Release 1.6.0
 
 ## What's Changed
