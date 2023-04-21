@@ -49,7 +49,7 @@ export default defineComponent({
         this.loader = null as any;
       }
     },
-    async unauthorized() {
+    async unauthorised() {
       this.store.dispatch("user/logout");
       this.router.push("/login")
     }
@@ -60,7 +60,7 @@ export default defineComponent({
       instanceUrl: this.instanceUrl,
       cacheMaxAge: this.maxAge,
       events: {
-        unauthorised: this.unauthorized,
+        unauthorised: this.unauthorised,
         responseErrror: () => {
           setTimeout(() => this.dismissLoader(), 100);
         },
