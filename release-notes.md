@@ -1,3 +1,10 @@
+# Release 1.6.0
+
+## What's Changed
+* Implemented picklist filters and UI for showing recently completed picklists (#1x699zj) by @k2maan in https://github.com/hotwax/picking/pull/108
+
+**Full Changelog**: https://github.com/hotwax/picking/compare/v1.5.0...v1.6.0
+
 # Release 1.5.0
 
 ## What's Changed
