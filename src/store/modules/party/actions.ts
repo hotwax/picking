@@ -16,10 +16,10 @@ const actions: ActionTree<PartyState, RootState> = {
     const params = {
       "inputFields": {
         "partyId": unavailablePickersPartyIds,
-        "userPartyId_op": 'in'
+        "partyId_op": 'in'
       },
       "fieldList": ["firstName", "lastName", "partyId"],
-      "entityName": "PartyAndUserLoginAndPerson",
+      "entityName": "PartyNameView",
       "viewSize": unavailablePickersPartyIds.length,
       "distinct": "Y",
       "noConditionFind": "Y"
