@@ -19,7 +19,7 @@ const actions: ActionTree<PartyState, RootState> = {
         "userPartyId_op": 'in'
       },
       "fieldList": ["firstName", "lastName", "partyId"],
-      "entityName": "PartyAndUserLoginAndPerson",
+      "entityName": "PartyNameView",
       "viewSize": unavailablePickersPartyIds.length,
       "distinct": "Y",
       "noConditionFind": "Y"
