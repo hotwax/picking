@@ -8,11 +8,12 @@ const getPicklists = async (payload: any): Promise<any> => {
   })
 }
 
-const getPicklist = async (query: any): Promise<any> => {
+const getPicklist = async (payload: any): Promise<any> => {
   return api({
-    url: `picklists/${query.id}`,
-    method: 'get'
-  });
+    url: '/performFind',
+    method: 'post',
+    data: payload
+  })
 }
 
 const completePicklist = async (payload: any): Promise <any>  => {

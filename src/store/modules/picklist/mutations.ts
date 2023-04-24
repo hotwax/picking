@@ -12,7 +12,7 @@ const mutations: MutationTree <PicklistState> = {
     state.completed.total = payload.total;    
   },
   [types.PICKLIST_CURRENT_UPDATED] (state, payload) {
-    state.current = payload.current;
+    state.current = payload;
   },
   [types.PICKLIST_FILTERS_UPDATED] (state, payload) {
     state.filters = { ...state.filters, ...payload };

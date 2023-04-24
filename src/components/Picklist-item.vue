@@ -21,12 +21,9 @@ export default defineComponent({
   },
   props: ['picklists'],
   methods: {
-    viewPicklist (picklist: any) {
-      this.store.dispatch('picklist/setCurrentPicklist', { id: picklist.picklistId }).then((resp) => {
-        if (resp.pickingItemList) {
-          this.router.push({ path: `/picklist-details/${picklist.picklistId}` });
-        }
-      });
+    async viewPicklist (picklist: any) {
+      await this.store.dispatch('picklist/setCurrentPicklist', { id: picklist.picklistId })
+      this.router.push({ path: `/picklist-details/${picklist.picklistId}` });
     },
     getTime(time: number) {
       return DateTime.fromMillis(time).toLocaleString(DateTime.DATETIME_MED)
