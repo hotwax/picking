@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-back-button default-href="/" slot="start" />
         <ion-title>{{ id }}</ion-title>
-        <ion-buttons v-if="picklistItem.status !== 'Completed'" slot="end">
+        <ion-buttons v-if="picklist.statusId !== 'PICKLIST_COMPLETED'" slot="end">
           <ion-button @click="selectAll" >{{ $t ("Select all") }}</ion-button>
         </ion-buttons>
       </ion-toolbar>
@@ -20,7 +20,7 @@
       </ion-list>
      </ion-content>
 
-     <ion-footer v-if="picklistItem.status !== 'Completed'">
+     <ion-footer v-if="picklist.statusId !== 'PICKLIST_COMPLETED'">
       <ion-toolbar>
         <ion-buttons class="footer-buttons">
           <ion-button class="action-button" fill="outline" color="secondary" @click="scanCode()">
@@ -67,7 +67,7 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      picklistItem: 'picklist/getCurrent',
+      picklist: 'picklist/getCurrent',
       picklistItemSortBy: 'user/getPicklistItemSortBy'
     })
   },
@@ -83,11 +83,11 @@ export default defineComponent({
   },
   methods: {
     async completePicklist() {
-      const picklistChecked = this.picklistItem.pickingItemList.some((picklist) =>
+      const picklistChecked = this.picklist.pickingItemList.some((picklist) =>
         picklist.isChecked
       )
       const payload = {
-        'picklistId': this.picklistItem.picklist.picklistId,
+        'picklistId': this.picklist.picklistId,
         'statusId': 'PICKLIST_PICKED'
       }
       if (picklistChecked) {
@@ -110,7 +110,7 @@ export default defineComponent({
             {
               text:this.$t('Complete'),
               handler: () => {
-                if (this.picklistItem.pickingItemList.some((picklist) => picklist.isChecked)) this.completePicklist();
+                if (this.picklist.pickingItemList.some((picklist) => picklist.isChecked)) this.completePicklist();
                 else showToast(translate("No item has been picked"));
               },
             },
@@ -119,7 +119,7 @@ export default defineComponent({
       return alert.present();
     },
     selectAll() {
-      this.picklistItem.pickingItemList.map((picklist) => {
+      this.picklist.pickingItemList.map((picklist) => {
         picklist.isChecked = true;
       })
     },
@@ -131,7 +131,7 @@ export default defineComponent({
       modal.onDidDismiss()
         .then((result) => {
           //result : value of the scanned barcode/QRcode
-          const item = result.data.value && this.picklistItem.pickingItemList.find((product) => !product.isChecked && product.productId === result.data.value)
+          const item = result.data.value && this.picklist.pickingItemList.find((product) => !product.isChecked && product.productId === result.data.value)
           if (item) {
             item.isChecked = true;
           } else {
@@ -142,8 +142,8 @@ export default defineComponent({
     },
     sortPickists() {
       // Sort picklist products based on the sorting parameter selected
-      this.picklistItem.pickingItemList.sort((a, b) => a[this.picklistItemSortBy].localeCompare(b[this.picklistItemSortBy], { sensitivity: 'base' }));
-      const data = this.picklistItem.pickingItemList.reduce((r, e) => {
+      this.picklist.pickingItemList.sort((a, b) => a[this.picklistItemSortBy].localeCompare(b[this.picklistItemSortBy], { sensitivity: 'base' }));
+      const data = this.picklist.pickingItemList.reduce((r, e) => {
         // Display the 0th index alphabet if alphabetical/productName sorting is applied
         const sortBy = this.picklistItemSortBy === 'productName' ? e[this.picklistItemSortBy][0] : e[this.picklistItemSortBy];
         if (!r[sortBy]) r[sortBy] = { sortBy, record: [e] }

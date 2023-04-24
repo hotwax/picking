@@ -21,12 +21,11 @@ export default defineComponent({
   },
   props: ['picklists'],
   methods: {
-    viewPicklist (picklist: any) {
-      this.store.dispatch('picklist/setCurrentPicklist', { id: picklist.picklistId }).then((resp) => {
-        if (resp.pickingItemList) {
-          this.router.push({ path: `/picklist-details/${picklist.picklistId}` });
-        }
-      });
+    async viewPicklist (picklist: any) {
+      // if current is not set promise.reject returns which will not allow further code execution
+      // and hence, router.push will not execute stopping the code from breaking
+      await this.store.dispatch('picklist/setCurrentPicklist', { id: picklist.picklistId })
+      this.router.push({ path: `/picklist-details/${picklist.picklistId}` });
     },
     getTime(time: number) {
       return DateTime.fromMillis(time).toLocaleString(DateTime.DATETIME_MED)

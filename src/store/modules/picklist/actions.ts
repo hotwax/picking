@@ -88,40 +88,47 @@ const actions: ActionTree<PicklistState, RootState> = {
   /**
    * Set current picklist data
    */
-  async setCurrentPicklist ({ commit, state }, payload) {
+  async setCurrentPicklist({ commit, state }, payload) {
+    let current = state.current as any
+    if (current.picklistId && current.picklistId === payload.id) {
+      return current
+    }
+
     let resp;
-
-    const current = state.current as any
-
-    if (current.picklist && current.pickingItemList && current.picklist.picklistId === payload.id) {
-      return {
-        'pickingItemList': current.pickingItemList
-      }
+    const params = {
+      "inputFields": {
+        "picklistId": payload.id,
+      },
+      "fieldList": ["productId", "productName", "picklistId", "locationSeqId", "picklistBinId", "statusId"],
+      "entityName": "PicklistItemsView",
+      "noConditionFind": "Y"
     }
 
     try {
-      resp = await PicklistService.getPicklist(payload);
-      resp.data.pickingItemList.map((picklist: any) => {
-        picklist.isChecked = false;
-      })
-      if (resp.status === 200 && resp.data.pickingItemList && !hasError(resp)) {
-        commit(types.PICKLIST_CURRENT_UPDATED, { current: resp.data })
+      resp = await PicklistService.getPicklist(params);
+      if (!hasError(resp) && resp.data.count) {
+        const pickingItemList = resp.data.docs.map((picklist: any) => ({ ...picklist, isChecked: false }))
+
+        current = { picklistId: payload.id, statusId:  pickingItemList[0].statusId, pickingItemList }
+        commit(types.PICKLIST_CURRENT_UPDATED, current)
+
         let productIds: any = new Set(
-          resp.data.pickingItemList.map((picklist: any) => {
+          pickingItemList.map((picklist: any) => {
             return picklist.productId
           })
         );
+
         productIds = [...productIds]
         if (productIds.length) {
           this.dispatch('product/fetchProducts', { productIds })
         }
-        return resp.data;
+
+        return current;
       } else {
         showToast(translate('Something went wrong'));
-        console.error("error", resp.data._ERROR_MESSAGE_);
-        return Promise.reject(new Error(resp.data._ERROR_MESSAGE_));
+        console.error("error", resp.data);
+        return Promise.reject(new Error(resp.data));
       }
-
     } catch (err: any) {
       showToast(translate('Something went wrong'));
       console.error("error", err);
