@@ -109,7 +109,7 @@ const actions: ActionTree<PicklistState, RootState> = {
       if (!hasError(resp) && resp.data.count) {
         const pickingItemList = resp.data.docs.map((picklist: any) => ({ ...picklist, isChecked: false }))
 
-        current = { picklistId: pickingItemList[0].picklistId, pickingItemList }
+        current = { picklistId: payload.id, statusId:  pickingItemList[0].statusId, pickingItemList }
         commit(types.PICKLIST_CURRENT_UPDATED, current)
 
         let productIds: any = new Set(
