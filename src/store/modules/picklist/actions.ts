@@ -123,7 +123,7 @@ const actions: ActionTree<PicklistState, RootState> = {
           this.dispatch('product/fetchProducts', { productIds })
         }
 
-        return pickingItemList;
+        return current;
       } else {
         showToast(translate('Something went wrong'));
         console.error("error", resp.data);
