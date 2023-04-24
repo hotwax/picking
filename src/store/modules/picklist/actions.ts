@@ -89,8 +89,8 @@ const actions: ActionTree<PicklistState, RootState> = {
    * Set current picklist data
    */
   async setCurrentPicklist({ commit, state }, payload) {
-    const current = state.current as any
-    if (current.pickingItemList && current.pickingItemList[0].picklistId === payload.id) {
+    let current = state.current as any
+    if (current.pickingItemList && current.picklistId === payload.id) {
       return current.pickingItemList
     }
 
@@ -99,7 +99,7 @@ const actions: ActionTree<PicklistState, RootState> = {
       "inputFields": {
         "picklistId": payload.id,
       },
-      "fieldList": ["productId", "productName", "picklistId", "locationSeqId", "picklistBinId"],
+      "fieldList": ["productId", "productName", "picklistId", "locationSeqId", "picklistBinId", "statusId"],
       "entityName": "PicklistItemsView",
       "noConditionFind": "Y"
     }
@@ -109,7 +109,8 @@ const actions: ActionTree<PicklistState, RootState> = {
       if (!hasError(resp) && resp.data.count) {
         const pickingItemList = resp.data.docs.map((picklist: any) => ({ ...picklist, isChecked: false }))
 
-        commit(types.PICKLIST_CURRENT_UPDATED, { pickingItemList })
+        current = { picklistId: pickingItemList[0].picklistId, pickingItemList }
+        commit(types.PICKLIST_CURRENT_UPDATED, current)
 
         let productIds: any = new Set(
           pickingItemList.map((picklist: any) => {

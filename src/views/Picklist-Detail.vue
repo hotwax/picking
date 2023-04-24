@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-back-button default-href="/" slot="start" />
         <ion-title>{{ id }}</ion-title>
-        <ion-buttons v-if="picklistItem.status !== 'Completed'" slot="end">
+        <ion-buttons v-if="picklistItem.statusId !== 'PICKLIST_COMPLETED'" slot="end">
           <ion-button @click="selectAll" >{{ $t ("Select all") }}</ion-button>
         </ion-buttons>
       </ion-toolbar>
@@ -20,7 +20,7 @@
       </ion-list>
      </ion-content>
 
-     <ion-footer v-if="picklistItem.status !== 'Completed'">
+     <ion-footer v-if="picklistItem.statusId !== 'PICKLIST_COMPLETED'">
       <ion-toolbar>
         <ion-buttons class="footer-buttons">
           <ion-button class="action-button" fill="outline" color="secondary" @click="scanCode()">
@@ -87,7 +87,7 @@ export default defineComponent({
         picklist.isChecked
       )
       const payload = {
-        'picklistId': this.picklistItem.picklist.picklistId,
+        'picklistId': this.picklistItem.picklistId,
         'statusId': 'PICKLIST_PICKED'
       }
       if (picklistChecked) {

@@ -22,6 +22,8 @@ export default defineComponent({
   props: ['picklists'],
   methods: {
     async viewPicklist (picklist: any) {
+      // if current is not set promise.reject returns which will not allow further code execution
+      // and hence, router.push will not execute stopping the code from breaking
       await this.store.dispatch('picklist/setCurrentPicklist', { id: picklist.picklistId })
       this.router.push({ path: `/picklist-details/${picklist.picklistId}` });
     },
