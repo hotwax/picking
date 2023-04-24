@@ -90,7 +90,7 @@ const actions: ActionTree<PicklistState, RootState> = {
    */
   async setCurrentPicklist({ commit, state }, payload) {
     let current = state.current as any
-    if (current.pickingItemList && current.picklistId === payload.id) {
+    if (current.picklistId && current.picklistId === payload.id) {
       return current.pickingItemList
     }
 
