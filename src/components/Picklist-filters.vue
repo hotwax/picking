@@ -7,16 +7,14 @@
     </ion-header>
     <ion-content>
       <ion-list>
-        <section>
-          <ion-item lines="none">
-            <ion-label>{{ $t("Only show my picklists") }}</ion-label>
-            <ion-toggle :checked="showMine" @ionChange="showMyPicklists($event)" slot="end" />
-          </ion-item>
-          <ion-item lines="none">
-            <ion-label>{{ $t("Hide completed picklists") }}</ion-label>
-            <ion-toggle :checked="hideCompleted" @ionChange="hideCompletedPicklists($event)" slot="end" />
-          </ion-item>
-        </section>
+        <ion-item lines="none">
+          <ion-label>{{ $t("Only show my picklists") }}</ion-label>
+          <ion-toggle :checked="showMine" @ionChange="showMyPicklists($event)" slot="end" />
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label>{{ $t("Hide completed picklists") }}</ion-label>
+          <ion-toggle :checked="hideCompleted" @ionChange="hideCompletedPicklists($event)" slot="end" />
+        </ion-item>
       </ion-list>
     </ion-content>
   </ion-menu>
