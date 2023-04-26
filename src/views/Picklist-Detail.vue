@@ -12,7 +12,7 @@
     <ion-content>
       <ion-item>
         <ion-label>{{ $t("Scan") }}</ion-label>  
-        <ion-input @ionFocus="selectSearchBarText($event)" :placeholder="$t('product barcode')" @keyup.enter="selectProduct($event.target.value)"/>
+        <ion-input @ionFocus="selectSearchBarText($event)" :placeholder="$t('product barcode')" @keyup.enter="$event.target.value && selectProduct($event.target.value.trim())"/>
       </ion-item>
       <ion-list>
         <ion-item-group v-for="picklist in picklistGroup" :key="picklist.sortBy" >
@@ -148,7 +148,10 @@ export default defineComponent({
       return alert.present();
     },
     selectProduct(productId) {
-      const item = productId && this.picklist.pickingItemList.find((product) => product.productId === productId)
+
+      if (!productId) return;
+
+      const item = this.picklist.pickingItemList.find((product) => product.productId === productId)
       if (item) {
         item.isChecked = true;
       } else {
