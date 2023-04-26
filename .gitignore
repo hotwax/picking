@@ -34,3 +34,5 @@ npm-debug.log*
 
 # Excluding the .env.example file from .gitignore
 !.env.example
+.firebase
+.history
