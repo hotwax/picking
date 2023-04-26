@@ -33,7 +33,7 @@ const actions: ActionTree<UserState, RootState> = {
             if (checkPermissionResponse.status === 200 && !hasError(checkPermissionResponse) && checkPermissionResponse.data && checkPermissionResponse.data.hasPermission) {
               commit(types.USER_TOKEN_CHANGED, { newToken: resp.data.token })
               updateToken(resp.data.token)
-              dispatch('getProfile')
+              await dispatch('getProfile')
               if (resp.data._EVENT_MESSAGE_ && resp.data._EVENT_MESSAGE_.startsWith("Alert:")) {
               // TODO Internationalise text
                 showToast(translate(resp.data._EVENT_MESSAGE_));
@@ -48,7 +48,7 @@ const actions: ActionTree<UserState, RootState> = {
           } else {
             commit(types.USER_TOKEN_CHANGED, { newToken: resp.data.token })
             updateToken(resp.data.token)
-            dispatch('getProfile')
+            await dispatch('getProfile')
             return resp.data;
           }
         } else if (hasError(resp)) {
@@ -76,6 +76,10 @@ const actions: ActionTree<UserState, RootState> = {
     // TODO add any other tasks if need
     commit(types.USER_END_SESSION)
     resetConfig();
+    this.dispatch('picklist/setFilters', {
+      hideCompletedPicklists: false,
+      showMyPicklists: false
+    });
   },
 
   /**
