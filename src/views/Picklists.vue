@@ -13,6 +13,9 @@
     </ion-header>
     
     <ion-content id="filter-content">
+      <ion-refresher slot="fixed" @ionRefresh="refreshPicklists($event)">
+        <ion-refresher-content pullingIcon="crescent" refreshingSpinner="crescent" />
+      </ion-refresher>
       <ion-list v-if="completedPicklists.length && !hideCompleted">
         <ion-list-header lines="none">
           <ion-note>{{ $t("Completed") }}</ion-note>
@@ -36,7 +39,23 @@
 </template>
 
 <script lang="ts">
-import { IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonList, IonListHeader, IonMenuButton, IonNote, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import {
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonList,
+  IonListHeader,
+  IonMenuButton,
+  IonRefresher,
+  IonRefresherContent,
+  IonNote,
+  IonPage,
+  IonTitle,
+  IonToolbar
+} from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { filterOutline } from 'ionicons/icons';
 import PicklistItem from '@/components/Picklist-item.vue';
@@ -57,6 +76,8 @@ export default defineComponent({
     IonMenuButton,
     IonNote,
     IonPage,
+    IonRefresher,
+    IonRefresherContent,
     IonTitle,
     IonToolbar,
     PicklistItem,
@@ -71,6 +92,11 @@ export default defineComponent({
     })
   },
   methods: {
+    async refreshPicklists(event: any) {
+      await this.getPickLists();
+      await this.getCompletedPickLists();
+      if (event) event.target.complete();
+    },
     async getPickLists(vSize?: any, vIndex?: any) {
       const viewSize = vSize ? vSize : process.env.VUE_APP_VIEW_SIZE;
       const viewIndex = vIndex ? vIndex : 0;
