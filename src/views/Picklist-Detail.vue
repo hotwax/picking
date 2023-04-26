@@ -10,6 +10,10 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
+      <ion-item>
+        <ion-label>{{ $t("Scan") }}</ion-label>  
+        <ion-input @ionFocus="selectSearchBarText($event)" :placeholder="$t('product barcode')" @keyup.enter="selectProduct($event.target.value)"/>
+      </ion-item>
       <ion-list>
         <ion-item-group v-for="picklist in picklistGroup" :key="picklist.sortBy" >
           <ion-item-divider>
@@ -36,7 +40,26 @@
 </template>
 
 <script>
-import { IonBackButton, IonButton, IonButtons, IonContent, IonFooter, IonHeader, IonIcon, IonItemDivider, IonItemGroup, IonLabel, IonList, IonPage, IonTitle, IonToolbar, alertController, modalController } from '@ionic/vue';
+import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonIcon,
+  IonInput,
+  IonItem,
+  IonItemDivider,
+  IonItemGroup,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  alertController,
+  modalController
+} from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { barcodeOutline, checkmarkDone } from 'ionicons/icons';
 import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
@@ -54,8 +77,10 @@ export default defineComponent({
     IonButtons, 
     IonContent,
     IonFooter, 
-    IonHeader, 
+    IonHeader,
     IonIcon,
+    IonInput,
+    IonItem,
     IonItemDivider,
     IonItemGroup, 
     IonLabel,
@@ -98,6 +123,10 @@ export default defineComponent({
         showToast(translate("Something went wrong"));
       }
     },
+    async selectSearchBarText(event) {
+      const element = await event.target.getInputElement()
+      element.select();
+    },
     async completeProductPicklist() {
       const alert = await alertController
         .create({
@@ -118,6 +147,14 @@ export default defineComponent({
         });
       return alert.present();
     },
+    selectProduct(productId) {
+      const item = productId && this.picklist.pickingItemList.find((product) => product.productId === productId)
+      if (item) {
+        item.isChecked = true;
+      } else {
+        showToast(translate("Product not found"))
+      }
+    },
     selectAll() {
       this.picklist.pickingItemList.map((picklist) => {
         picklist.isChecked = true;
@@ -131,12 +168,7 @@ export default defineComponent({
       modal.onDidDismiss()
         .then((result) => {
           //result : value of the scanned barcode/QRcode
-          const item = result.data.value && this.picklist.pickingItemList.find((product) => !product.isChecked && product.productId === result.data.value)
-          if (item) {
-            item.isChecked = true;
-          } else {
-            showToast(translate("Product not found"))
-          }
+          this.selectProduct(result.data.value)
         });
       return modal.present();
     },
