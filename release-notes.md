@@ -1,3 +1,14 @@
+# Release 1.7.0
+
+## What's Changed
+* Implemented: usage of performFind for fetching picklist details (#85zry5kg0) by @k2maan in https://github.com/hotwax/picking/pull/121
+* Fixed: picklist filters not being reset on logout (#125) by @adityasharma7 in https://github.com/hotwax/picking/pull/129
+* Implemented: Pull to refresh on picklists screen (#123) by @adityasharma7 in https://github.com/hotwax/picking/pull/130
+* Implemented: Support for external scanner (#126) by @adityasharma7 in https://github.com/hotwax/picking/pull/131
+
+
+**Full Changelog**: https://github.com/hotwax/picking/compare/v1.6.1...v1.7.0
+
 # Release 1.6.1
 
 ## What's Changed
