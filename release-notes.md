@@ -1,3 +1,10 @@
+# Release 1.8.0
+
+## What's Changed
+* Improved: Show picklist ID for the picklist with name (#124) by @adityasharma7 in https://github.com/hotwax/picking/pull/133
+
+**Full Changelog**: https://github.com/hotwax/picking/compare/v1.7.0...v1.8.0
+
 # Release 1.7.0
 
 ## What's Changed
