@@ -17,7 +17,7 @@
       <ion-list>
         <ion-item-group v-for="picklist in picklistGroup" :key="picklist.sortBy" >
           <ion-item-divider>
-            <ion-label> {{ picklist.sortBy }} {{ scannedProductId }}</ion-label>
+            <ion-label> {{ picklist.sortBy }}</ion-label>
           </ion-item-divider>
           <PicklistDetailItem :scannedProductId="scannedProductId" :picklists="picklist.record"/>
         </ion-item-group>
