@@ -17,9 +17,9 @@
       <ion-list>
         <ion-item-group v-for="picklist in picklistGroup" :key="picklist.sortBy" >
           <ion-item-divider>
-            <ion-label> {{ picklist.sortBy }}</ion-label>
+            <ion-label> {{ picklist.sortBy }} {{ scannedProductId }}</ion-label>
           </ion-item-divider>
-          <PicklistDetailItem :picklists="picklist.record"/>
+          <PicklistDetailItem :scannedProductId="scannedProductId" :picklists="picklist.record"/>
         </ion-item-group>
       </ion-list>
      </ion-content>
@@ -98,7 +98,8 @@ export default defineComponent({
   },
   data() {
     return {
-      picklistGroup: []
+      picklistGroup: [],
+      scannedProductId: ''
     }
   },
   props: ['id'],
@@ -154,6 +155,7 @@ export default defineComponent({
       const item = this.picklist.pickingItemList.find((product) => product.productId === productId)
       if (item) {
         item.isChecked = true;
+        this.scannedProductId = item.productId
       } else {
         showToast(translate("Product not found"))
       }
@@ -207,6 +209,7 @@ export default defineComponent({
   gap: 5px;
   padding: 0 5px;
 }
+
 
 .action-button {
   flex: 1 100%;

@@ -1,5 +1,5 @@
 <template>
-  <ion-item v-bind:key="picklist.productId" v-for="picklist in picklists"  @click="picklist.isChecked = !picklist.isChecked" lines="none" >
+  <ion-item :class="picklist.productId === scannedProductId ? 'scanned-item' : '' " v-bind:key="picklist.productId" v-for="picklist in picklists"  @click="picklist.isChecked = !picklist.isChecked" lines="none" >
     <ion-thumbnail slot="start">
       <Image :src="getProduct(picklist.productId).mainImageUrl" />
     </ion-thumbnail>  
@@ -29,7 +29,7 @@ export default defineComponent({
     IonLabel,
     IonThumbnail
   },
-  props: ['picklists'],
+  props: ['picklists', 'scannedProductId'],
   computed: {
     ...mapGetters({
       getProduct: 'product/getProduct'
@@ -43,4 +43,10 @@ export default defineComponent({
   }
 });
 </script>
+<style scoped>
+.scanned-item {
+  background-color: var( --ion-color-medium-tint);
+}
+
+</style>
 
