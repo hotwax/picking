@@ -19,7 +19,7 @@
           <ion-item-divider>
             <ion-label> {{ picklist.sortBy }}</ion-label>
           </ion-item-divider>
-          <PicklistDetailItem :lastScannedId="lastScannedId" :picklists="picklist.record"/>
+          <PicklistDetailItem :lastScannedId="lastScannedId" :picklistItems="picklist.record"/>
         </ion-item-group>
       </ion-list>
      </ion-content>

@@ -1,16 +1,16 @@
 <template>
-  <ion-item :id="picklist.id" :class="picklist.id === lastScannedId ? 'scanned-item' : '' " :key="picklist.id" v-for="picklist in picklists"  @click="picklist.isChecked = !picklist.isChecked" lines="none" >
+  <ion-item :id="picklistItem.id" :class="picklistItem.id === lastScannedId ? 'scanned-item' : '' " :key="picklistItem.id" v-for="picklistItem in picklistItems"  @click="picklistItem.isChecked = !picklistItem.isChecked" lines="none" >
     <ion-thumbnail slot="start">
-      <Image :src="getProduct(picklist.productId).mainImageUrl" />
+      <Image :src="getProduct(picklistItem.productId).mainImageUrl" />
     </ion-thumbnail>  
     <ion-label>
-      <p class="caption">{{ getProduct(picklist.productId).parentProductName}}</p>
-      <h2>{{ getProduct(picklist.productId).productName}}</h2>
-      <h2>{{ picklist.productId }}</h2>
-      <p>{{ $t("Color") }} : {{ $filters.getFeatures(getProduct(picklist.productId).featureHierarchy, '1/COLOR/') }}</p>
-      <p>{{ $t("Size") }} : {{ $filters.getFeatures(getProduct(picklist.productId).featureHierarchy, '1/SIZE/') }}</p>
+      <p class="caption">{{ getProduct(picklistItem.productId).parentProductName}}</p>
+      <h2>{{ getProduct(picklistItem.productId).productName}}</h2>
+      <h2>{{ picklistItem.productId }}</h2>
+      <p>{{ $t("Color") }} : {{ $filters.getFeatures(getProduct(picklistItem.productId).featureHierarchy, '1/COLOR/') }}</p>
+      <p>{{ $t("Size") }} : {{ $filters.getFeatures(getProduct(picklistItem.productId).featureHierarchy, '1/SIZE/') }}</p>
     </ion-label>
-    <ion-checkbox :modelValue="picklist.isChecked" slot="end" />
+    <ion-checkbox :modelValue="picklistItem.isChecked" slot="end" />
   </ion-item>
 </template>
 
@@ -29,7 +29,7 @@ export default defineComponent({
     IonLabel,
     IonThumbnail
   },
-  props: ['picklists', 'lastScannedId'],
+  props: ['picklistItems', 'lastScannedId'],
   computed: {
     ...mapGetters({
       getProduct: 'product/getProduct'
