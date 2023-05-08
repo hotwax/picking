@@ -10,7 +10,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-item>
+      <ion-item class="scanner">
         <ion-label>{{ $t("Scan") }}</ion-label>  
         <ion-input @ionFocus="selectSearchBarText($event)" :placeholder="$t('product barcode')" @keyup.enter="$event.target.value && selectProduct($event.target.value.trim())"/>
       </ion-item>
@@ -209,11 +209,16 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.scanner {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
 .footer-buttons {
   gap: 5px;
   padding: 0 5px;
 }
-
 
 .action-button {
   flex: 1 100%;
