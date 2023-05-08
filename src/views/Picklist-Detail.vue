@@ -19,7 +19,7 @@
           <ion-item-divider>
             <ion-label> {{ picklist.sortBy }}</ion-label>
           </ion-item-divider>
-          <PicklistDetailItem :scannedProductId="scannedProductId" :picklists="picklist.record"/>
+          <PicklistDetailItem :lastScannedId="lastScannedId" :picklists="picklist.record"/>
         </ion-item-group>
       </ion-list>
      </ion-content>
@@ -99,7 +99,7 @@ export default defineComponent({
   data() {
     return {
       picklistGroup: [],
-      scannedProductId: ''
+      lastScannedId: ''
     }
   },
   props: ['id'],
@@ -152,12 +152,16 @@ export default defineComponent({
 
       if (!productId) return;
 
-      const item = this.picklist.pickingItemList.find((product) => product.productId === productId)
+      const item = this.picklist.pickingItemList.find((product) => product.productId === productId && !product.isChecked)
       if (item) {
         item.isChecked = true;
-        this.scannedProductId = item.productId
+        this.lastScannedId = item.id;
+        // Highlight specific element
+        const scannedElement = document.getElementById(item.id);
+        scannedElement && (scannedElement.scrollIntoView());
       } else {
-        showToast(translate("Product not found"))
+        this.lastScannedId = "";
+        showToast(translate("Product not found in remaining items"))
       }
     },
     selectAll() {
