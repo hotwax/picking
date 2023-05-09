@@ -34,7 +34,6 @@ const actions: ActionTree<PicklistState, RootState> = {
         list = resp.data.docs;
         const pickersPartyIds = [...new Set(list.map((item: any) => item.partyId))]
         const pickersDetails = await dispatch('party/getPickersDetails', pickersPartyIds, { root: true });
-        
         list = list.map((item: any) => ({ ...item, pickersFullName: pickersDetails[item.partyId].fullName }))
         if (payload.viewIndex > 0) list = state.picklist.list.concat(list);
       }
@@ -107,7 +106,7 @@ const actions: ActionTree<PicklistState, RootState> = {
     try {
       resp = await PicklistService.getPicklist(params);
       if (!hasError(resp) && resp.data.count) {
-        const pickingItemList = resp.data.docs.map((picklist: any) => ({ ...picklist, isChecked: false }))
+        const pickingItemList = resp.data.docs.map((picklist: any, index: any) => ({ id: index, ...picklist, isChecked: false }))
 
         current = { picklistId: payload.id, statusId:  pickingItemList[0].statusId, pickingItemList }
         commit(types.PICKLIST_CURRENT_UPDATED, current)

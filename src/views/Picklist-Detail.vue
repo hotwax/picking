@@ -10,7 +10,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-item>
+      <ion-item class="scanner">
         <ion-label>{{ $t("Scan") }}</ion-label>  
         <ion-input @ionFocus="selectSearchBarText($event)" :placeholder="$t('product barcode')" @keyup.enter="$event.target.value && selectProduct($event.target.value.trim())"/>
       </ion-item>
@@ -19,7 +19,7 @@
           <ion-item-divider>
             <ion-label> {{ picklist.sortBy }}</ion-label>
           </ion-item-divider>
-          <PicklistDetailItem :picklists="picklist.record"/>
+          <PicklistDetailItem :lastScannedId="lastScannedId" :picklistItems="picklist.record"/>
         </ion-item-group>
       </ion-list>
      </ion-content>
@@ -98,7 +98,8 @@ export default defineComponent({
   },
   data() {
     return {
-      picklistGroup: []
+      picklistGroup: [],
+      lastScannedId: ''
     }
   },
   props: ['id'],
@@ -151,11 +152,16 @@ export default defineComponent({
 
       if (!productId) return;
 
-      const item = this.picklist.pickingItemList.find((product) => product.productId === productId)
+      const item = this.picklist.pickingItemList.find((product) => product.productId === productId && !product.isChecked)
       if (item) {
         item.isChecked = true;
+        this.lastScannedId = item.id;
+        // Highlight specific element
+        const scannedElement = document.getElementById(item.id);
+        scannedElement && (scannedElement.scrollIntoView());
       } else {
-        showToast(translate("Product not found"))
+        this.lastScannedId = "";
+        showToast(translate("Product not found in remaining items"))
       }
     },
     selectAll() {
@@ -203,6 +209,12 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.scanner {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
 .footer-buttons {
   gap: 5px;
   padding: 0 5px;
