@@ -1,3 +1,11 @@
+# Release 1.9.0
+
+## What's Changed
+* Improved: Highlight scanned item  (#127) by @adityasharma7 in https://github.com/hotwax/picking/pull/135
+
+
+**Full Changelog**: https://github.com/hotwax/picking/compare/v1.8.0...v1.9.0
+
 # Release 1.8.0
 
 ## What's Changed
