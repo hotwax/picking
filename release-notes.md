@@ -1,3 +1,14 @@
+# Release 1.10.0
+
+## What's Changed
+* Updated favicon by @Nidbhagwat in https://github.com/hotwax/picking/pull/141
+* Fixed: cleared product ID on search (#139) by @k2maan in https://github.com/hotwax/picking/pull/140
+
+## New Contributors
+* @Nidbhagwat made their first contribution in https://github.com/hotwax/picking/pull/141
+
+**Full Changelog**: https://github.com/hotwax/picking/compare/v1.9.0...v1.10.0
+
 # Release 1.9.0
 
 ## What's Changed
