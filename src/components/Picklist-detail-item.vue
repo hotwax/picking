@@ -10,7 +10,7 @@
       <p>{{ $t("Color") }} : {{ $filters.getFeatures(getProduct(picklistItem.productId).featureHierarchy, '1/COLOR/') }}</p>
       <p>{{ $t("Size") }} : {{ $filters.getFeatures(getProduct(picklistItem.productId).featureHierarchy, '1/SIZE/') }}</p>
     </ion-label>
-    <ion-checkbox :modelValue="picklistItem.isChecked" slot="end" />
+    <ion-checkbox v-if="picklistItem.statusId !== 'PICKLIST_COMPLETED'" :modelValue="picklistItem.isChecked" slot="end" />
   </ion-item>
 </template>
 
