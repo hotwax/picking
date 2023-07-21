@@ -28,6 +28,8 @@ import '@hotwax/apps-theme';
 
 import i18n from './i18n'
 import store from './store'
+import { dxpComponents } from '@hotwax/dxp-components';
+import { setProductIdentificationPref, getProductIdentificationPref } from '@hotwax/oms-api';
 
 const app = createApp(App)
   .use(IonicVue, {
@@ -35,16 +37,22 @@ const app = createApp(App)
   })
   .use(router)
   .use(i18n)
-  .use(store);
+  .use(store)
+  .use(dxpComponents, {
+    defaultImgUrl: require("@/assets/images/defaultImage.png"),
+    setProductIdentificationPref,
+    getProductIdentificationPref
+  });
 
 // Filters are removed in Vue 3 and global filter introduced https://v3.vuejs.org/guide/migration/filters.html#global-filters
 app.config.globalProperties.$filters = {
   formatDate(value: any, inFormat?: string, outFormat?: string) {
     // TODO Make default format configurable and from environment variables
-    if(inFormat){
+    if (inFormat) {
       return DateTime.fromFormat(value, inFormat).toFormat(outFormat ? outFormat : 'MM-dd-yyyy');
     }
-    return DateTime.fromISO(value).toFormat(outFormat ? outFormat : 'MM-dd-yyyy');  },
+    return DateTime.fromISO(value).toFormat(outFormat ? outFormat : 'MM-dd-yyyy');
+  },
   formatTime(value: any, inFormat?: string, outFormat?: string) {
     // TODO Make default format configurable and from environment variables
     return DateTime.fromISO(value).toFormat(outFormat ? outFormat : 'hh:mm a');
@@ -53,7 +61,7 @@ app.config.globalProperties.$filters = {
     // TODO Make default format configurable and from environment variables
     const userProfile = store.getters['user/getUserProfile'];
     // TODO Fix this setDefault should set the default timezone instead of getting it everytiem and setting the tz
-    return DateTime.fromISO(value, { zone: 'utc' }).setZone(userProfile.userTimeZone).toFormat(outFormat ? outFormat : 'MM-dd-yyyy')  
+    return DateTime.fromISO(value, { zone: 'utc' }).setZone(userProfile.userTimeZone).toFormat(outFormat ? outFormat : 'MM-dd-yyyy')
   },
   getFeature(featureHierarchy: any, featureKey: string) {
     let featureValue = ''
@@ -70,14 +78,14 @@ app.config.globalProperties.$filters = {
       featureHierarchy.filter((featureItem: any) => featureItem.startsWith(featureKey)).forEach((feature: any) => {
         const featureSplit = feature ? feature.split('/') : [];
         const featureValue = featureSplit[2] ? featureSplit[2] : '';
-        featuresValue +=  " " + featureValue;
+        featuresValue += " " + featureValue;
       })
     }
     // trim removes extra white space from beginning for the first feature
     return featuresValue.trim();
   },
   getFeaturesList(featureHierarchy: any, featureKey: string) {
-    let  featuresList = []
+    let featuresList = []
     if (featureHierarchy) {
       featuresList = featureHierarchy.filter((featureItem: any) => featureItem.startsWith(featureKey)).map((feature: any) => {
         const featureSplit = feature ? feature.split('/') : [];
