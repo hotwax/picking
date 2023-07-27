@@ -12,7 +12,7 @@
     <ion-content>
       <ion-item class="scanner">
         <ion-label>{{ $t("Scan") }}</ion-label>  
-        <ion-input @ionFocus="selectSearchBarText($event)" :placeholder="$t('product barcode')" @keyup.enter="$event.target.value && selectProduct($event.target.value.trim())"/>
+        <ion-input @ionFocus="selectSearchBarText($event)" :placeholder="$t('product barcode')" @keyup.enter="$event.target.value && selectProduct($event.target.value.trim()); $event.target.value = ''"/>
       </ion-item>
       <ion-list>
         <ion-item-group v-for="picklist in picklistGroup" :key="picklist.sortBy" >
