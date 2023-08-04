@@ -198,7 +198,7 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     
-    onBeforeRouteLeave((to, from) => {
+    onBeforeRouteLeave(() => {
       modalController.dismiss({dismissed: true});
     })
       
