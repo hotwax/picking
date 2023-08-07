@@ -30,6 +30,7 @@ import i18n from './i18n'
 import store from './store'
 import { dxpComponents } from '@hotwax/dxp-components';
 import { setProductIdentificationPref, getProductIdentificationPref } from '@hotwax/oms-api';
+import { login, logout, loader } from './user-utils';
 
 const app = createApp(App)
   .use(IonicVue, {
@@ -42,7 +43,11 @@ const app = createApp(App)
   .use(dxpComponents, {
     defaultImgUrl: require("@/assets/images/defaultImage.png"),
     setProductIdentificationPref,
-    getProductIdentificationPref
+    getProductIdentificationPref,
+    login,
+    logout,
+    loader,
+    appLoginUrl: process.env.VUE_APP_LOGIN_URL as string
   });
 
 // Filters are removed in Vue 3 and global filter introduced https://v3.vuejs.org/guide/migration/filters.html#global-filters
