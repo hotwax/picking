@@ -1,7 +1,7 @@
 <template>
   <ion-item :id="picklistItem.id" :class="picklistItem.id === lastScannedId ? 'scanned-item' : '' " :key="picklistItem.id" v-for="picklistItem in picklistItems"  @click="picklistItem.isChecked = !picklistItem.isChecked" lines="none" >
     <ion-thumbnail slot="start">
-      <Image :src="getProduct(picklistItem.productId).mainImageUrl" />
+      <ShopifyImg :src="getProduct(picklistItem.productId).mainImageUrl" size="small" />
     </ion-thumbnail>  
     <ion-label>
       <p class="caption">{{ getProduct(picklistItem.productId).parentProductName}}</p>
@@ -18,7 +18,7 @@
 import { IonCheckbox, IonItem, IonLabel, IonThumbnail } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { mapGetters, useStore } from 'vuex';
-import Image from '@/components/Image.vue'
+import { ShopifyImg } from '@hotwax/dxp-components';
 
 export default defineComponent({
   name: 'PicklistDetailItem',
@@ -27,7 +27,8 @@ export default defineComponent({
     IonCheckbox, 
     IonItem, 
     IonLabel,
-    IonThumbnail
+    IonThumbnail,
+    ShopifyImg
   },
   props: ['picklistItems', 'lastScannedId'],
   computed: {
