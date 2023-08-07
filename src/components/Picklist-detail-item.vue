@@ -23,7 +23,6 @@ import { ShopifyImg } from '@hotwax/dxp-components';
 export default defineComponent({
   name: 'PicklistDetailItem',
   components: {
-    Image,
     IonCheckbox, 
     IonItem, 
     IonLabel,
