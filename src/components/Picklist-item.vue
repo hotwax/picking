@@ -4,7 +4,7 @@
       <h2>{{ picklist.pickersFullName }}</h2>
       <p>{{ picklist.picklistId }}</p>
     </ion-label>
-    <div><ion-note slot="end">{{ getTime(picklist.picklistDate) }}</ion-note></div>
+    <ion-note slot="end">{{ getTime(picklist.picklistDate) }}</ion-note>
   </ion-item>
 </template>
 
@@ -45,4 +45,12 @@ export default defineComponent({
   }
 });
 </script>
+<style>
+
+ion-note{
+  align-self: center;
+  padding: 0;
+}
+
+</style>
 
