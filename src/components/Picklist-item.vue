@@ -45,4 +45,12 @@ export default defineComponent({
   }
 });
 </script>
+<style scoped>
+
+ion-note {
+  align-self: center;
+  padding: 0;
+}
+
+</style>
 
