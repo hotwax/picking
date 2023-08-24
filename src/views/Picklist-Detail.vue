@@ -67,7 +67,7 @@ import { mapGetters, useStore } from 'vuex';
 import { translate } from '@/i18n'
 import { showToast } from '@/utils';
 import Scanner from '@/components/Scanner'
-import { useRouter } from 'vue-router';
+import { useRouter, onBeforeRouteLeave } from 'vue-router';
 
 export default defineComponent({
   name: 'PicklistDetail',
@@ -197,6 +197,10 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
+    
+    onBeforeRouteLeave(() => {
+      modalController.dismiss({dismissed: true});
+    })
       
     return {
       barcodeOutline,
