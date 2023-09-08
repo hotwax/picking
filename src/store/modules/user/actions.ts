@@ -4,10 +4,9 @@ import RootState from '@/store/RootState'
 import UserState from './UserState'
 import * as types from './mutation-types'
 import { hasError, showToast } from '@/utils'
-import { translate } from '@/i18n'
 import { Settings } from 'luxon';
 import { updateInstanceUrl, updateToken, resetConfig } from '@/adapter'
-import { useAuthStore } from '@hotwax/dxp-components'
+import { useAuthStore, translate } from '@hotwax/dxp-components'
 
 const actions: ActionTree<UserState, RootState> = {
 
