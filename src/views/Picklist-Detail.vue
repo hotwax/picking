@@ -64,7 +64,7 @@ import { defineComponent } from 'vue';
 import { barcodeOutline, checkmarkDone } from 'ionicons/icons';
 import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
 import { mapGetters, useStore } from 'vuex';
-import { translate } from '@/i18n'
+import { translate } from '@hotwax/dxp-components'
 import { showToast } from '@/utils';
 import Scanner from '@/components/Scanner'
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
@@ -131,14 +131,14 @@ export default defineComponent({
     async completeProductPicklist() {
       const alert = await alertController
         .create({
-          header: this.$t("Complete picklist"),
+          header: translate("Complete picklist"),
           buttons: [
             {
-              text: this.$t('Cancel'),
+              text: translate('Cancel'),
               role: 'cancel'
             },
             {
-              text:this.$t('Complete'),
+              text:translate('Complete'),
               handler: () => {
                 if (this.picklist.pickingItemList.some((picklist) => picklist.isChecked)) this.completePicklist();
                 else showToast(translate("No item has been picked"));
