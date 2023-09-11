@@ -68,13 +68,7 @@
         </ion-card>
       </section>
       <hr />
-      <div class="section-header">
-        <h1>
-          {{ $t('App') }}
-          <p class="overline" >{{ "Version: " + appVersion }}</p>
-        </h1>
-        <p class="overline">{{ "Built: " + getDateTime(appInfo.builtTime) }}</p>
-      </div>
+      <AppVersionInfo />
       <section>
         <ion-card>
           <ion-card-header>
@@ -118,7 +112,6 @@ import { businessOutline, personCircleOutline, codeWorkingOutline, openOutline, 
 import { mapGetters, useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import Image from '@/components/Image.vue';
-import { DateTime } from 'luxon';
 import TimeZoneModal from '@/views/TimezoneModal.vue';
 
 export default defineComponent({
@@ -146,8 +139,6 @@ export default defineComponent({
   data() {
     return {
       baseURL: process.env.VUE_APP_BASE_URL,
-      appInfo: (process.env.VUE_APP_VERSION_INFO ? JSON.parse(process.env.VUE_APP_VERSION_INFO) : {}) as any,
-      appVersion: "",
       sortBy: [
         {
           name: 'Product name',
@@ -172,9 +163,6 @@ export default defineComponent({
       instanceUrl: 'user/getInstanceUrl',
       picklistItemSortBy: 'user/getPicklistItemSortBy'
     })
-  },
-  mounted() {
-    this.appVersion = this.appInfo.branch ? (this.appInfo.branch + "-" + this.appInfo.revision) : this.appInfo.tag;
   },
   methods: {
     async changeTimeZone() {
@@ -204,9 +192,6 @@ export default defineComponent({
     },
     goToLaunchpad() {
       window.location.href = `${process.env.VUE_APP_LOGIN_URL}`
-    },
-    getDateTime(time: any) {
-      return DateTime.fromMillis(time).toLocaleString(DateTime.DATETIME_MED);
     },
     updateSortBy(event: any) {
       this.store.dispatch('user/updateSortBy', event.detail.value)
