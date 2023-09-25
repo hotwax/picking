@@ -1,4 +1,5 @@
 require("@hotwax/app-version-info")
+const path = require('path')
 module.exports = {
   // WHY THIS CONFIG: Error while using pinia while importing dxp-components - 
   // Can't import the named export 'computed' from non EcmaScript module (only default export is available)
@@ -14,6 +15,11 @@ module.exports = {
         },
       ],
     },
+    resolve:{
+      alias:{
+        vue: path.resolve('./node_modules/vue')
+      }
+    }
   },
   pluginOptions: {
     i18n: {
@@ -27,5 +33,6 @@ module.exports = {
       enableInSFC: true
     }
   },
-  runtimeCompiler: true
+  runtimeCompiler: true,
+  transpileDependencies: ["@hotwax/dxp-components"]
 }

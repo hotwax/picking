@@ -22,7 +22,7 @@
           <PicklistDetailItem :lastScannedId="lastScannedId" :picklistItems="picklist.record"/>
         </ion-item-group>
       </ion-list>
-     </ion-content>
+    </ion-content>
 
      <ion-footer v-if="picklist.statusId !== 'PICKLIST_COMPLETED'">
       <ion-toolbar>
@@ -60,13 +60,12 @@ import {
   alertController,
   modalController
 } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import { defineAsyncComponent, defineComponent } from 'vue';
 import { barcodeOutline, checkmarkDone } from 'ionicons/icons';
 import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
 import { mapGetters, useStore } from 'vuex';
 import { translate } from '@/i18n'
 import { showToast } from '@/utils';
-import Scanner from '@/components/Scanner'
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
 
 export default defineComponent({
@@ -172,12 +171,14 @@ export default defineComponent({
     async scanCode() {
       const modal = await modalController
         .create({
-          component: Scanner,
+          component: defineAsyncComponent(() => import('@hotwax/dxp-components').then(components => components.Scanner))
         });
       modal.onDidDismiss()
         .then((result) => {
-          //result : value of the scanned barcode/QRcode
-          this.selectProduct(result.data.value)
+          if(result.data) {
+            //result : value of the scanned barcode/QRcode
+            this.selectProduct(result.data.value)
+          }
         });
       return modal.present();
     },
@@ -199,7 +200,7 @@ export default defineComponent({
     const router = useRouter();
     
     onBeforeRouteLeave(() => {
-      modalController.dismiss({dismissed: true});
+      modalController.dismiss({ dismissed: true });
     })
       
     return {
