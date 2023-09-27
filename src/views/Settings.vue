@@ -184,9 +184,6 @@ export default defineComponent({
         })
       }
     },
-    goToOms(){
-      window.open(this.instanceUrl.startsWith('http') ? this.instanceUrl.replace('api/', "") : `https://${this.instanceUrl}.hotwax.io/`, '_blank', 'noopener, noreferrer');
-    },
     goToLaunchpad() {
       window.location.href = `${process.env.VUE_APP_LOGIN_URL}`
     },
