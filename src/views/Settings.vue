@@ -6,29 +6,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <div class="user-profile">
-        <ion-card>
-          <ion-item lines="full">
-            <ion-avatar slot="start" v-if="userProfile?.partyImageUrl">
-              <Image :src="userProfile.partyImageUrl"/>
-            </ion-avatar>
-            <!-- ion-no-padding to remove extra side/horizontal padding as additional padding 
-            is added on sides from ion-item and ion-padding-vertical to compensate the removed
-            vertical padding -->
-            <ion-card-header class="ion-no-padding ion-padding-vertical">
-              <ion-card-subtitle>{{ userProfile?.userLoginId }}</ion-card-subtitle>
-              <ion-card-title>{{ userProfile?.partyName }}</ion-card-title>
-            </ion-card-header>
-          </ion-item>
-          <ion-button color="danger" @click="logout()">{{ $t("Logout") }}</ion-button>
-          <ion-button fill="outline" @click="goToLaunchpad()">
-            {{ $t("Go to Launchpad") }}
-            <ion-icon slot="end" :icon="openOutline" />
-          </ion-button>
-          <!-- Commenting this code as we currently do not have reset password functionality -->
-          <!-- <ion-button fill="outline" color="medium">{{ $t("Reset password") }}</ion-button> -->
-        </ion-card>
-      </div>
+      <UserProfileInfo @reset-state-before-logout="resetStateBeforeLogout" />
+
       <div class="section-header">
         <h1>{{ $t('OMS') }}</h1>
       </div>
@@ -112,19 +91,17 @@
 </template>
 
 <script lang="ts">
-import { IonAvatar, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar, modalController } from '@ionic/vue';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { businessOutline, personCircleOutline, codeWorkingOutline, openOutline, timeOutline } from 'ionicons/icons'; 
 import { mapGetters, useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import Image from '@/components/Image.vue';
 import { DateTime } from 'luxon';
 import TimeZoneModal from '@/views/TimezoneModal.vue';
 
 export default defineComponent({
   name: 'Settings',
   components: {
-    IonAvatar,
     IonButton, 
     IonCard,
     IonCardContent,
@@ -140,8 +117,7 @@ export default defineComponent({
     IonSelect,
     IonSelectOption,
     IonTitle, 
-    IonToolbar,
-    Image
+    IonToolbar
   },
   data() {
     return {
@@ -183,12 +159,8 @@ export default defineComponent({
       });
       return timeZoneModal.present();
     },
-    logout () {
-      this.store.dispatch('user/logout').then(() => {
-        this.store.dispatch('picklist/clearPicklist')
-        const redirectUrl = window.location.origin + '/login'
-        window.location.href = `${process.env.VUE_APP_LOGIN_URL}?isLoggedOut=true&redirectUrl=${redirectUrl}`
-      })
+    async resetStateBeforeLogout() {
+      await   this.store.dispatch('picklist/clearPicklist')
     },
     setFacility (facility: any) {
       if (this.userProfile){
@@ -201,9 +173,6 @@ export default defineComponent({
     },
     goToOms(){
       window.open(this.instanceUrl.startsWith('http') ? this.instanceUrl.replace('api/', "") : `https://${this.instanceUrl}.hotwax.io/`, '_blank', 'noopener, noreferrer');
-    },
-    goToLaunchpad() {
-      window.location.href = `${process.env.VUE_APP_LOGIN_URL}`
     },
     getDateTime(time: any) {
       return DateTime.fromMillis(time).toLocaleString(DateTime.DATETIME_MED);
