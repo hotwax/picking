@@ -6,7 +6,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <UserProfileInfo @reset-state-before-logout="resetStateBeforeLogout" />
+      <DxpUserProfile @reset-state-before-logout="resetStateBeforeLogout" :userProfile="userProfile" :profileButtonsText="{logoutText: 'Logout', launchpadText: 'Go to Launchpad'}" />
 
       <div class="section-header">
         <h1>{{ $t('OMS') }}</h1>
