@@ -154,7 +154,6 @@ export default defineComponent({
       userProfile: 'user/getUserProfile',
       currentFacility: 'user/getCurrentFacility',
       uploadProducts: 'product/getUploadProducts',
-      instanceUrl: 'user/getInstanceUrl',
       picklistItemSortBy: 'user/getPicklistItemSortBy'
     })
   },
