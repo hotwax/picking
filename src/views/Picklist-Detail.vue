@@ -170,16 +170,22 @@ export default defineComponent({
       })
     },
     async scanCode() {
-      const modal = await modalController
+      try {
+        // checking camera permission before opening the scanner
+        await navigator.mediaDevices.getUserMedia({ video: true });
+        const modal = await modalController
         .create({
           component: Scanner,
         });
-      modal.onDidDismiss()
+        modal.onDidDismiss()
         .then((result) => {
           //result : value of the scanned barcode/QRcode
           this.selectProduct(result.data.value)
         });
-      return modal.present();
+        return modal.present();
+      } catch (err) {
+        showToast(translate("Camera permission denied."));
+      }
     },
     sortPickists() {
       // Sort picklist products based on the sorting parameter selected
