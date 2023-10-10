@@ -6,7 +6,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <DxpUserProfile @reset-state-before-logout="resetStateBeforeLogout" :userProfile="userProfile" :profileButtonsText="{logoutText: 'Logout', launchpadText: 'Go to Launchpad'}" />
+      <DxpUserProfile @reset-state-before-logout="resetStateBeforeLogout" :userProfile="userProfile" logoutLabel="Logout" goToLabel="Go to Launchpad" />
 
       <div class="section-header">
         <h1>{{ $t('OMS') }}</h1>
@@ -206,10 +206,6 @@ export default defineComponent({
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     align-items: start;
-  }
-  .user-profile {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   }
   .section-header {
     display: flex;
