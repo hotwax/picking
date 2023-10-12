@@ -10,6 +10,7 @@ const userModule: Module<UserState, RootState> = {
     state: {
       token: '',
       current: null,
+      currentEComStore: {},
       currentFacility: {},
       instanceUrl: '',
       picklistItemSortBy: 'productName'
