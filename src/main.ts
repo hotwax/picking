@@ -30,11 +30,7 @@ import i18n from './i18n'
 import store from './store'
 import { dxpComponents } from '@hotwax/dxp-components'
 import { login, logout, loader } from './user-utils';
-<<<<<<< Updated upstream
 import { getConfig, initialise } from '@/adapter'
-=======
-import { getConfig, initialise } from '@hotwax/oms-api';
->>>>>>> Stashed changes
 
 const app = createApp(App)
   .use(IonicVue, {
