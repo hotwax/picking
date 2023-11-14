@@ -9,6 +9,7 @@ import { Settings } from 'luxon';
 import { logout, updateInstanceUrl, updateToken, resetConfig } from '@/adapter'
 import { useAuthStore } from '@hotwax/dxp-components'
 import emitter from '@/event-bus'
+import router from '@/router';
 
 const actions: ActionTree<UserState, RootState> = {
 
@@ -17,7 +18,7 @@ const actions: ActionTree<UserState, RootState> = {
  */
   async login ({ commit, dispatch }, payload) {
     try {
-      const {token, oms} = payload;
+      const { token, oms } = payload;
       dispatch("setUserInstanceUrl", oms);
       if (token) {
         const permissionId = process.env.VUE_APP_PERMISSION_ID;
@@ -47,13 +48,18 @@ const actions: ActionTree<UserState, RootState> = {
           updateToken(token)
           await dispatch('getProfile')
         }
+
+        // accessing picklist ID from router as route cannot be accessed here
+        const picklistId = router.currentRoute.value.query.picklistId
+        if (picklistId) {
+          return `picklist-details/${picklistId}`
+        }
       } 
     } catch (err: any) {
       showToast(translate('Something went wrong'));
       console.error("error", err);
       return Promise.reject(new Error(err))
     }
-    // return resp
   },
 
   /**
