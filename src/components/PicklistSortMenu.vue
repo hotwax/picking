@@ -33,10 +33,8 @@ import {
   IonToolbar,
   menuController
 } from '@ionic/vue'
-import { idCardOutline, toggleOutline } from 'ionicons/icons'
 import { defineComponent } from 'vue';
 import { mapGetters, useStore } from 'vuex';
-import { translate } from '@hotwax/dxp-components'
 import emitter from '@/event-bus';
 
 export default defineComponent({
@@ -87,10 +85,7 @@ export default defineComponent({
     const store = useStore();
 
     return {
-      idCardOutline,
-      store,
-      toggleOutline,
-      translate
+      store
     };    
   }
 })
