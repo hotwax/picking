@@ -9,17 +9,9 @@
     <ion-content>
       <ion-list>
         <ion-radio-group :value="picklistItemSortBy" @ionChange="updateSortBy($event)">
-          <ion-item>
-            <ion-radio slot="start" value="productName"/>
-            <ion-label>{{ $t("Product name") }}</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-radio slot="start" value="locationSeqId"/>
-            <ion-label>{{ $t("Location ID") }}</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-radio slot="start" value="picklistBinId"/>
-            <ion-label>{{ $t("Bin ID") }}</ion-label>
+          <ion-item v-for="option in sortBy" :key="option.value">
+            <ion-radio slot="start" :value="option.value"/>
+            <ion-label>{{ $t(option.name) }}</ion-label>
           </ion-item>
         </ion-radio-group>
       </ion-list>
@@ -66,10 +58,25 @@ export default defineComponent({
       picklistItemSortBy: 'user/getPicklistItemSortBy'
     })
   },
+  data() {
+    return {
+      sortBy: [
+        {
+          name: 'Product name',
+          value: 'productName'
+        },
+        {
+          name: 'Location ID',
+          value: 'locationSeqId'
+        },
+        {
+          name: 'Bin ID',
+          value: 'picklistBinId'
+        }
+      ]
+    }
+  },
   methods: {
-    closeMenu() {
-      menuController.close()
-    },
     async updateSortBy(event: CustomEvent) {
       await this.store.dispatch('user/updateSortBy', event.detail.value)
       emitter.emit('sortPicklists')
