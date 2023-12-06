@@ -1,15 +1,20 @@
 <template>
   <ion-page>
+    <PicklistSortMenu content-id="main-content" />
+
     <ion-header :translucent="true">
       <ion-toolbar>
         <ion-back-button default-href="/" slot="start" />
         <ion-title>{{ id }}</ion-title>
-        <ion-buttons v-if="picklist.statusId !== 'PICKLIST_COMPLETED'" slot="end">
-          <ion-button @click="selectAll" >{{ $t ("Select all") }}</ion-button>
+        <ion-buttons slot="end">
+          <ion-button @click="selectAll" v-if="picklist.statusId !== 'PICKLIST_COMPLETED'">{{ $t ("Select all") }}</ion-button>
+          <ion-menu-button>
+            <ion-icon :icon="swapVerticalOutline" />
+          </ion-menu-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content>
+    <ion-content  id="main-content">
       <ion-item class="scanner">
         <ion-label>{{ $t("Scan") }}</ion-label>  
         <ion-input @ionFocus="selectSearchBarText($event)" :placeholder="$t('product barcode')" @keyup.enter="$event.target.value && selectProduct($event.target.value.trim()); $event.target.value = ''"/>
@@ -54,6 +59,7 @@ import {
   IonItemGroup,
   IonLabel,
   IonList,
+  IonMenuButton,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -61,13 +67,15 @@ import {
   modalController
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { barcodeOutline, checkmarkDone } from 'ionicons/icons';
+import { barcodeOutline, checkmarkDone, swapVerticalOutline } from 'ionicons/icons';
 import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
 import { mapGetters, useStore } from 'vuex';
 import { translate } from '@/i18n'
 import { showToast } from '@/utils';
 import Scanner from '@/components/Scanner'
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
+import PicklistSortMenu from '@/components/PicklistSortMenu.vue';
+import emitter from '@/event-bus';
 
 export default defineComponent({
   name: 'PicklistDetail',
@@ -85,10 +93,12 @@ export default defineComponent({
     IonItemGroup, 
     IonLabel,
     IonList,
+    IonMenuButton,
     IonPage, 
     IonTitle, 
     IonToolbar,
-    PicklistDetailItem
+    PicklistDetailItem,
+    PicklistSortMenu
   },
   computed: {
     ...mapGetters({
@@ -105,7 +115,11 @@ export default defineComponent({
   props: ['id'],
   async mounted () {
     await this.store.dispatch('picklist/setCurrentPicklist', { id: this.id })
-    this.sortPickists()
+    this.sortPicklists()
+    emitter.on('sortPicklists', this.sortPicklists)
+  },
+  unmounted() {
+    emitter.off('sortPicklists', this.sortPicklists)
   },
   methods: {
     async completePicklist() {
@@ -187,7 +201,7 @@ export default defineComponent({
         showToast(translate("Camera permission denied."));
       }
     },
-    sortPickists() {
+    sortPicklists() {
       // Sort picklist products based on the sorting parameter selected
       this.picklist.pickingItemList.sort((a, b) => a[this.picklistItemSortBy].localeCompare(b[this.picklistItemSortBy], { sensitivity: 'base' }));
       const data = this.picklist.pickingItemList.reduce((r, e) => {
@@ -212,6 +226,7 @@ export default defineComponent({
       barcodeOutline,
       checkmarkDone,
       store,
+      swapVerticalOutline,
       router
     }
   }
