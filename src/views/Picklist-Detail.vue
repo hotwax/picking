@@ -14,7 +14,7 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content  id="main-content">
+    <ion-content id="main-content">
       <ion-item class="scanner">
         <ion-label>{{ $t("Scan") }}</ion-label>  
         <ion-input @ionFocus="selectSearchBarText($event)" :placeholder="$t('product barcode')" @keyup.enter="$event.target.value && selectProduct($event.target.value.trim()); $event.target.value = ''"/>
