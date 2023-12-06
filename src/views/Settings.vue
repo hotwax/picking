@@ -133,20 +133,7 @@ export default defineComponent({
       baseURL: process.env.VUE_APP_BASE_URL,
       appInfo: (process.env.VUE_APP_VERSION_INFO ? JSON.parse(process.env.VUE_APP_VERSION_INFO) : {}) as any,
       appVersion: "",
-      sortBy: [
-        {
-          name: 'Product name',
-          value: 'productName'
-        },
-        {
-          name: 'Location ID',
-          value: 'locationSeqId'
-        },
-        {
-          name: 'Bin ID',
-          value: 'picklistBinId'
-        }
-      ]
+      sortBy: JSON.parse(process.env.VUE_APP_PICKLISTS_SORT_OPTIONS)
     };
   },
   computed: {

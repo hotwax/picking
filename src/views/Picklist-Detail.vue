@@ -1,6 +1,23 @@
 <template>
   <ion-page>
-    <PicklistSortMenu content-id="main-content" />
+    <ion-menu side="end" content-id="main-content">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ $t("Sort by") }}</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <ion-list>
+          <ion-radio-group :value="picklistItemSortBy" @ionChange="updateSortBy($event)">
+            <ion-item v-for="option in sortBy" :key="option.value">
+              <ion-radio slot="start" :value="option.value"/>
+              <ion-label>{{ $t(option.name) }}</ion-label>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
 
     <ion-header :translucent="true">
       <ion-toolbar>
@@ -59,12 +76,16 @@ import {
   IonItemGroup,
   IonLabel,
   IonList,
+  IonMenu,
   IonMenuButton,
   IonPage,
+  IonRadio,
+  IonRadioGroup,
   IonTitle,
   IonToolbar,
   alertController,
-  modalController
+  modalController,
+  menuController
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { barcodeOutline, checkmarkDone, swapVerticalOutline } from 'ionicons/icons';
@@ -74,7 +95,6 @@ import { translate } from '@/i18n'
 import { showToast } from '@/utils';
 import Scanner from '@/components/Scanner'
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
-import PicklistSortMenu from '@/components/PicklistSortMenu.vue';
 import emitter from '@/event-bus';
 
 export default defineComponent({
@@ -93,12 +113,14 @@ export default defineComponent({
     IonItemGroup, 
     IonLabel,
     IonList,
+    IonMenu,
     IonMenuButton,
-    IonPage, 
+    IonPage,
+    IonRadio,
+    IonRadioGroup,
     IonTitle, 
     IonToolbar,
-    PicklistDetailItem,
-    PicklistSortMenu
+    PicklistDetailItem
   },
   computed: {
     ...mapGetters({
@@ -109,17 +131,14 @@ export default defineComponent({
   data() {
     return {
       picklistGroup: [],
-      lastScannedId: ''
+      lastScannedId: '',
+      sortBy: JSON.parse(process.env.VUE_APP_PICKLISTS_SORT_OPTIONS)
     }
   },
   props: ['id'],
   async mounted () {
     await this.store.dispatch('picklist/setCurrentPicklist', { id: this.id })
     this.sortPicklists()
-    emitter.on('sortPicklists', this.sortPicklists)
-  },
-  unmounted() {
-    emitter.off('sortPicklists', this.sortPicklists)
   },
   methods: {
     async completePicklist() {
@@ -212,6 +231,11 @@ export default defineComponent({
         return r;
       }, {});
       this.picklistGroup = Object.values(data);
+    },
+    async updateSortBy(event) {
+      await this.store.dispatch('user/updateSortBy', event.detail.value)
+      this.sortPicklists()
+      menuController.close()
     }
   },
   setup() {
