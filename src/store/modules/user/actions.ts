@@ -96,8 +96,8 @@ const actions: ActionTree<UserState, RootState> = {
     commit(types.USER_END_SESSION)
     resetConfig();
     this.dispatch('picklist/setFilters', {
-      hideCompletedPicklists: false,
-      showMyPicklists: false
+      hideCompletedPicklists: true,
+      showMyPicklists: true
     });
 
     // reset plugin state on logout
