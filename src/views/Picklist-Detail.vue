@@ -10,7 +10,7 @@
       <ion-content>
         <ion-list>
           <ion-radio-group :value="picklistItemSortBy" @ionChange="updateSortBy($event)">
-            <ion-item v-for="option in sortBy" :key="option.value">
+            <ion-item v-for="option in sortOptions" :key="option.value">
               <ion-radio slot="start" :value="option.value"/>
               <ion-label>{{ $t(option.name) }}</ion-label>
             </ion-item>
@@ -95,7 +95,6 @@ import { translate } from '@/i18n'
 import { showToast } from '@/utils';
 import Scanner from '@/components/Scanner'
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
-import emitter from '@/event-bus';
 
 export default defineComponent({
   name: 'PicklistDetail',
@@ -132,7 +131,7 @@ export default defineComponent({
     return {
       picklistGroup: [],
       lastScannedId: '',
-      sortBy: JSON.parse(process.env.VUE_APP_PICKLISTS_SORT_OPTIONS)
+      sortOptions: JSON.parse(process.env.VUE_APP_PICKLISTS_SORT_OPTIONS)
     }
   },
   props: ['id'],

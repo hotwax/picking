@@ -87,7 +87,7 @@
           <ion-item lines="none">
             <ion-label>{{ $t("Sort by") }}</ion-label>
             <ion-select interface="popover" :value="picklistItemSortBy" @ionChange="updateSortBy($event)">
-              <ion-select-option v-for="option in sortBy" :key="option.value" :value="option.value" >{{ option.name }}</ion-select-option>
+              <ion-select-option v-for="option in sortOptions" :key="option.value" :value="option.value" >{{ option.name }}</ion-select-option>
             </ion-select>
           </ion-item>
         </ion-card>
@@ -133,7 +133,7 @@ export default defineComponent({
       baseURL: process.env.VUE_APP_BASE_URL,
       appInfo: (process.env.VUE_APP_VERSION_INFO ? JSON.parse(process.env.VUE_APP_VERSION_INFO) : {}) as any,
       appVersion: "",
-      sortBy: JSON.parse(process.env.VUE_APP_PICKLISTS_SORT_OPTIONS)
+      sortOptions: JSON.parse(process.env.VUE_APP_PICKLISTS_SORT_OPTIONS)
     };
   },
   computed: {
