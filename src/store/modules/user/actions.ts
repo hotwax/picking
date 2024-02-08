@@ -7,7 +7,7 @@ import { hasError, showToast } from '@/utils'
 import { translate } from '@/i18n'
 import { Settings } from 'luxon';
 import { logout, updateInstanceUrl, updateToken, resetConfig } from '@/adapter'
-import { useAuthStore } from '@hotwax/dxp-components'
+import { useAuthStore, useProductIdentificationStore } from '@hotwax/dxp-components'
 import emitter from '@/event-bus'
 import router from '@/router';
 
@@ -36,7 +36,7 @@ const actions: ActionTree<UserState, RootState> = {
           if (checkPermissionResponse.status === 200 && !hasError(checkPermissionResponse) && checkPermissionResponse.data && checkPermissionResponse.data.hasPermission) {
             commit(types.USER_TOKEN_CHANGED, { newToken: token })
             updateToken(token)
-            await dispatch('getProfile')
+            await dispatch('getProfile', token)
           } else {
             const permissionError = 'You do not have permission to access the app.';
             showToast(translate(permissionError));
@@ -46,7 +46,7 @@ const actions: ActionTree<UserState, RootState> = {
         } else {
           commit(types.USER_TOKEN_CHANGED, { newToken: token })
           updateToken(token)
-          await dispatch('getProfile')
+          await dispatch('getProfile', token)
         }
 
         // accessing picklist ID from router as route cannot be accessed here
@@ -115,14 +115,25 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Get User profile
    */
-  async getProfile ( { commit }) {
+  async getProfile ( { commit }, token) {
     const resp = await UserService.getProfile()
     if (resp.status === 200) {
       if (resp.data.userTimeZone) {
         Settings.defaultZone = resp.data.userTimeZone;
       }
       commit(types.USER_INFO_UPDATED, resp.data);
-      commit(types.USER_CURRENT_FACILITY_UPDATED, resp.data.facilities.length > 0 ? resp.data.facilities[0] : {});
+
+      const currentFacility = resp.data.facilities.length > 0 ? resp.data.facilities[0] : {};
+
+      commit(types.USER_CURRENT_FACILITY_UPDATED, currentFacility);
+
+      // get and set current ecom store in state
+      const currentEComStore = await UserService.getCurrentEComStore(token, currentFacility?.facilityId);
+      commit(types.USER_CURRENT_ECOM_STORE_UPDATED, currentEComStore);
+
+      // Get product identification from api using dxp-component
+      await useProductIdentificationStore().getIdentificationPref(currentEComStore?.productStoreId)
+        .catch((error) => console.error(error));
     }
   },
 
@@ -141,8 +152,15 @@ const actions: ActionTree<UserState, RootState> = {
     },
 
   // update current facility information
-  async setFacility ({ commit }, payload) {
+  async setFacility ({ commit, state }, payload) {
     commit(types.USER_CURRENT_FACILITY_UPDATED, payload.facility);
+
+    // get and set current ecom store in state
+    const currentEComStore = await UserService.getCurrentEComStore(state.token, payload.facility.facilityId);
+    commit(types.USER_CURRENT_ECOM_STORE_UPDATED, currentEComStore);
+
+    await useProductIdentificationStore().getIdentificationPref(currentEComStore?.productStoreId)
+      .catch((error) => console.error(error));
   },
 
   /**
