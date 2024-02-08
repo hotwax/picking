@@ -158,6 +158,8 @@ const actions: ActionTree<UserState, RootState> = {
     // get and set current ecom store in state
     const currentEComStore = await UserService.getCurrentEComStore(state.token, payload.facility.facilityId);
     commit(types.USER_CURRENT_ECOM_STORE_UPDATED, currentEComStore);
+
+    await useProductIdentificationStore().getIdentificationPref(currentEComStore?.productStoreId)
   },
 
   /**
