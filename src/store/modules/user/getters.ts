@@ -27,6 +27,11 @@ const getters: GetterTree <UserState, RootState> = {
     },
     getPicklistItemSortBy (state) {
         return state.picklistItemSortBy;
-    }
+    },
+    getBaseUrl(state) {
+        let baseURL = process.env.VUE_APP_BASE_URL;
+        if (!baseURL) baseURL = state.instanceUrl;
+        return baseURL.startsWith('http') ? baseURL : `https://${baseURL}.hotwax.io/api/`;
+    },
 }
 export default getters;

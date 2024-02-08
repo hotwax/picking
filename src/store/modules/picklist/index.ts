@@ -18,8 +18,9 @@ const picklistModule: Module<PicklistState, RootState> = {
       total: 0
     },
     filters: {
-      hideCompletedPicklists: false,
-      showMyPicklists: false
+      // enabling picklist filters by default
+      hideCompletedPicklists: true,
+      showMyPicklists: true
     }
   },
   getters,

@@ -89,7 +89,7 @@
           <ion-item lines="none">
             <ion-label>{{ $t("Sort by") }}</ion-label>
             <ion-select interface="popover" :value="picklistItemSortBy" @ionChange="updateSortBy($event)">
-              <ion-select-option v-for="option in sortBy" :key="option.value" :value="option.value" >{{ option.name }}</ion-select-option>
+              <ion-select-option v-for="option in sortOptions" :key="option.value" :value="option.value" >{{ option.name }}</ion-select-option>
             </ion-select>
           </ion-item>
         </ion-card>
@@ -135,20 +135,7 @@ export default defineComponent({
       baseURL: process.env.VUE_APP_BASE_URL,
       appInfo: (process.env.VUE_APP_VERSION_INFO ? JSON.parse(process.env.VUE_APP_VERSION_INFO) : {}) as any,
       appVersion: "",
-      sortBy: [
-        {
-          name: 'Product name',
-          value: 'productName'
-        },
-        {
-          name: 'Location ID',
-          value: 'locationSeqId'
-        },
-        {
-          name: 'Bin ID',
-          value: 'picklistBinId'
-        }
-      ]
+      sortOptions: JSON.parse(process.env.VUE_APP_PICKLISTS_SORT_OPTIONS)
     };
   },
   computed: {
@@ -170,10 +157,14 @@ export default defineComponent({
       return timeZoneModal.present();
     },
     logout () {
-      this.store.dispatch('user/logout').then(() => {
+      this.store.dispatch('user/logout', { isUserUnauthorised: false }).then((redirectionUrl) => {
         this.store.dispatch('picklist/clearPicklist')
-        const redirectUrl = window.location.origin + '/login'
-        window.location.href = `${process.env.VUE_APP_LOGIN_URL}?isLoggedOut=true&redirectUrl=${redirectUrl}`
+
+        // if not having redirection url then redirect the user to launchpad
+        if(!redirectionUrl) {
+          const redirectUrl = window.location.origin + '/login'
+          window.location.href = `${process.env.VUE_APP_LOGIN_URL}?isLoggedOut=true&redirectUrl=${redirectUrl}`
+        }
       })
     },
     setFacility (facility: any) {

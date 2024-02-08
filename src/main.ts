@@ -30,7 +30,7 @@ import i18n from './i18n'
 import store from './store'
 import { dxpComponents } from '@hotwax/dxp-components'
 import { login, logout, loader } from './user-utils';
-import { getConfig, getProductIdentificationPref, initialise, setProductIdentificationPref } from '@/adapter';
+import { getConfig, getProductIdentificationPref, initialise, setProductIdentificationPref } from '@/adapter'
 
 const app = createApp(App)
   .use(IonicVue, {

@@ -1,15 +1,37 @@
 <template>
   <ion-page>
+    <ion-menu side="end" content-id="main-content">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ $t("Sort by") }}</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <ion-list>
+          <ion-radio-group :value="picklistItemSortBy" @ionChange="updateSortBy($event)">
+            <ion-item v-for="option in sortOptions" :key="option.value">
+              <ion-radio slot="start" :value="option.value"/>
+              <ion-label>{{ $t(option.name) }}</ion-label>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+
     <ion-header :translucent="true">
       <ion-toolbar>
         <ion-back-button default-href="/" slot="start" />
         <ion-title>{{ id }}</ion-title>
-        <ion-buttons v-if="picklist.statusId !== 'PICKLIST_COMPLETED'" slot="end">
-          <ion-button @click="selectAll" >{{ $t ("Select all") }}</ion-button>
+        <ion-buttons slot="end">
+          <ion-button @click="selectAll" v-if="picklist.statusId !== 'PICKLIST_COMPLETED'">{{ $t ("Select all") }}</ion-button>
+          <ion-menu-button>
+            <ion-icon :icon="swapVerticalOutline" />
+          </ion-menu-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content>
+    <ion-content id="main-content">
       <ion-item class="scanner">
         <ion-label>{{ $t("Scan") }}</ion-label>  
         <ion-input @ionFocus="selectSearchBarText($event)" :placeholder="$t('product barcode')" @keyup.enter="$event.target.value && selectProduct($event.target.value.trim()); $event.target.value = ''"/>
@@ -54,14 +76,19 @@ import {
   IonItemGroup,
   IonLabel,
   IonList,
+  IonMenu,
+  IonMenuButton,
   IonPage,
+  IonRadio,
+  IonRadioGroup,
   IonTitle,
   IonToolbar,
   alertController,
-  modalController
+  modalController,
+  menuController
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { barcodeOutline, checkmarkDone } from 'ionicons/icons';
+import { barcodeOutline, checkmarkDone, swapVerticalOutline } from 'ionicons/icons';
 import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
 import { mapGetters, useStore } from 'vuex';
 import { translate } from '@/i18n'
@@ -85,7 +112,11 @@ export default defineComponent({
     IonItemGroup, 
     IonLabel,
     IonList,
-    IonPage, 
+    IonMenu,
+    IonMenuButton,
+    IonPage,
+    IonRadio,
+    IonRadioGroup,
     IonTitle, 
     IonToolbar,
     PicklistDetailItem
@@ -99,13 +130,14 @@ export default defineComponent({
   data() {
     return {
       picklistGroup: [],
-      lastScannedId: ''
+      lastScannedId: '',
+      sortOptions: JSON.parse(process.env.VUE_APP_PICKLISTS_SORT_OPTIONS)
     }
   },
   props: ['id'],
   async mounted () {
     await this.store.dispatch('picklist/setCurrentPicklist', { id: this.id })
-    this.sortPickists()
+    this.sortPicklists()
   },
   methods: {
     async completePicklist() {
@@ -187,7 +219,7 @@ export default defineComponent({
         showToast(translate("Camera permission denied."));
       }
     },
-    sortPickists() {
+    sortPicklists() {
       // Sort picklist products based on the sorting parameter selected
       this.picklist.pickingItemList.sort((a, b) => a[this.picklistItemSortBy].localeCompare(b[this.picklistItemSortBy], { sensitivity: 'base' }));
       const data = this.picklist.pickingItemList.reduce((r, e) => {
@@ -198,6 +230,11 @@ export default defineComponent({
         return r;
       }, {});
       this.picklistGroup = Object.values(data);
+    },
+    async updateSortBy(event) {
+      await this.store.dispatch('user/updateSortBy', event.detail.value)
+      this.sortPicklists()
+      menuController.close()
     }
   },
   setup() {
@@ -212,6 +249,7 @@ export default defineComponent({
       barcodeOutline,
       checkmarkDone,
       store,
+      swapVerticalOutline,
       router
     }
   }
