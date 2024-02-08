@@ -152,8 +152,12 @@ const actions: ActionTree<UserState, RootState> = {
     },
 
   // update current facility information
-  async setFacility ({ commit }, payload) {
+  async setFacility ({ commit, state }, payload) {
     commit(types.USER_CURRENT_FACILITY_UPDATED, payload.facility);
+
+    // get and set current ecom store in state
+    const currentEComStore = await UserService.getCurrentEComStore(state.token, payload.facility.facilityId);
+    commit(types.USER_CURRENT_ECOM_STORE_UPDATED, currentEComStore);
   },
 
   /**

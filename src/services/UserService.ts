@@ -60,7 +60,7 @@ const getCurrentEComStore = async (token: any, facilityId: any): Promise<any> =>
     return Promise.resolve(resp.data.docs?.length ? resp.data.docs[0] : {});
   } catch(error: any) {
     console.error(error)
-    return Promise.reject({})
+    return Promise.resolve({})
   }
 }
 
