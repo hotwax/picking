@@ -53,7 +53,8 @@ const actions: ActionTree<PicklistState, RootState> = {
     let resp;
     const params = {
       "inputFields": {
-        "statusId": "PICKLIST_COMPLETED",
+        "statusId": ["PICKLIST_COMPLETED", "PICKLIST_PICKED"],
+        "statusId_op": "in",
         "facilityId": this.state.user.currentFacility.facilityId,
       },
       "orderBy": "picklistDate DESC",
