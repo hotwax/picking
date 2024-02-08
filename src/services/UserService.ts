@@ -43,7 +43,6 @@ const getCurrentEComStore = async (token: any, facilityId: any): Promise<any> =>
       "filterByDate": 'Y',
       "viewSize": 1
     }
-
     const resp = await client({
       url: "performFind",
       method: "post",
@@ -55,12 +54,13 @@ const getCurrentEComStore = async (token: any, facilityId: any): Promise<any> =>
       }
     });
     if (hasError(resp)) {
-      return Promise.reject(resp.data);
+      throw resp.data;
     }
 
     return Promise.resolve(resp.data.docs?.length ? resp.data.docs[0] : {});
   } catch(error: any) {
-    return Promise.reject(error)
+    console.error(error)
+    return Promise.reject({})
   }
 }
 
