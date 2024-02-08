@@ -160,6 +160,7 @@ const actions: ActionTree<UserState, RootState> = {
     commit(types.USER_CURRENT_ECOM_STORE_UPDATED, currentEComStore);
 
     await useProductIdentificationStore().getIdentificationPref(currentEComStore?.productStoreId)
+      .catch((error) => console.error(error));
   },
 
   /**
