@@ -163,7 +163,7 @@ export default defineComponent({
     async completeProductPicklist() {
       const alert = await alertController
         .create({
-          header: this.$t("Complete picklist"),
+          header: this.$t("Complete picklist?"),
           buttons: [
             {
               text: this.$t('Cancel'),
