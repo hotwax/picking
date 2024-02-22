@@ -240,7 +240,8 @@ export default defineComponent({
     const router = useRouter();
     
     onBeforeRouteLeave(() => {
-      modalController.dismiss({dismissed: true});
+      // Checking if the modal is present then only close the modal
+      modalController.getTop().then(modal => modal ? modalController.dismiss({dismissed: true}) : null)
     })
       
     return {
