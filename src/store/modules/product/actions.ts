@@ -12,15 +12,9 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   async fetchProducts ( { commit, state }, { productIds }) {
     const cachedProductIds = Object.keys(state.cached);
-    const productIdFilter= productIds.reduce((filter: string, productId: any) => {
-      if (filter !== '') filter += ' OR '
-      // If product already exist in cached products skip
-      if (cachedProductIds.includes(productId)) {
-        return filter;
-      } else {
-        return filter += productId;
-      }
-    }, '');
+    const remainingProductIds = productIds.filter((productId: any) => !cachedProductIds.includes(productId))
+
+    const productIdFilter = remainingProductIds.join(' OR ')
 
     // If there are no products skip the API call
     if (productIdFilter === '') return;
