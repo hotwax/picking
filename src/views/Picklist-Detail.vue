@@ -24,7 +24,7 @@
         <ion-back-button default-href="/" slot="start" />
         <ion-title>{{ id }}</ion-title>
         <ion-buttons slot="end">
-          <ion-button @click="selectAll" v-if="picklist.statusId !== 'PICKLIST_COMPLETED'">{{ $t ("Select all") }}</ion-button>
+          <ion-button @click="selectAll" v-if="picklist.statusId !== 'PICKLIST_COMPLETED' && picklist.statusId !== 'PICKLIST_PICKED'">{{ $t ("Select all") }}</ion-button>
           <ion-menu-button>
             <ion-icon :icon="swapVerticalOutline" />
           </ion-menu-button>
@@ -46,7 +46,7 @@
       </ion-list>
      </ion-content>
 
-     <ion-footer v-if="picklist.statusId !== 'PICKLIST_COMPLETED'">
+     <ion-footer v-if="picklist.statusId !== 'PICKLIST_COMPLETED' && picklist.statusId !== 'PICKLIST_PICKED'">
       <ion-toolbar>
         <ion-buttons class="footer-buttons">
           <ion-button class="action-button" fill="outline" color="secondary" @click="scanCode()">
@@ -163,7 +163,7 @@ export default defineComponent({
     async completeProductPicklist() {
       const alert = await alertController
         .create({
-          header: this.$t("Complete picklist"),
+          header: this.$t("Complete picklist?"),
           buttons: [
             {
               text: this.$t('Cancel'),

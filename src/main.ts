@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
-import './registerServiceWorker'
 import { DateTime } from 'luxon';
 
 import { IonicVue } from '@ionic/vue';
@@ -30,7 +29,7 @@ import i18n from './i18n'
 import store from './store'
 import { dxpComponents } from '@hotwax/dxp-components'
 import { login, logout, loader } from './user-utils';
-import { getConfig, initialise } from '@/adapter'
+import { getConfig, getProductIdentificationPref, initialise, setProductIdentificationPref } from '@/adapter'
 
 const app = createApp(App)
   .use(IonicVue, {
@@ -46,7 +45,9 @@ const app = createApp(App)
     loader,
     appLoginUrl: process.env.VUE_APP_LOGIN_URL as string,
     getConfig,
-    initialise
+    getProductIdentificationPref,
+    initialise,
+    setProductIdentificationPref
   });
 
 // Filters are removed in Vue 3 and global filter introduced https://v3.vuejs.org/guide/migration/filters.html#global-filters
