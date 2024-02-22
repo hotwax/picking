@@ -3,7 +3,7 @@ import { ActionTree } from 'vuex'
 import RootState from '@/store/RootState'
 import PartyState from './PartyState'
 import * as types from './mutation-types'
-import { hasError } from '@/utils'
+import { hasError } from '@/adapter'
 
 
 const actions: ActionTree<PartyState, RootState> = {

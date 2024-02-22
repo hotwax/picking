@@ -3,7 +3,7 @@ import RootState from '@/store/RootState'
 import ProductState from './ProductState'
 import * as types from './mutation-types'
 import { ProductService } from '@/services/ProductService'
-import { hasError } from '@/utils'
+import { hasError } from '@/adapter'
 
 const actions: ActionTree<ProductState, RootState> = {
 

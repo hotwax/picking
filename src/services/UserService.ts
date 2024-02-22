@@ -1,6 +1,5 @@
-import { api, client } from '@/adapter'
+import { api, client, hasError } from '@/adapter'
 import store from '@/store';
-import { hasError } from '@/utils';
 
 const login = async (username: string, password: string): Promise <any> => {
   return api({
