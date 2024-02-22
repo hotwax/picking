@@ -53,8 +53,6 @@ export default defineComponent({
   },
   methods: {
     async showMyPicklists(event: any) {
-      //Handled case for programmatic change of value
-      if (this.showMine == event.detail.checked) return;
       this.store.dispatch('picklist/setFilters', { showMyPicklists: event.detail.checked });
       await this.store.dispatch('picklist/findPickList', { viewSize: process.env.VUE_APP_VIEW_SIZE, viewIndex: 0 });
       await this.store.dispatch('picklist/findCompletedPickLists');
