@@ -45,8 +45,7 @@
             {{ $t('Specify which facility you want to operate from. Order, inventory and other configuration data will be specific to the facility you select.') }}
           </ion-card-content>
           <ion-item lines="none">
-            <ion-label>{{ $t("Select facility") }}</ion-label>
-            <ion-select interface="popover" :value="currentFacility.facilityId" @ionChange="setFacility($event)">
+            <ion-select :label="$t('Select facility')" interface="popover" :value="currentFacility.facilityId" @ionChange="setFacility($event)">
               <ion-select-option v-for="facility in (userProfile ? userProfile.facilities : [])" :key="facility.facilityId" :value="facility.facilityId" >{{ facility.name }}</ion-select-option>
             </ion-select>
           </ion-item>
@@ -87,8 +86,7 @@
             {{ $t('Sorting reorders items in a picklist based on inventory location or custom preferences.') }}
           </ion-card-content>
           <ion-item lines="none">
-            <ion-label>{{ $t("Sort by") }}</ion-label>
-            <ion-select interface="popover" :value="picklistItemSortBy" @ionChange="updateSortBy($event)">
+            <ion-select :label="$t('Sort by')" interface="popover" :value="picklistItemSortBy" @ionChange="updateSortBy($event)">
               <ion-select-option v-for="option in sortOptions" :key="option.value" :value="option.value" >{{ option.name }}</ion-select-option>
             </ion-select>
           </ion-item>

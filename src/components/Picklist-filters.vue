@@ -8,12 +8,10 @@
     <ion-content>
       <ion-list>
         <ion-item lines="none">
-          <ion-label>{{ $t("Only show my picklists") }}</ion-label>
-          <ion-toggle :checked="showMine" @ionChange="showMyPicklists($event)" slot="end" />
+          <ion-toggle :checked="showMine" @ionChange="showMyPicklists($event)">{{ $t("Only show my picklists") }}</ion-toggle>
         </ion-item>
         <ion-item lines="none">
-          <ion-label>{{ $t("Hide completed picklists") }}</ion-label>
-          <ion-toggle :checked="hideCompleted" @ionChange="hideCompletedPicklists($event)" slot="end" />
+          <ion-toggle :checked="hideCompleted" @ionChange="hideCompletedPicklists($event)">{{ $t("Hide completed picklists") }}</ion-toggle>
         </ion-item>
       </ion-list>
     </ion-content>
@@ -25,7 +23,6 @@ import {
   IonContent,
   IonHeader,
   IonItem,
-  IonLabel,
   IonList,
   IonMenu,
   IonTitle,
@@ -41,7 +38,6 @@ export default defineComponent({
     IonContent,
     IonHeader,
     IonItem,
-    IonLabel,
     IonList,
     IonMenu,
     IonTitle,
