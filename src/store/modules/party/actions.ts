@@ -18,7 +18,7 @@ const actions: ActionTree<PartyState, RootState> = {
         "partyId": unavailablePickersPartyIds,
         "partyId_op": 'in'
       },
-      "fieldList": ["firstName", "lastName", "partyId"],
+      "fieldList": ["firstName", "groupName", "lastName", "partyId"],
       "entityName": "PartyNameView",
       "viewSize": unavailablePickersPartyIds.length,
       "distinct": "Y",
@@ -29,7 +29,7 @@ const actions: ActionTree<PartyState, RootState> = {
       if (resp.status == 200 && !hasError(resp) && resp.data.count > 0) {
         const pickersDetails = resp.data.docs;
         const pickersDetailsByPartyId = pickersDetails.reduce((pickersDetailsByPartyId: any, pickerDetails: any) => {
-          pickerDetails.fullName = pickerDetails.firstName + ' ' + pickerDetails.lastName;
+          pickerDetails.fullName = pickerDetails.groupName ? pickerDetails.groupName : pickerDetails.firstName + ' ' + pickerDetails.lastName;
           pickersDetailsByPartyId[pickerDetails.partyId] = pickerDetails;
           return pickersDetailsByPartyId;
         }, {});
