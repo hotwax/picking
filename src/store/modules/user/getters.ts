@@ -15,6 +15,9 @@ const getters: GetterTree <UserState, RootState> = {
     getUserProfile (state) {
         return state.current
     },
+    getCurrentEComStore(state) {
+        return state.currentEComStore;
+    },
     getCurrentFacility (state) {
         return state.currentFacility;
     },
@@ -27,6 +30,11 @@ const getters: GetterTree <UserState, RootState> = {
     },
     getPwaState(state) {
         return state.pwaState;
-    }
+    },
+    getBaseUrl(state) {
+        let baseURL = process.env.VUE_APP_BASE_URL;
+        if (!baseURL) baseURL = state.instanceUrl;
+        return baseURL.startsWith('http') ? baseURL : `https://${baseURL}.hotwax.io/api/`;
+    },
 }
 export default getters;

@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <PicklistFilters content-id="filter-content" />
+    <PicklistFilters v-if="router.currentRoute.value.path === '/tabs/picklists'" content-id="filter-content" />
     <ion-header :translucent="true">
       <ion-toolbar>
         <ion-title>{{ $t("Picklists") }}</ion-title>
@@ -61,6 +61,7 @@ import { filterOutline } from 'ionicons/icons';
 import PicklistItem from '@/components/Picklist-item.vue';
 import { mapGetters, useStore } from 'vuex';
 import PicklistFilters from '@/components/Picklist-filters.vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'Picklists',
@@ -120,9 +121,11 @@ export default defineComponent({
   },
   setup(){
     const store = useStore();
+    const router = useRouter();
 
     return {
       filterOutline,
+      router,
       store
     }
   }

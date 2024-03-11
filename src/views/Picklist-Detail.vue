@@ -11,8 +11,7 @@
         <ion-list>
           <ion-radio-group :value="picklistItemSortBy" @ionChange="updateSortBy($event)">
             <ion-item v-for="option in sortOptions" :key="option.value">
-              <ion-radio slot="start" :value="option.value"/>
-              <ion-label>{{ $t(option.name) }}</ion-label>
+              <ion-radio label-placement="end" justify="start" :value="option.value">{{ $t(option.name) }}</ion-radio>
             </ion-item>
           </ion-radio-group>
         </ion-list>
@@ -24,7 +23,7 @@
         <ion-back-button default-href="/" slot="start" />
         <ion-title>{{ id }}</ion-title>
         <ion-buttons slot="end">
-          <ion-button @click="selectAll" v-if="picklist.statusId !== 'PICKLIST_COMPLETED'">{{ $t ("Select all") }}</ion-button>
+          <ion-button @click="selectAll" v-if="picklist.statusId !== 'PICKLIST_COMPLETED' && picklist.statusId !== 'PICKLIST_PICKED'">{{ $t ("Select all") }}</ion-button>
           <ion-menu-button>
             <ion-icon :icon="swapVerticalOutline" />
           </ion-menu-button>
@@ -33,8 +32,7 @@
     </ion-header>
     <ion-content id="main-content">
       <ion-item class="scanner">
-        <ion-label>{{ $t("Scan") }}</ion-label>  
-        <ion-input @ionFocus="selectSearchBarText($event)" :placeholder="$t('product barcode')" @keyup.enter="$event.target.value && selectProduct($event.target.value.trim()); $event.target.value = ''"/>
+        <ion-input :label="$t('Scan')" @ionFocus="selectSearchBarText($event)" :placeholder="$t('product barcode')" @keyup.enter="$event.target.value && selectProduct($event.target.value.trim()); $event.target.value = ''"/>
       </ion-item>
       <ion-list>
         <ion-item-group v-for="picklist in picklistGroup" :key="picklist.sortBy" >
@@ -46,7 +44,7 @@
       </ion-list>
      </ion-content>
 
-     <ion-footer v-if="picklist.statusId !== 'PICKLIST_COMPLETED'">
+     <ion-footer v-if="picklist.statusId !== 'PICKLIST_COMPLETED' && picklist.statusId !== 'PICKLIST_PICKED'">
       <ion-toolbar>
         <ion-buttons class="footer-buttons">
           <ion-button class="action-button" fill="outline" color="secondary" @click="scanCode()">
@@ -163,7 +161,7 @@ export default defineComponent({
     async completeProductPicklist() {
       const alert = await alertController
         .create({
-          header: this.$t("Complete picklist"),
+          header: this.$t("Complete picklist?"),
           buttons: [
             {
               text: this.$t('Cancel'),
@@ -242,7 +240,8 @@ export default defineComponent({
     const router = useRouter();
     
     onBeforeRouteLeave(() => {
-      modalController.dismiss({dismissed: true});
+      // Checking if the modal is present then only close the modal
+      modalController.getTop().then(modal => modal ? modalController.dismiss({dismissed: true}) : null)
     })
       
     return {

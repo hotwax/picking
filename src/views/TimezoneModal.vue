@@ -15,8 +15,14 @@
 
   <ion-content class="ion-padding">
     <!-- Empty state -->
-    <div class="empty-state" v-if="filteredTimeZones.length === 0">
-      <p>{{ $t("No time zone found")}}</p>
+    <div class="empty-state" v-if="isLoading">
+      <ion-item lines="none">
+        <ion-spinner color="secondary" name="crescent" slot="start" />
+        {{ $t("Fetching time zones") }}
+      </ion-item>
+    </div>
+    <div class="empty-state" v-else-if="filteredTimeZones.length === 0">
+      <p>{{ $t("No time zone found") }}</p>
     </div>
 
     <!-- Timezones -->
@@ -24,8 +30,7 @@
       <ion-list>
         <ion-radio-group value="rd" v-model="timeZoneId">
           <ion-item :key="timeZone.id" v-for="timeZone in filteredTimeZones">
-            <ion-label>{{ timeZone.label }} ({{ timeZone.id }})</ion-label>
-            <ion-radio :value="timeZone.id" slot="start" />
+            <ion-radio label-placement="end" justify="start" :value="timeZone.id">{{ timeZone.label }} ({{ timeZone.id }})</ion-radio>
           </ion-item>
         </ion-radio-group>
       </ion-list>
@@ -49,11 +54,11 @@ import {
   IonHeader,
   IonItem,
   IonIcon,
-  IonLabel,
   IonList,
   IonRadioGroup,
   IonRadio,
   IonSearchbar,
+  IonSpinner,
   IonTitle,
   IonToolbar,
   modalController,
@@ -76,11 +81,11 @@ export default defineComponent({
     IonHeader,
     IonIcon,
     IonItem,
-    IonLabel,
     IonList,
     IonRadioGroup,
     IonRadio,
     IonSearchbar,
+    IonSpinner,
     IonTitle,
     IonToolbar 
   },
@@ -89,7 +94,8 @@ export default defineComponent({
       queryString: '',
       filteredTimeZones: [],
       timeZones: [],
-      timeZoneId: ''
+      timeZoneId: '',
+      isLoading: false
     }
   },
   methods: {
@@ -126,6 +132,7 @@ export default defineComponent({
       });
     },
     async getAvailableTimeZones() {
+      this.isLoading = true;
       const resp = await UserService.getAvailableTimeZones()
       if(resp.status === 200 && !hasError(resp)) {
         // We are filtering valid the timeZones coming with response here
@@ -134,6 +141,7 @@ export default defineComponent({
         });
         this.findTimeZone();
       }
+      this.isLoading = false;
     },
     async selectSearchBarText(event: any) {
       const element = await event.target.getInputElement()
