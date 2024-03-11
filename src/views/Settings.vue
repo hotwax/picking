@@ -127,8 +127,6 @@ export default defineComponent({
   data() {
     return {
       baseURL: process.env.VUE_APP_BASE_URL,
-      appInfo: (process.env.VUE_APP_VERSION_INFO ? JSON.parse(process.env.VUE_APP_VERSION_INFO) : {}) as any,
-      appVersion: "",
       sortOptions: JSON.parse(process.env.VUE_APP_PICKLISTS_SORT_OPTIONS)
     };
   },
@@ -139,9 +137,6 @@ export default defineComponent({
       uploadProducts: 'product/getUploadProducts',
       picklistItemSortBy: 'user/getPicklistItemSortBy'
     })
-  },
-  mounted() {
-    this.appVersion = this.appInfo.branch ? (this.appInfo.branch + "-" + this.appInfo.revision) : this.appInfo.tag;
   },
   methods: {
     async changeTimeZone() {
@@ -172,9 +167,6 @@ export default defineComponent({
     },
     goToLaunchpad() {
       window.location.href = `${process.env.VUE_APP_LOGIN_URL}`
-    },
-    getDateTime(time: any) {
-      return DateTime.fromMillis(time).toLocaleString(DateTime.DATETIME_MED);
     },
     updateSortBy(event: any) {
       this.store.dispatch('user/updateSortBy', event.detail.value)
