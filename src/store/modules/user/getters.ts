@@ -24,6 +24,9 @@ const getters: GetterTree <UserState, RootState> = {
     },
     getPicklistItemSortBy (state) {
         return state.picklistItemSortBy;
+    },
+    getPwaState(state) {
+        return state.pwaState;
     }
 }
 export default getters;

@@ -4,6 +4,7 @@
   "Are you sure you want to change the time zone to?": "Are you sure you want to change the time zone to {timeZoneId}?",
   "Back to Launchpad": "Back to Launchpad",
   "Bin ID": "Bin ID",
+  "Built: ": "Built: {builtDateTime}",
   "Camera permission denied.": "Camera permission denied.",
   "Cancel": "Cancel",
   "Change": "Change",
@@ -71,5 +72,6 @@
   "Update time zone": "Update time zone",
   "User is not associated with any facilities.": "User is not associated with any facilities.",
   "User is not associated with any product stores.": "User is not associated with any product stores.",
-  "Username": "Username"
+  "Username": "Username",
+  "Version: ": "Version: {appVersion}"
 }
