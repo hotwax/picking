@@ -99,7 +99,6 @@ import { businessOutline, personCircleOutline, codeWorkingOutline, openOutline, 
 import { mapGetters, useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import Image from '@/components/Image.vue';
-import { DateTime } from 'luxon';
 import TimeZoneModal from '@/views/TimezoneModal.vue';
 
 export default defineComponent({
