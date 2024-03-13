@@ -29,7 +29,7 @@ import i18n from './i18n'
 import store from './store'
 import { dxpComponents } from '@hotwax/dxp-components'
 import { login, logout, loader } from './user-utils';
-import { getConfig, initialise, getProductIdentificationPref, setProductIdentificationPref } from '@/adapter'
+import { getConfig, getProductIdentificationPref, initialise, setProductIdentificationPref } from '@/adapter'
 import localeMessages from './locales';
 
 const app = createApp(App)
