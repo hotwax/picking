@@ -39,7 +39,7 @@
           <ion-item-divider>
             <ion-label> {{ picklist.sortBy }}</ion-label>
           </ion-item-divider>
-          <PicklistDetailItem :lastScannedId="lastScannedId" :picklistItems="picklist.record"/>
+          <PicklistDetailItem :picklistItems="picklist.record"/>
         </ion-item-group>
       </ion-list>
      </ion-content>
@@ -122,13 +122,13 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       picklist: 'picklist/getCurrent',
-      picklistItemSortBy: 'user/getPicklistItemSortBy'
+      picklistItemSortBy: 'user/getPicklistItemSortBy',
+      lastScannedId: 'picklist/getLastScannedId',
     })
   },
   data() {
     return {
       picklistGroup: [],
-      lastScannedId: '',
       sortOptions: JSON.parse(process.env.VUE_APP_PICKLISTS_SORT_OPTIONS)
     }
   },
@@ -185,12 +185,16 @@ export default defineComponent({
       const item = this.picklist.pickingItemList.find((product) => product.productId === productId && !product.isChecked)
       if (item) {
         item.isChecked = true;
-        this.lastScannedId = item.id;
+        this.store.dispatch("picklist/updateLastScannedId", item.id)
         // Highlight specific element
         const scannedElement = document.getElementById(item.id);
         scannedElement && (scannedElement.scrollIntoView());
+
+        setTimeout(() => {
+          this.store.dispatch("picklist/updateLastScannedId", "")
+        }, 3000)
       } else {
-        this.lastScannedId = "";
+        this.store.dispatch("picklist/updateLastScannedId", "")
         showToast(translate("Product not found in remaining items"))
       }
     },

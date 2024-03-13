@@ -9,4 +9,5 @@ export default interface PicklistState {
     total: any
   };
   filters: any;
+  lastScannedId: string;
 }

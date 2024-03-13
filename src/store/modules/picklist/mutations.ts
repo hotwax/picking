@@ -16,6 +16,9 @@ const mutations: MutationTree <PicklistState> = {
   },
   [types.PICKLIST_FILTERS_UPDATED] (state, payload) {
     state.filters = { ...state.filters, ...payload };
+  },
+  [types.PICKLIST_LAST_SCANNED_ID_UPDATED] (state, payload) {
+    state.lastScannedId = payload
   }
 }
 export default mutations;
