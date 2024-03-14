@@ -173,6 +173,10 @@ const actions: ActionTree<UserState, RootState> = {
 
   updateSortBy({ commit }, payload) {
     commit(types.USER_SORTBY_UPDATED, payload)
+  },
+  
+  updatePwaState({ commit }, payload) {
+    commit(types.USER_PWA_STATE_UPDATED, payload);
   }
 }
 export default actions;

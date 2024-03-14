@@ -30,6 +30,7 @@ import store from './store'
 import { dxpComponents } from '@hotwax/dxp-components'
 import { login, logout, loader } from './user-utils';
 import { getConfig, getProductIdentificationPref, initialise, setProductIdentificationPref } from '@/adapter'
+import localeMessages from './locales';
 
 const app = createApp(App)
   .use(IonicVue, {
@@ -47,7 +48,8 @@ const app = createApp(App)
     getConfig,
     getProductIdentificationPref,
     initialise,
-    setProductIdentificationPref
+    setProductIdentificationPref,
+    localeMessages
   });
 
 // Filters are removed in Vue 3 and global filter introduced https://v3.vuejs.org/guide/migration/filters.html#global-filters

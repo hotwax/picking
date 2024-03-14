@@ -23,6 +23,10 @@ const mutations: MutationTree <UserState> = {
     [types.USER_SORTBY_UPDATED] (state, payload) {
         state.picklistItemSortBy = payload
     },
+    [types.USER_PWA_STATE_UPDATED](state, payload) {
+        state.pwaState.registration = payload.registration;
+        state.pwaState.updateExists = payload.updateExists;
+    },
     [types.USER_CURRENT_ECOM_STORE_UPDATED] (state, payload) {
         state.currentEComStore = payload
     }

@@ -13,7 +13,11 @@ const userModule: Module<UserState, RootState> = {
       currentEComStore: {},
       currentFacility: {},
       instanceUrl: '',
-      picklistItemSortBy: 'productName'
+      picklistItemSortBy: 'productName',
+      pwaState: {
+        updateExists: false,
+        registration: null,
+      }
     },
     getters,
     actions,
