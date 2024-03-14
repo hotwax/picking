@@ -1,5 +1,5 @@
 <template>
-  <ion-item :id="picklistItem.id" :class="picklistItem.id === lastScannedId ? 'scanned-item' : '' " :key="picklistItem.id" v-for="picklistItem in picklistItems"  @click="picklistItem.isChecked = !picklistItem.isChecked" lines="none" >
+  <ion-item :id="picklistItem.id" :class="picklistItem.id === lastScannedId ? 'scanned-item' : '' " :key="picklistItem.id" v-for="picklistItem in picklistItems"  @click="picklistItem.isChecked = !picklistItem.isChecked; clearLastScannedId()" lines="none" >
     <ion-thumbnail slot="start">
       <DxpShopifyImg :src="getProduct(picklistItem.productId).mainImageUrl" size="small" />
     </ion-thumbnail>  
@@ -30,11 +30,17 @@ export default defineComponent({
     IonThumbnail,
     DxpShopifyImg
   },
-  props: ['picklistItems', 'lastScannedId'],
+  props: ['picklistItems'],
   computed: {
     ...mapGetters({
-      getProduct: 'product/getProduct'
+      getProduct: 'product/getProduct',
+      lastScannedId: 'picklist/getLastScannedId',
     }),
+  },
+  methods: {
+    clearLastScannedId() {
+      this.store.dispatch("picklist/updateLastScannedId", "")
+    }
   },
   setup() {
     const store = useStore(); 

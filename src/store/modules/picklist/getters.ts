@@ -20,6 +20,9 @@ const getters: GetterTree <PicklistState, RootState> = {
   },
   showMyPicklists(state) {
     return state.filters.showMyPicklists;
+  },
+  getLastScannedId(state) {
+    return state.lastScannedId;
   }
 }
 export default getters;

@@ -147,6 +147,7 @@ export default defineComponent({
     logout () {
       this.store.dispatch('user/logout', { isUserUnauthorised: false }).then((redirectionUrl) => {
         this.store.dispatch('picklist/clearPicklist')
+        this.store.dispatch("picklist/updateLastScannedId", "")
 
         // if not having redirection url then redirect the user to launchpad
         if(!redirectionUrl) {
