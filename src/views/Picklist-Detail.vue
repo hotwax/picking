@@ -122,8 +122,7 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       picklist: 'picklist/getCurrent',
-      picklistItemSortBy: 'user/getPicklistItemSortBy',
-      lastScannedId: 'picklist/getLastScannedId',
+      picklistItemSortBy: 'user/getPicklistItemSortBy'
     })
   },
   data() {
@@ -190,6 +189,7 @@ export default defineComponent({
         const scannedElement = document.getElementById(item.id);
         scannedElement && (scannedElement.scrollIntoView());
 
+        // Scanned product should get un-highlighted after 3s for better experience hence adding setTimeOut
         setTimeout(() => {
           this.store.dispatch("picklist/updateLastScannedId", "")
         }, 3000)
