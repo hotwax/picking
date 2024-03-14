@@ -170,6 +170,10 @@ const actions: ActionTree<PicklistState, RootState> = {
   clearPicklist ({ commit }) {
     commit(types.PICKLISTS_UPDATED, { list: [], total: 0 })
     commit(types.PICKLISTS_COMPLETED_UPDATED, { list: [], total: 0 })
+  },
+
+  updateLastScannedId ({ commit }, id) {
+    commit(types.PICKLIST_LAST_SCANNED_ID_UPDATED, id)
   }
 }
 export default actions;

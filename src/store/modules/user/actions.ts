@@ -58,7 +58,7 @@ const actions: ActionTree<UserState, RootState> = {
     } catch (err: any) {
       showToast(translate('Something went wrong'));
       console.error("error", err);
-      return Promise.reject(new Error(err))
+      return Promise.reject(err instanceof Object ? err : new Error(err));
     }
   },
 
@@ -173,6 +173,10 @@ const actions: ActionTree<UserState, RootState> = {
 
   updateSortBy({ commit }, payload) {
     commit(types.USER_SORTBY_UPDATED, payload)
+  },
+  
+  updatePwaState({ commit }, payload) {
+    commit(types.USER_PWA_STATE_UPDATED, payload);
   }
 }
 export default actions;

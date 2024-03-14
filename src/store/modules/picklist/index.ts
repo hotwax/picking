@@ -21,7 +21,8 @@ const picklistModule: Module<PicklistState, RootState> = {
       // enabling picklist filters by default
       hideCompletedPicklists: true,
       showMyPicklists: true
-    }
+    },
+    lastScannedId: ''
   },
   getters,
   mutations,

@@ -28,6 +28,9 @@ const getters: GetterTree <UserState, RootState> = {
     getPicklistItemSortBy (state) {
         return state.picklistItemSortBy;
     },
+    getPwaState(state) {
+        return state.pwaState;
+    },
     getBaseUrl(state) {
         let baseURL = process.env.VUE_APP_BASE_URL;
         if (!baseURL) baseURL = state.instanceUrl;
