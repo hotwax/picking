@@ -3,7 +3,7 @@
     <PicklistFilters v-if="router.currentRoute.value.path === '/tabs/picklists'" content-id="filter-content" />
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-title>{{ $t("Picklists") }}</ion-title>
+        <ion-title>{{ translate("Picklists") }}</ion-title>
         <ion-buttons slot="end">
           <ion-menu-button>
             <ion-icon :icon="filterOutline" />
@@ -18,21 +18,21 @@
       </ion-refresher>
       <ion-list v-if="completedPicklists.length && !hideCompleted">
         <ion-list-header lines="none">
-          <ion-note>{{ $t("Completed") }}</ion-note>
+          <ion-note>{{ translate("Completed") }}</ion-note>
         </ion-list-header>
         <PicklistItem :picklists="completedPicklists" />
       </ion-list>
       <ion-list v-if="picklists.length">
         <ion-list-header lines="none">
-          <ion-note>{{ $t("In progress") }}</ion-note>
+          <ion-note>{{ translate("In progress") }}</ion-note>
         </ion-list-header>
         <PicklistItem :picklists="picklists" />
       </ion-list>
       <div v-if="!picklists.length && (!completedPicklists.length || hideCompleted)">
-        <p class="ion-text-center">{{ $t("There are no picklists available")}}</p>
+        <p class="ion-text-center">{{ translate("There are no picklists available")}}</p>
       </div>
       <ion-infinite-scroll @ionInfinite="loadMorePicklists($event)" threshold="100px" :disabled="!isScrollable">
-        <ion-infinite-scroll-content loading-spinner="crescent" :loading-text="$t('Loading')" />
+        <ion-infinite-scroll-content loading-spinner="crescent" :loading-text="translate('Loading')" />
       </ion-infinite-scroll>
     </ion-content>
   </ion-page>
@@ -62,6 +62,7 @@ import PicklistItem from '@/components/Picklist-item.vue';
 import { mapGetters, useStore } from 'vuex';
 import PicklistFilters from '@/components/Picklist-filters.vue';
 import { useRouter } from 'vue-router';
+import { translate } from '@hotwax/dxp-components';
 
 export default defineComponent({
   name: 'Picklists',
@@ -126,7 +127,8 @@ export default defineComponent({
     return {
       filterOutline,
       router,
-      store
+      store,
+      translate
     }
   }
 });
