@@ -3,7 +3,8 @@ import RootState from '@/store/RootState'
 import PicklistState from './PicklistState'
 import * as types from './mutation-types'
 import { PicklistService } from '@/services/PicklistService'
-import { hasError, showToast } from '@/utils'
+import { showToast } from '@/utils'
+import { hasError } from '@/adapter'
 import { translate } from '@hotwax/dxp-components'
 
 const actions: ActionTree<PicklistState, RootState> = {
