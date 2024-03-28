@@ -1,8 +1,9 @@
-import { api, client, getConfig, getProductIdentificationPref, initialise, logout, resetConfig, setProductIdentificationPref, updateInstanceUrl, updateToken } from '@hotwax/oms-api'
+import { api, client, getAvailableTimeZones, getConfig, getProductIdentificationPref, initialise, logout, resetConfig, setProductIdentificationPref, updateInstanceUrl, updateToken, setUserTimeZone } from '@hotwax/oms-api'
 
 export {
   api,
   client,
+  getAvailableTimeZones,
   getConfig,
   getProductIdentificationPref,
   initialise,
@@ -10,5 +11,6 @@ export {
   resetConfig,
   setProductIdentificationPref,
   updateInstanceUrl,
-  updateToken
+  updateToken,
+  setUserTimeZone
 }

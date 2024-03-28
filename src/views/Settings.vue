@@ -57,21 +57,8 @@
       
       <section>
         <DxpProductIdentifier />
+        <DxpTimeZoneSwitcher @timeZoneUpdated="timeZoneUpdated" />
 
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>
-              {{ $t('Timezone') }}
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            {{ $t('The timezone you select is used to ensure automations you schedule are always accurate to the time you select.') }}
-          </ion-card-content>
-          <ion-item lines="none">
-            <ion-label> {{ userProfile && userProfile.userTimeZone ? userProfile.userTimeZone : '-' }} </ion-label>
-            <ion-button @click="changeTimeZone()" slot="end" fill="outline" color="dark">{{ $t("Change") }}</ion-button>
-          </ion-item>
-        </ion-card>
         <ion-card>
           <ion-card-header>
             <ion-card-title>
@@ -93,13 +80,12 @@
 </template>
 
 <script lang="ts">
-import { IonAvatar, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar, modalController } from '@ionic/vue';
+import { IonAvatar, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonIcon, IonItem, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { businessOutline, personCircleOutline, codeWorkingOutline, openOutline, timeOutline } from 'ionicons/icons'; 
 import { mapGetters, useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import Image from '@/components/Image.vue';
-import TimeZoneModal from '@/views/TimezoneModal.vue';
 
 export default defineComponent({
   name: 'Settings',
@@ -114,8 +100,7 @@ export default defineComponent({
     IonContent, 
     IonHeader, 
     IonIcon, 
-    IonItem, 
-    IonLabel, 
+    IonItem,
     IonPage, 
     IonSelect,
     IonSelectOption,
@@ -138,12 +123,6 @@ export default defineComponent({
     })
   },
   methods: {
-    async changeTimeZone() {
-      const timeZoneModal = await modalController.create({
-        component: TimeZoneModal,
-      });
-      return timeZoneModal.present();
-    },
     logout () {
       this.store.dispatch('user/logout', { isUserUnauthorised: false }).then((redirectionUrl) => {
         this.store.dispatch('picklist/clearPicklist')
@@ -164,6 +143,9 @@ export default defineComponent({
           }
         })
       }
+    },
+    async timeZoneUpdated(tzId: string) {
+      await this.store.dispatch("user/setUserTimeZone", tzId)
     },
     goToLaunchpad() {
       window.location.href = `${process.env.VUE_APP_LOGIN_URL}`
