@@ -34,7 +34,8 @@ import localeMessages from './locales';
 
 const app = createApp(App)
   .use(IonicVue, {
-    mode: 'md'
+    mode: 'md',
+    innerHTMLTemplatesEnabled: true
   })
   .use(router)
   .use(i18n)
