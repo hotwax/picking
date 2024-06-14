@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-title>{{ $t("Settings") }}</ion-title>
+        <ion-title>{{ translate("Settings") }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -20,17 +20,17 @@
               <ion-card-title>{{ userProfile?.partyName }}</ion-card-title>
             </ion-card-header>
           </ion-item>
-          <ion-button color="danger" @click="logout()">{{ $t("Logout") }}</ion-button>
+          <ion-button color="danger" @click="logout()">{{ translate("Logout") }}</ion-button>
           <ion-button fill="outline" @click="goToLaunchpad()">
-            {{ $t("Go to Launchpad") }}
+            {{ translate("Go to Launchpad") }}
             <ion-icon slot="end" :icon="openOutline" />
           </ion-button>
           <!-- Commenting this code as we currently do not have reset password functionality -->
-          <!-- <ion-button fill="outline" color="medium">{{ $t("Reset password") }}</ion-button> -->
+          <!-- <ion-button fill="outline" color="medium">{{ translate("Reset password") }}</ion-button> -->
         </ion-card>
       </div>
       <div class="section-header">
-        <h1>{{ $t('OMS') }}</h1>
+        <h1>{{ translate('OMS') }}</h1>
       </div>
       <section>
         <DxpOmsInstanceNavigator />
@@ -38,14 +38,14 @@
         <ion-card>
           <ion-card-header>
             <ion-card-title>
-              {{ $t("Facility") }}
+              {{ translate("Facility") }}
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            {{ $t('Specify which facility you want to operate from. Order, inventory and other configuration data will be specific to the facility you select.') }}
+            {{ translate('Specify which facility you want to operate from. Order, inventory and other configuration data will be specific to the facility you select.') }}
           </ion-card-content>
           <ion-item lines="none">
-            <ion-select :label="$t('Select facility')" interface="popover" :value="currentFacility.facilityId" @ionChange="setFacility($event)">
+            <ion-select :label="translate('Select facility')" interface="popover" :value="currentFacility.facilityId" @ionChange="setFacility($event)">
               <ion-select-option v-for="facility in (userProfile ? userProfile.facilities : [])" :key="facility.facilityId" :value="facility.facilityId" >{{ facility.name }}</ion-select-option>
             </ion-select>
           </ion-item>
@@ -61,28 +61,28 @@
         <ion-card>
           <ion-card-header>
             <ion-card-title>
-              {{ $t('Timezone') }}
+              {{ translate('Timezone') }}
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            {{ $t('The timezone you select is used to ensure automations you schedule are always accurate to the time you select.') }}
+            {{ translate('The timezone you select is used to ensure automations you schedule are always accurate to the time you select.') }}
           </ion-card-content>
           <ion-item lines="none">
             <ion-label> {{ userProfile && userProfile.userTimeZone ? userProfile.userTimeZone : '-' }} </ion-label>
-            <ion-button @click="changeTimeZone()" slot="end" fill="outline" color="dark">{{ $t("Change") }}</ion-button>
+            <ion-button @click="changeTimeZone()" slot="end" fill="outline" color="dark">{{ translate("Change") }}</ion-button>
           </ion-item>
         </ion-card>
         <ion-card>
           <ion-card-header>
             <ion-card-title>
-              {{ $t("Sort picklist items") }}
+              {{ translate("Sort picklist items") }}
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            {{ $t('Sorting reorders items in a picklist based on inventory location or custom preferences.') }}
+            {{ translate('Sorting reorders items in a picklist based on inventory location or custom preferences.') }}
           </ion-card-content>
           <ion-item lines="none">
-            <ion-select :label="$t('Sort by')" interface="popover" :value="picklistItemSortBy" @ionChange="updateSortBy($event)">
+            <ion-select :label="translate('Sort by')" interface="popover" :value="picklistItemSortBy" @ionChange="updateSortBy($event)">
               <ion-select-option v-for="option in sortOptions" :key="option.value" :value="option.value" >{{ option.name }}</ion-select-option>
             </ion-select>
           </ion-item>
@@ -100,6 +100,7 @@ import { mapGetters, useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import Image from '@/components/Image.vue';
 import TimeZoneModal from '@/views/TimezoneModal.vue';
+import { translate } from '@hotwax/dxp-components'
 
 export default defineComponent({
   name: 'Settings',
@@ -183,7 +184,8 @@ export default defineComponent({
       openOutline,
       store,
       timeOutline,
-      router
+      router,
+      translate
     }
   }
 });
