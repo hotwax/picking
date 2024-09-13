@@ -7,7 +7,7 @@ import { showToast } from '@/utils'
 import { translate } from '@/i18n'
 import { Settings } from 'luxon';
 import { hasError, logout, updateInstanceUrl, updateToken, resetConfig } from '@/adapter'
-import { useAuthStore, useProductIdentificationStore } from '@hotwax/dxp-components'
+import { useAuthStore, useProductIdentificationStore, useUserStore } from '@hotwax/dxp-components'
 import emitter from '@/event-bus'
 import router from '@/router';
 
@@ -123,10 +123,10 @@ const actions: ActionTree<UserState, RootState> = {
       }
       commit(types.USER_INFO_UPDATED, resp.data);
 
-      const currentFacility = resp.data.facilities.length > 0 ? resp.data.facilities[0] : {};
+      await useUserStore().getUserFacilities(resp.data.partyId, "", false)
+      await useUserStore().getPreferredFacility('SELECTED_FACILITY')
 
-      commit(types.USER_CURRENT_FACILITY_UPDATED, currentFacility);
-
+      const currentFacility: any = useUserStore().getCurrentFacility
       // get and set current ecom store in state
       const currentEComStore = await UserService.getCurrentEComStore(token, currentFacility?.facilityId);
       commit(types.USER_CURRENT_ECOM_STORE_UPDATED, currentEComStore);
@@ -151,12 +151,9 @@ const actions: ActionTree<UserState, RootState> = {
       }
     },
 
-  // update current facility information
-  async setFacility ({ commit, state }, payload) {
-    commit(types.USER_CURRENT_FACILITY_UPDATED, payload.facility);
-
+    async setFacilityUpdates ({ commit, state }, payload) {
     // get and set current ecom store in state
-    const currentEComStore = await UserService.getCurrentEComStore(state.token, payload.facility.facilityId);
+    const currentEComStore = await UserService.getCurrentEComStore(state.token, payload);
     commit(types.USER_CURRENT_ECOM_STORE_UPDATED, currentEComStore);
 
     await useProductIdentificationStore().getIdentificationPref(currentEComStore?.productStoreId)
