@@ -140,8 +140,8 @@ export default defineComponent({
         }
       })
     },
-    async handleFacilityUpdate(selectedFacilityId: any) {
-      await this.store.dispatch('user/setFacilityUpdates', selectedFacilityId);
+    async handleFacilityUpdate(selectedFacility: any) {
+      await this.store.dispatch('user/setFacilityUpdates', selectedFacility?.facilityId);
     },
     goToLaunchpad() {
       window.location.href = `${process.env.VUE_APP_LOGIN_URL}`

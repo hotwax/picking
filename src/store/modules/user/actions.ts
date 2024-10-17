@@ -124,7 +124,7 @@ const actions: ActionTree<UserState, RootState> = {
       commit(types.USER_INFO_UPDATED, resp.data);
 
       await useUserStore().getUserFacilities(resp.data.partyId, "", false)
-      await useUserStore().getPreferredFacility('SELECTED_FACILITY')
+      await useUserStore().getFacilityPreference('SELECTED_FACILITY')
 
       const currentFacility: any = useUserStore().getCurrentFacility
       // get and set current ecom store in state
