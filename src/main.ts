@@ -29,7 +29,7 @@ import i18n from './i18n'
 import store from './store'
 import { dxpComponents } from '@hotwax/dxp-components'
 import { login, logout, loader } from './user-utils';
-import { getConfig, getProductIdentificationPref, initialise, setProductIdentificationPref } from '@/adapter'
+import { getConfig, getProductIdentificationPref, getUserFacilities, getUserPreference, initialise, setProductIdentificationPref, setUserPreference } from '@/adapter'
 import localeMessages from './locales';
 
 const app = createApp(App)
@@ -50,7 +50,10 @@ const app = createApp(App)
     getProductIdentificationPref,
     initialise,
     setProductIdentificationPref,
-    localeMessages
+    localeMessages,
+    getUserFacilities,
+    setUserPreference,
+    getUserPreference
   });
 
 // Filters are removed in Vue 3 and global filter introduced https://v3.vuejs.org/guide/migration/filters.html#global-filters

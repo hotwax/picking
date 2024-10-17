@@ -11,7 +11,6 @@ const userModule: Module<UserState, RootState> = {
       token: '',
       current: null,
       currentEComStore: {},
-      currentFacility: {},
       instanceUrl: '',
       picklistItemSortBy: 'productName',
       pwaState: {

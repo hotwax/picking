@@ -6,6 +6,12 @@ import { PicklistService } from '@/services/PicklistService'
 import { showToast } from '@/utils'
 import { hasError } from '@/adapter'
 import { translate } from '@/i18n'
+import { useUserStore } from '@hotwax/dxp-components'
+ 
+const getCurrentFacilityId = () => {
+  const currentFacility: any = useUserStore().getCurrentFacility;
+  return currentFacility?.facilityId
+}
 
 const actions: ActionTree<PicklistState, RootState> = {
   /**
@@ -16,7 +22,7 @@ const actions: ActionTree<PicklistState, RootState> = {
     const params = {
       "inputFields": {
         "statusId": "PICKLIST_PRINTED",
-        "facilityId": this.state.user.currentFacility.facilityId,
+        "facilityId": getCurrentFacilityId(),
       },
       "orderBy": "picklistDate DESC",
       "viewSize": payload.viewSize,
@@ -57,7 +63,7 @@ const actions: ActionTree<PicklistState, RootState> = {
       "inputFields": {
         "statusId": ["PICKLIST_COMPLETED", "PICKLIST_PICKED"],
         "statusId_op": "in",
-        "facilityId": this.state.user.currentFacility.facilityId,
+        "facilityId": getCurrentFacilityId(),
       },
       "orderBy": "picklistDate DESC",
       "viewSize": 10,
