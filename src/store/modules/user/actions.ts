@@ -8,6 +8,7 @@ import { translate } from '@/i18n'
 import { Settings } from 'luxon';
 import { logout, updateInstanceUrl, updateToken, resetConfig } from '@/adapter'
 import { useAuthStore, useProductIdentificationStore } from '@hotwax/dxp-components'
+import { getServerPermissionsFromRules, prepareAppPermissions, resetPermissions, setPermissions } from '@/authorization'
 import emitter from '@/event-bus'
 import router from '@/router';
 
@@ -22,32 +23,35 @@ const actions: ActionTree<UserState, RootState> = {
       dispatch("setUserInstanceUrl", oms);
       if (token) {
         const permissionId = process.env.VUE_APP_PERMISSION_ID;
-        if (permissionId) {
-          const checkPermissionResponse = await UserService.checkPermission({
-            data: {
-              permissionId
-            },
-            headers: {
-              Authorization:  'Bearer ' + token,
-              'Content-Type': 'application/json'
-            }
-          });
+        // Prepare permissions list
+        const serverPermissionsFromRules = getServerPermissionsFromRules();
+        if (permissionId) serverPermissionsFromRules.push(permissionId);
 
-          if (checkPermissionResponse.status === 200 && !hasError(checkPermissionResponse) && checkPermissionResponse.data && checkPermissionResponse.data.hasPermission) {
-            commit(types.USER_TOKEN_CHANGED, { newToken: token })
-            updateToken(token)
-            await dispatch('getProfile', token)
-          } else {
+        const serverPermissions = await UserService.getUserPermissions({
+          permissionIds: [...new Set(serverPermissionsFromRules)]
+        }, token);
+        const appPermissions = prepareAppPermissions(serverPermissions);
+
+        // Checking if the user has permission to access the app
+        // If there is no configuration, the permission check is not enabled
+        if (permissionId) {
+          // As the token is not yet set in the state passing token headers explicitly
+          // TODO Abstract this out, how token is handled should be part of the method not the callee
+          const hasPermission = appPermissions.some((appPermission: any) => appPermission.action === permissionId);
+          // If there are any errors or permission check fails do not allow user to login
+          if (!hasPermission) {
             const permissionError = 'You do not have permission to access the app.';
             showToast(translate(permissionError));
             console.error("error", permissionError);
             return Promise.reject(new Error(permissionError));
           }
-        } else {
-          commit(types.USER_TOKEN_CHANGED, { newToken: token })
-          updateToken(token)
-          await dispatch('getProfile', token)
         }
+
+        updateToken(token)
+        setPermissions(appPermissions);
+        commit(types.USER_PERMISSIONS_UPDATED, appPermissions);
+        commit(types.USER_TOKEN_CHANGED, { newToken: token })
+        await dispatch('getProfile', token)
 
         // accessing picklist ID from router as route cannot be accessed here
         const picklistId = router.currentRoute.value.query.picklistId
@@ -94,6 +98,7 @@ const actions: ActionTree<UserState, RootState> = {
     const authStore = useAuthStore() 
     // TODO add any other tasks if need
     commit(types.USER_END_SESSION)
+    resetPermissions();
     resetConfig();
     this.dispatch('picklist/setFilters', {
       hideCompletedPicklists: true,

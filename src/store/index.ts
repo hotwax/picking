@@ -8,7 +8,7 @@ import userModule from './modules/user';
 import picklistModule from "./modules/picklist"
 import productModule from "./modules/product"
 import partyModule from './modules/party'
-
+import { setPermissions } from "@/authorization"
 
 // TODO check how to register it from the components only
 // Handle same module registering multiple time on page refresh
@@ -38,6 +38,8 @@ const store = createStore<RootState>({
         'party': partyModule
     },
 })
+
+setPermissions(store.getters['user/getUserPermissions']);
 
 export default store
 export function useStore(): typeof store {
