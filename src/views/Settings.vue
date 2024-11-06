@@ -34,7 +34,7 @@
       </div>
       <section>
         <DxpOmsInstanceNavigator />
-        <DxpFacilitySwitcher @updateFacility="handleFacilityUpdate($event)"/>
+        <DxpFacilitySwitcher @updateFacility="updateFacility(facility)"/>
       </section>
       <hr />
 
@@ -140,8 +140,8 @@ export default defineComponent({
         }
       })
     },
-    async handleFacilityUpdate(selectedFacility: any) {
-      await this.store.dispatch('user/setFacilityUpdates', selectedFacility?.facilityId);
+    async updateFacility(facility: any) {
+      await this.store.dispatch('user/setFacility', facility?.facilityId);
     },
     goToLaunchpad() {
       window.location.href = `${process.env.VUE_APP_LOGIN_URL}`
