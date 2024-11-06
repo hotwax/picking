@@ -16,7 +16,8 @@ const userModule: Module<UserState, RootState> = {
       pwaState: {
         updateExists: false,
         registration: null,
-      }
+      },
+      permissions: [],
     },
     getters,
     actions,

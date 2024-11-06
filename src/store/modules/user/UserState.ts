@@ -5,4 +5,5 @@ export default interface UserState {
     picklistItemSortBy: string;
     pwaState: any;
     currentEComStore: any;
+    permissions: any;
 }

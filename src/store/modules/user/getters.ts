@@ -33,5 +33,8 @@ const getters: GetterTree <UserState, RootState> = {
         if (!baseURL) baseURL = state.instanceUrl;
         return baseURL.startsWith('http') ? baseURL.includes('/api') ? baseURL : `${baseURL}/api/` : `https://${baseURL}.hotwax.io/api/`;
     },
+    getUserPermissions(state) {
+        return state.permissions;
+    },
 }
 export default getters;
