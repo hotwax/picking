@@ -23,7 +23,8 @@ const actions: ActionTree<PicklistState, RootState> = {
       "viewIndex": payload.viewIndex,
       "fieldList": ["picklistId", "picklistDate", "statusId", "partyId"],
       "entityName": "PicklistAndRole",
-      "noConditionFind": "Y"
+      "noConditionFind": "Y",
+      "filterByDate": "Y"
     } as any
 
     if (state.filters.showMyPicklists) params.inputFields.partyId = this.state.user.current.partyId;
@@ -62,7 +63,8 @@ const actions: ActionTree<PicklistState, RootState> = {
       "viewSize": 10,
       "fieldList": ["picklistId", "picklistDate", "statusId", "partyId"],
       "entityName": "PicklistAndRole",
-      "noConditionFind": "Y"
+      "noConditionFind": "Y",
+      "filterByDate": "Y"
     } as any
 
     if (state.filters.showMyPicklists) params.inputFields.partyId = this.state.user.current.partyId
@@ -95,45 +97,56 @@ const actions: ActionTree<PicklistState, RootState> = {
       return current
     }
 
-    let resp;
-    const params = {
-      "inputFields": {
-        "picklistId": payload.id,
-      },
-      "fieldList": ["productId", "productName", "picklistId", "locationSeqId", "picklistBinId", "statusId"],
-      "entityName": "PicklistItemsView",
-      "noConditionFind": "Y"
-    }
+    let resp, isScrollable = true, viewIndex = 0, total = 0;
+    let pickingItemList = [] as any;
 
     try {
-      resp = await PicklistService.getPicklist(params);
-      if (!hasError(resp) && resp.data.count) {
-        const pickingItemList = resp.data.docs.map((picklist: any, index: any) => ({ id: index, ...picklist, isChecked: false }))
+      while(isScrollable) {
+        resp = await PicklistService.getPicklist({
+          "inputFields": {
+            "picklistId": payload.id,
+            "itemStatusId": "PICKITEM_CANCELLED",
+            "itemStatusId_op": "notEqual"
+          },
+          "fieldList": ["productId", "productName", "picklistId", "locationSeqId", "picklistBinId", "statusId"],
+          "entityName": "PicklistItemsView",
+          "noConditionFind": "Y",
+          "viewSize": 200,
+          viewIndex
+        });
 
-        current = { picklistId: payload.id, statusId:  pickingItemList[0].statusId, pickingItemList }
-        commit(types.PICKLIST_CURRENT_UPDATED, current)
+        if (!hasError(resp) && resp.data.count) {
+          pickingItemList = pickingItemList.concat(resp.data.docs)
+          viewIndex++;
+          total = resp.data.count;
 
-        let productIds: any = new Set(
-          pickingItemList.map((picklist: any) => {
-            return picklist.productId
-          })
-        );
-
-        productIds = [...productIds]
-        if (productIds.length) {
-          this.dispatch('product/fetchProducts', { productIds })
+          if(pickingItemList.length >= total) isScrollable = false;
+        } else {
+          throw resp.data;
         }
-
-        return current;
-      } else {
-        showToast(translate('Something went wrong'));
-        console.error("error", resp.data);
-        return Promise.reject(new Error(resp.data));
       }
     } catch (err: any) {
       showToast(translate('Something went wrong'));
       console.error("error", err);
-      return Promise.reject(new Error(err))
+      return [];
+    }
+
+    if(pickingItemList.length) {
+      pickingItemList = pickingItemList.map((picklist: any, index: any) => ({ id: index, ...picklist, isChecked: false }))
+
+      current = { picklistId: payload.id, statusId:  pickingItemList[0].statusId, pickingItemList }
+      commit(types.PICKLIST_CURRENT_UPDATED, current)
+  
+      let productIds: any = new Set(
+        pickingItemList.map((picklist: any) => {
+          return picklist.productId
+        })
+      );
+
+      productIds = [...productIds]
+      if (productIds.length) {
+        this.dispatch('product/fetchProducts', { productIds })
+      }
     }
   },
 
