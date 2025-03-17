@@ -3,7 +3,7 @@
     <ion-thumbnail slot="start">
       <DxpShopifyImg :src="getProduct(picklistItem.productId).mainImageUrl" size="small" />
     </ion-thumbnail>  
-    <ion-checkbox v-if="picklistItem.statusId !== 'PICKLIST_COMPLETED' && picklistItem.statusId !== 'PICKLIST_PICKED'" :modelValue="picklistItem.isChecked"/>
+    <ion-checkbox slot="end" aria-label="checkbox" v-if="picklistItem.statusId !== 'PICKLIST_COMPLETED' && picklistItem.statusId !== 'PICKLIST_PICKED'" :modelValue="picklistItem.isChecked"/>
       <ion-label>
         <p class="caption">{{ getProduct(picklistItem.productId).parentProductName}}</p>
         <h2>{{ getProductIdentificationValue(productIdentificationPref.primaryId, getProduct(picklistItem.productId)) ? getProductIdentificationValue(productIdentificationPref.primaryId, getProduct(picklistItem.productId)) : getProduct(picklistItem.productId).productName }}</h2>
