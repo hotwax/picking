@@ -5,7 +5,7 @@
       <ion-toolbar>
         <ion-title>{{ $t("Picklists") }}</ion-title>
         <ion-buttons slot="end">
-          <ion-menu-button>
+          <ion-menu-button menu="filters-menu">
             <ion-icon :icon="filterOutline" />
           </ion-menu-button>
         </ion-buttons>

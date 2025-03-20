@@ -1,5 +1,5 @@
 <template>
-  <ion-menu side="end" content-id="main-content" type="overlay">
+  <ion-menu menu-id="filters-menu" side="end" content-id="main-content" type="overlay">
     <ion-header>
       <ion-toolbar>
         <ion-title>{{ $t("Filters") }}</ion-title>
