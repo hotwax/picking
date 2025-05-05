@@ -3,7 +3,7 @@
     <ion-menu side="end" content-id="main-content">
       <ion-header>
         <ion-toolbar>
-          <ion-title>{{ $t("Sort by") }}</ion-title>
+          <ion-title>{{ translate("Sort by") }}</ion-title>
         </ion-toolbar>
       </ion-header>
 
@@ -11,7 +11,7 @@
         <ion-list>
           <ion-radio-group :value="picklistItemSortBy" @ionChange="updateSortBy($event)">
             <ion-item v-for="option in sortOptions" :key="option.value">
-              <ion-radio label-placement="end" justify="start" :value="option.value">{{ $t(option.name) }}</ion-radio>
+              <ion-radio label-placement="end" justify="start" :value="option.value">{{ translate(option.name) }}</ion-radio>
             </ion-item>
           </ion-radio-group>
         </ion-list>
@@ -23,7 +23,7 @@
         <ion-back-button default-href="/" slot="start" />
         <ion-title>{{ id }}</ion-title>
         <ion-buttons slot="end">
-          <ion-button @click="selectAll" v-if="picklist.statusId !== 'PICKLIST_COMPLETED' && picklist.statusId !== 'PICKLIST_PICKED'">{{ $t ("Select all") }}</ion-button>
+          <ion-button @click="selectAll" v-if="picklist.statusId !== 'PICKLIST_COMPLETED' && picklist.statusId !== 'PICKLIST_PICKED'">{{ translate ("Select all") }}</ion-button>
           <ion-menu-button>
             <ion-icon :icon="swapVerticalOutline" />
           </ion-menu-button>
@@ -32,7 +32,7 @@
     </ion-header>
     <ion-content id="main-content">
       <ion-item class="scanner">
-        <ion-input :label="$t('Scan')" @ionFocus="selectSearchBarText($event)" :placeholder="$t('product barcode')" @keyup.enter="$event.target.value && selectProduct($event.target.value.trim()); $event.target.value = ''"/>
+        <ion-input :label="translate('Scan')" @ionFocus="selectSearchBarText($event)" :placeholder="translate('product barcode')" @keyup.enter="$event.target.value && selectProduct($event.target.value.trim()); $event.target.value = ''"/>
       </ion-item>
       <ion-list>
         <ion-item-group v-for="picklist in picklistGroup" :key="picklist.sortBy" >
@@ -48,10 +48,10 @@
       <ion-toolbar>
         <ion-buttons class="footer-buttons">
           <ion-button class="action-button" fill="outline" color="secondary" @click="scanCode()">
-            <ion-icon slot="start" :icon="barcodeOutline" />{{ $t("Scan") }}
+            <ion-icon slot="start" :icon="barcodeOutline" />{{ translate("Scan") }}
           </ion-button>
           <ion-button class="action-button"  @click="completeProductPicklist" fill="outline" color="success">
-            <ion-icon slot="start" :icon="checkmarkDone" />{{ $t("Complete") }}
+            <ion-icon slot="start" :icon="checkmarkDone" />{{ translate("Complete") }}
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
@@ -89,7 +89,7 @@ import { defineComponent } from 'vue';
 import { barcodeOutline, checkmarkDone, swapVerticalOutline } from 'ionicons/icons';
 import PicklistDetailItem from '@/components/Picklist-detail-item.vue';
 import { mapGetters, useStore } from 'vuex';
-import { translate } from '@/i18n'
+import { translate } from '@hotwax/dxp-components'
 import { showToast } from '@/utils';
 import Scanner from '@/components/Scanner'
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
@@ -160,14 +160,14 @@ export default defineComponent({
     async completeProductPicklist() {
       const alert = await alertController
         .create({
-          header: this.$t("Complete picklist?"),
+          header: translate("Complete picklist?"),
           buttons: [
             {
-              text: this.$t('Cancel'),
+              text: translate('Cancel'),
               role: 'cancel'
             },
             {
-              text:this.$t('Complete'),
+              text:translate('Complete'),
               handler: () => {
                 if (this.picklist.pickingItemList.some((picklist) => picklist.isChecked)) this.completePicklist();
                 else showToast(translate("No item has been picked"));
@@ -253,7 +253,8 @@ export default defineComponent({
       checkmarkDone,
       store,
       swapVerticalOutline,
-      router
+      router,
+      translate
     }
   }
 });
