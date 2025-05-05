@@ -1,11 +1,11 @@
 <template>
   <ion-page>
-    <PicklistFilters v-if="router.currentRoute.value.path === '/tabs/picklists'" content-id="filter-content" />
+    <PicklistFilters menu-id="filters-menu" v-if="router.currentRoute.value.path === '/tabs/picklists'" content-id="filter-content" />
     <ion-header :translucent="true">
       <ion-toolbar>
         <ion-title>{{ $t("Picklists") }}</ion-title>
         <ion-buttons slot="end">
-          <ion-menu-button>
+          <ion-menu-button menu="filters-menu">
             <ion-icon :icon="filterOutline" />
           </ion-menu-button>
         </ion-buttons>
