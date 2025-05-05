@@ -18,9 +18,6 @@ const getters: GetterTree <UserState, RootState> = {
     getCurrentEComStore(state) {
         return state.currentEComStore;
     },
-    getCurrentFacility (state) {
-        return state.currentFacility;
-    },
     getInstanceUrl (state) {
         const baseUrl = process.env.VUE_APP_BASE_URL;
         return baseUrl ? baseUrl : state.instanceUrl;

@@ -34,22 +34,7 @@
       </div>
       <section>
         <DxpOmsInstanceNavigator />
-
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>
-              {{ $t("Facility") }}
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            {{ $t('Specify which facility you want to operate from. Order, inventory and other configuration data will be specific to the facility you select.') }}
-          </ion-card-content>
-          <ion-item lines="none">
-            <ion-select :label="$t('Select facility')" interface="popover" :value="currentFacility.facilityId" @ionChange="setFacility($event)">
-              <ion-select-option v-for="facility in (userProfile ? userProfile.facilities : [])" :key="facility.facilityId" :value="facility.facilityId" >{{ facility.name }}</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-card>
+        <DxpFacilitySwitcher @updateFacility="updateFacility(facility)"/>
       </section>
       <hr />
 
@@ -132,7 +117,6 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       userProfile: 'user/getUserProfile',
-      currentFacility: 'user/getCurrentFacility',
       uploadProducts: 'product/getUploadProducts',
       picklistItemSortBy: 'user/getPicklistItemSortBy'
     })
@@ -156,14 +140,8 @@ export default defineComponent({
         }
       })
     },
-    setFacility (facility: any) {
-      if (this.userProfile){
-        this.userProfile.facilities.map((fac: any) => {
-          if (fac.facilityId == facility['detail'].value) {
-            this.store.dispatch('user/setFacility', {'facility': fac});
-          }
-        })
-      }
+    async updateFacility(facility: any) {
+      await this.store.dispatch('user/setFacility', facility?.facilityId);
     },
     goToLaunchpad() {
       window.location.href = `${process.env.VUE_APP_LOGIN_URL}`
