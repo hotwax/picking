@@ -29,8 +29,8 @@ import i18n from './i18n'
 import store from './store'
 import { dxpComponents } from '@hotwax/dxp-components'
 import { login, logout, loader } from './user-utils';
-import { getConfig, getProductIdentificationPref, initialise, setProductIdentificationPref } from '@/adapter'
-import permissionPlugin from '@/authorization';
+import { fetchGoodIdentificationTypes, getConfig, getProductIdentificationPref, initialise, setProductIdentificationPref } from '@/adapter'
+import permissionPlugin, { Actions, hasPermission } from '@/authorization';
 import permissionRules from '@/authorization/Rules';
 import permissionActions from '@/authorization/Actions';
 import localeMessages from './locales';
@@ -48,13 +48,16 @@ const app = createApp(App)
     actions: permissionActions
   })
   .use(dxpComponents, {
+    Actions,
     defaultImgUrl: require("@/assets/images/defaultImage.png"),
+    fetchGoodIdentificationTypes,
     login,
     logout,
     loader,
     appLoginUrl: process.env.VUE_APP_LOGIN_URL as string,
     getConfig,
     getProductIdentificationPref,
+    hasPermission,
     initialise,
     setProductIdentificationPref,
     localeMessages
