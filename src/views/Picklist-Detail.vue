@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-menu side="end" content-id="main-content">
+    <ion-menu menu-id="sort-menu" side="end" content-id="main-content">
       <ion-header>
         <ion-toolbar>
           <ion-title>{{ $t("Sort by") }}</ion-title>
@@ -24,7 +24,7 @@
         <ion-title>{{ id }}</ion-title>
         <ion-buttons slot="end">
           <ion-button @click="selectAll" v-if="picklist.statusId !== 'PICKLIST_COMPLETED' && picklist.statusId !== 'PICKLIST_PICKED'">{{ $t ("Select all") }}</ion-button>
-          <ion-menu-button>
+          <ion-menu-button menu="sort-menu">
             <ion-icon :icon="swapVerticalOutline" />
           </ion-menu-button>
         </ion-buttons>
