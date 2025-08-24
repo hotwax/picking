@@ -5,7 +5,7 @@ import * as types from './mutation-types'
 import { PicklistService } from '@/services/PicklistService'
 import { showToast } from '@/utils'
 import { hasError } from '@/adapter'
-import { translate } from '@/i18n'
+import { translate } from '@hotwax/dxp-components'
 
 const actions: ActionTree<PicklistState, RootState> = {
   /**

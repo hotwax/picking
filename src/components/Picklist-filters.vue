@@ -2,16 +2,16 @@
   <ion-menu side="end" content-id="main-content" type="overlay">
     <ion-header>
       <ion-toolbar>
-        <ion-title>{{ $t("Filters") }}</ion-title>
+        <ion-title>{{ translate("Filters") }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <ion-list>
         <ion-item lines="none">
-          <ion-toggle :checked="showMine" @ionChange="showMyPicklists($event)">{{ $t("Only show my picklists") }}</ion-toggle>
+          <ion-toggle :checked="showMine" @ionChange="showMyPicklists($event)">{{ translate("Only show my picklists") }}</ion-toggle>
         </ion-item>
         <ion-item lines="none">
-          <ion-toggle :checked="hideCompleted" @ionChange="hideCompletedPicklists($event)">{{ $t("Hide completed picklists") }}</ion-toggle>
+          <ion-toggle :checked="hideCompleted" @ionChange="hideCompletedPicklists($event)">{{ translate("Hide completed picklists") }}</ion-toggle>
         </ion-item>
       </ion-list>
     </ion-content>
@@ -30,7 +30,8 @@ import {
   IonToolbar
 } from "@ionic/vue";
 import { defineComponent } from "vue";
-import { mapGetters, useStore } from 'vuex'
+import { mapGetters, useStore } from 'vuex';
+import { translate } from "@hotwax/dxp-components";
 
 export default defineComponent({
   name: "PicklistFilters",
@@ -64,7 +65,8 @@ export default defineComponent({
   setup() {
     const store = useStore();
     return {
-      store
+      store,
+      translate
     };
   },
 });

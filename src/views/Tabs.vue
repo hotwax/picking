@@ -5,12 +5,12 @@
       <ion-tab-bar slot="bottom">
         <ion-tab-button tab="picklists" href="/tabs/picklists">
           <ion-icon :icon="listOutline" />
-          <ion-label>{{ $t("Picklists") }}</ion-label>
+          <ion-label>{{ translate("Picklists") }}</ion-label>
         </ion-tab-button>
           
         <ion-tab-button tab="settings" href="/tabs/settings">
           <ion-icon :icon="settings" />
-          <ion-label>{{ $t("Settings") }}</ion-label>
+          <ion-label>{{ translate("Settings") }}</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
@@ -20,6 +20,7 @@
 <script lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
 import { listOutline, settings } from 'ionicons/icons';
+import { translate } from '@hotwax/dxp-components';
 
 export default {
   name: 'Tabs',
@@ -28,6 +29,7 @@ export default {
     return {
       listOutline, 
       settings,
+      translate
     }
   }
 }
