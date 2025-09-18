@@ -15,8 +15,8 @@ const getters: GetterTree <UserState, RootState> = {
     getUserProfile (state) {
         return state.current
     },
-    getCurrentEComStore(state) {
-        return state.currentEComStore;
+    getCurrentProductStore(state) {
+        return state.currentProductStore;
     },
     getCurrentFacility (state) {
         return state.currentFacility;
