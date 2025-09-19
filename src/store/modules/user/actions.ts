@@ -134,7 +134,7 @@ const actions: ActionTree<UserState, RootState> = {
 
       // get and set current ecom store in state
       const currentProductStore = await UserService.getCurrentProductStore(token, currentFacility?.facilityId);
-      commit(types.USER_CURRENT_ECOM_STORE_UPDATED, currentProductStore);
+      commit(types.USER_CURRENT_PRODUCT_STORE_UPDATED, currentProductStore);
 
       // Get product identification from api using dxp-component
       await useProductIdentificationStore().getIdentificationPref(currentProductStore?.productStoreId)
@@ -162,7 +162,7 @@ const actions: ActionTree<UserState, RootState> = {
 
     // get and set current ecom store in state
     const currentProductStore = await UserService.getCurrentProductStore(state.token, payload.facility.facilityId);
-    commit(types.USER_CURRENT_ECOM_STORE_UPDATED, currentProductStore);
+    commit(types.USER_CURRENT_PRODUCT_STORE_UPDATED, currentProductStore);
 
     await useProductIdentificationStore().getIdentificationPref(currentProductStore?.productStoreId)
       .catch((error) => console.error(error));
