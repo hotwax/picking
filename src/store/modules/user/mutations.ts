@@ -27,8 +27,8 @@ const mutations: MutationTree <UserState> = {
         state.pwaState.registration = payload.registration;
         state.pwaState.updateExists = payload.updateExists;
     },
-    [types.USER_CURRENT_ECOM_STORE_UPDATED] (state, payload) {
-        state.currentEComStore = payload
+    [types.USER_CURRENT_PRODUCT_STORE_UPDATED] (state, payload) {
+        state.currentProductStore = payload
     },
     [types.USER_PERMISSIONS_UPDATED](state, payload) {
         state.permissions = payload

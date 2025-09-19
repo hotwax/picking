@@ -133,11 +133,11 @@ const actions: ActionTree<UserState, RootState> = {
       commit(types.USER_CURRENT_FACILITY_UPDATED, currentFacility);
 
       // get and set current ecom store in state
-      const currentEComStore = await UserService.getCurrentEComStore(token, currentFacility?.facilityId);
-      commit(types.USER_CURRENT_ECOM_STORE_UPDATED, currentEComStore);
+      const currentProductStore = await UserService.getCurrentProductStore(token, currentFacility?.facilityId);
+      commit(types.USER_CURRENT_PRODUCT_STORE_UPDATED, currentProductStore);
 
       // Get product identification from api using dxp-component
-      await useProductIdentificationStore().getIdentificationPref(currentEComStore?.productStoreId)
+      await useProductIdentificationStore().getIdentificationPref(currentProductStore?.productStoreId)
         .catch((error) => console.error(error));
     }
   },
@@ -161,10 +161,10 @@ const actions: ActionTree<UserState, RootState> = {
     commit(types.USER_CURRENT_FACILITY_UPDATED, payload.facility);
 
     // get and set current ecom store in state
-    const currentEComStore = await UserService.getCurrentEComStore(state.token, payload.facility.facilityId);
-    commit(types.USER_CURRENT_ECOM_STORE_UPDATED, currentEComStore);
+    const currentProductStore = await UserService.getCurrentProductStore(state.token, payload.facility.facilityId);
+    commit(types.USER_CURRENT_PRODUCT_STORE_UPDATED, currentProductStore);
 
-    await useProductIdentificationStore().getIdentificationPref(currentEComStore?.productStoreId)
+    await useProductIdentificationStore().getIdentificationPref(currentProductStore?.productStoreId)
       .catch((error) => console.error(error));
   },
 

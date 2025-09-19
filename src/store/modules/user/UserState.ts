@@ -5,6 +5,6 @@ export default interface UserState {
     instanceUrl: string;
     picklistItemSortBy: string;
     pwaState: any;
-    currentEComStore: any;
+    currentProductStore: any;
     permissions: any;
 }
