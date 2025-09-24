@@ -4,6 +4,8 @@
   "Are you sure you want to change the time zone to?": "Are you sure you want to change the time zone to {timeZoneId}?",
   "Back to Launchpad": "Back to Launchpad",
   "Bin ID": "Bin ID",
+  "Browser TimeZone":"Browser TimeZone",
+  "Browser time zone":"Browser time zone",
   "Built: ": "Built: {builtDateTime}",
   "Camera permission denied.": "Camera permission denied.",
   "Cancel": "Cancel",
@@ -53,8 +55,10 @@
   "Scan": "Scan",
   "Search time zones": "Search time zones",
   "Secondary": "Secondary",
+  "Select a different time zone":"Select a different time zone",
   "Select all" : "Select all",
   "Select time zone": "Select time zone",
+  "Selected TimeZone":"Selected TimeZone",
   "Select facility": "Select facility",
   "Settings": "Settings",
   "Size": "Size",
@@ -76,10 +80,5 @@
   "User is not associated with any facilities.": "User is not associated with any facilities.",
   "User is not associated with any product stores.": "User is not associated with any product stores.",
   "Username": "Username",
-  "Version: ": "Version: {appVersion}",
-  "Browser TimeZone":"Browser TimeZone",
-  "Selected TimeZone":"Selected TimeZone",
-  "Select a different time zone":"Select a different time zone",
-  "Browser time zone":"Browser time zone"
-  
+  "Version: ": "Version: {appVersion}"
 }
