@@ -76,5 +76,10 @@
   "User is not associated with any facilities.": "User is not associated with any facilities.",
   "User is not associated with any product stores.": "User is not associated with any product stores.",
   "Username": "Username",
-  "Version: ": "Version: {appVersion}"
+  "Version: ": "Version: {appVersion}",
+  "Browser TimeZone":"Browser TimeZone",
+  "Selected TimeZone":"Selected TimeZone",
+  "Select a different time zone":"Select a different time zone",
+  "Browser time zone":"Browser time zone"
+  
 }
