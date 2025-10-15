@@ -29,7 +29,7 @@ import i18n from './i18n'
 import store from './store'
 import { dxpComponents } from '@hotwax/dxp-components'
 import { login, logout, loader } from './user-utils';
-import { fetchGoodIdentificationTypes, getConfig, getProductIdentificationPref, initialise, setProductIdentificationPref } from '@/adapter'
+import { fetchGoodIdentificationTypes, getConfig, getProductIdentificationPref, initialise, setProductIdentificationPref ,setUserTimeZone} from '@/adapter'
 import permissionPlugin, { Actions, hasPermission } from '@/authorization';
 import permissionRules from '@/authorization/Rules';
 import permissionActions from '@/authorization/Actions';
@@ -60,7 +60,8 @@ const app = createApp(App)
     hasPermission,
     initialise,
     setProductIdentificationPref,
-    localeMessages
+    localeMessages,
+    setUserTimeZone
   });
 
 // Filters are removed in Vue 3 and global filter introduced https://v3.vuejs.org/guide/migration/filters.html#global-filters
